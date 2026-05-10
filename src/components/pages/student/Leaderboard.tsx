@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Flame, Trophy, TrendingUp } from 'lucide-react';
 import { apiClient } from '@skillforge/vite/lib/api';
 import type { User } from '@skillforge/vite/lib/types';
@@ -100,8 +100,8 @@ export function Leaderboard() {
 
 				{/* Leaderboard Table */}
 				<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl border border-white/20 dark:border-blue-400/20 overflow-hidden shadow-xl shadow-blue-950/5">
-					<div className="overflow-x-auto">
-						<table className="w-full">
+					<div className="overflow-x-auto sm:overflow-visible">
+						<table className="min-w-[500px] sm:min-w-0 w-full">
 							<thead>
 								<tr className="border-b border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl">
 									<th className="px-6 py-4 text-left text-sm font-black text-slate-900 dark:text-white">

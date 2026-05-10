@@ -363,8 +363,8 @@ export function AdminLearningPaths() {
             {!loading && !error && learningPaths.length > 0 && (
                 <div
                     className="rounded-[2rem] glass-panel overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
+                    <div className="overflow-x-auto sm:overflow-visible">
+                        <table className="min-w-[700px] sm:min-w-0 w-full">
                             <thead>
                             <tr className="border-b border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                                 <th className="text-left px-6 py-4 font-black text-slate-900 dark:text-white uppercase tracking-wider text-sm">
@@ -421,21 +421,21 @@ export function AdminLearningPaths() {
                                         <div className="flex items-center justify-center gap-2">
                                             <button
                                                 onClick={() => handleManageCoursesClick(path)}
-                                                className="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-lg font-bold text-xs transition-colors"
+                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-lg font-bold text-xs transition-colors"
                                                 title="Manage Courses"
                                             >
                                                 📚 Manage
                                             </button>
                                             <button
                                                 onClick={() => handleEditClick(path)}
-                                                className="px-3 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-xs transition-colors"
+                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-xs transition-colors inline-flex items-center justify-center"
                                                 title="Edit"
                                             >
                                                 <Edit2 size={14}/>
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteClick(path)}
-                                                className="px-3 py-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded-lg font-bold text-xs transition-colors"
+                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded-lg font-bold text-xs transition-colors inline-flex items-center justify-center"
                                                 title="Delete"
                                             >
                                                 <Trash2 size={14}/>

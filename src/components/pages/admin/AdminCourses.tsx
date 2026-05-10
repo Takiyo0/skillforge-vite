@@ -159,7 +159,7 @@ export function AdminCourses() {
 
 	return (
 		<div className="flex-1 overflow-y-auto">
-			<div className="mx-auto max-w-[1600px] space-y-6 px-6 py-6 md:px-8 md:py-8">
+			<div className="mx-auto max-w-[1600px] space-y-4 sm:space-y-6 px-2 sm:px-4 md:px-8 py-3 sm:py-4 md:py-8">
 				<Breadcrumbs
 					items={[
 						{ label: 'Admin', to: '/admin' },
@@ -168,7 +168,7 @@ export function AdminCourses() {
 				/>
 
 				{/* Toast Notifications */}
-				<div className="fixed top-6 right-6 z-50 space-y-3 pointer-events-none">
+				<div className="fixed top-2 right-2 sm:top-6 sm:right-6 z-50 space-y-2 sm:space-y-3 pointer-events-none max-w-[calc(100vw-1rem)] sm:max-w-none">
 				{toasts.map((toast) => (
 					<div
 						key={toast.id}
@@ -186,7 +186,7 @@ export function AdminCourses() {
 				</div>
 
 				{/* Header with Create Button */}
-				<div className="flex flex-col gap-4 rounded-[2rem] glass-panel px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+				<div className="flex flex-col gap-3 sm:gap-4 rounded-2xl sm:rounded-[2rem] glass-panel px-3 sm:px-4 md:px-6 py-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
 					<div>
 						<h2 className="text-2xl font-black text-slate-900 dark:text-white">Manage Courses</h2>
 						<p className="text-slate-500 dark:text-slate-400 font-medium mt-1">
@@ -204,7 +204,7 @@ export function AdminCourses() {
 
 				{/* Error Message */}
 				{error && (
-					<div className="glass-state p-6 rounded-2xl flex items-start space-x-4 border-red-500/20 bg-red-500/10">
+					<div className="glass-state p-3 sm:p-4 md:p-6 rounded-2xl flex items-start space-x-3 sm:space-x-4 border-red-500/20 bg-red-500/10">
 						<div className="w-10 h-10 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
 							<AlertCircle size={24} />
 						</div>
@@ -221,13 +221,13 @@ export function AdminCourses() {
 				)}
 
 				{/* Courses Table */}
-				<div className="glass-shell rounded-[2.5rem] overflow-hidden">
+				<div className="glass-shell rounded-2xl sm:rounded-[2.5rem] overflow-hidden">
 					{loading ? (
 						<div className="flex items-center justify-center py-16">
 							<StateCard title="Loading courses..." description="Please wait while the catalog syncs." />
 						</div>
 					) : courses.length === 0 ? (
-						<div className="p-8">
+						<div className="p-4 sm:p-8">
 							<StateCard
 								icon={<Plus size={24} />}
 								title="No courses yet"
@@ -237,7 +237,7 @@ export function AdminCourses() {
 						</div>
 					) : (
 						<div className="overflow-x-auto">
-							<table className="min-w-[1100px] w-full">
+							<table className="w-full">
 								<thead>
 									<tr className="glass-table-head border-b border-blue-200/60 dark:border-blue-500/15">
 										<th className="text-left px-6 py-4 font-black text-slate-900 dark:text-white uppercase tracking-wider text-sm">
@@ -294,9 +294,9 @@ export function AdminCourses() {
 													{course.level}
 												</Badge>
 											</td>
-										<td className="px-6 py-4">
+										<td className="hidden md:table-cell px-6 py-4">
 											<div className="flex items-center space-x-2 text-slate-700 dark:text-slate-300">
-												<span className="font-medium">{course.language}</span>
+												<span className="font-medium text-xs">{course.language}</span>
 											</div>
 										</td>
 										<td className="px-6 py-4">
@@ -304,15 +304,15 @@ export function AdminCourses() {
 												{isPublished(course) ? 'Published' : 'Draft'}
 											</Badge>
 										</td>
-										<td className="px-6 py-4">
+										<td className="hidden md:table-cell px-6 py-4">
 											<div className="flex items-center space-x-1 text-slate-700 dark:text-slate-300">
 												<DollarSign size={16} />
-												<span className="font-bold">
+												<span className="font-bold text-sm">
 													{(course.priceCents / 100).toFixed(2)} {course.currencyCode}
 												</span>
 											</div>
 										</td>
-										<td className="px-6 py-4">
+										<td className="hidden lg:table-cell px-6 py-4">
 											{(() => {
 												const stats = getCourseStats(course);
 												return (
@@ -347,14 +347,14 @@ export function AdminCourses() {
 			{/* Create Modal */}
 			{modalState === 'create' && (
 				<div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
-					<div className="glass-panel-strong rounded-[2.5rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-						<div className="sticky top-0 glass-panel-strong border-b border-blue-200/60 dark:border-blue-500/15 px-8 py-6">
-							<h2 className="text-2xl font-black text-slate-900 dark:text-white">
+					<div className="glass-panel-strong rounded-2xl sm:rounded-[2.5rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+						<div className="sticky top-0 glass-panel-strong border-b border-blue-200/60 dark:border-blue-500/15 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
+							<h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
 								Create New Course
 							</h2>
 						</div>
 
-						<div className="p-8 space-y-6">
+						<div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
 							{/* Title */}
 							<div>
 								<label className="block text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider mb-3">
@@ -471,7 +471,7 @@ export function AdminCourses() {
 							</div>
 
 							{/* Price */}
-							<div className="grid grid-cols-2 gap-6">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
 								<div>
 									<label className="block text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider mb-3">
 										Price (in cents)
@@ -509,18 +509,18 @@ export function AdminCourses() {
 							</div>
 
 							{/* Actions */}
-							<div className="flex justify-end space-x-4 pt-6 border-t border-blue-200/60 dark:border-blue-500/15">
+							<div className="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:space-x-4 pt-4 sm:pt-6 border-t border-blue-200/60 dark:border-blue-500/15">
 								<GlassSecondaryButton
 									onClick={() => setModalState('closed')}
 									disabled={isSubmitting}
-									className="px-6 py-3"
+									className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3"
 								>
 									Cancel
 								</GlassSecondaryButton>
 								<GlassButton
 									onClick={handleCreateCourse}
 									disabled={isSubmitting}
-									className="px-6 py-3 disabled:opacity-50 flex items-center space-x-2"
+									className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 disabled:opacity-50 flex items-center justify-center space-x-2"
 								>
 									{isSubmitting ? (
 										<>

@@ -165,34 +165,34 @@ export function AdminModuleContentModal({
         <div
             className={
                 inline
-                    ? 'space-y-6'
-                    : 'fixed inset-0 bg-slate-950/65 backdrop-blur-2xl z-50 flex items-center justify-center p-4'
+                    ? 'space-y-4 sm:space-y-6'
+                    : 'fixed inset-0 bg-slate-950/65 backdrop-blur-2xl z-50 flex items-center justify-center p-2 sm:p-4'
             }
         >
             <div
                 className={
                     inline
-                        ? 'glass-widget-shell rounded-[2rem] shadow-2xl w-full overflow-hidden'
-                        : 'glass-widget-shell rounded-[2rem] shadow-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto'
+                        ? 'glass-widget-shell rounded-2xl sm:rounded-[2rem] shadow-2xl w-full overflow-hidden'
+                        : 'glass-widget-shell rounded-2xl sm:rounded-[2rem] shadow-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto'
                 }
             >
 
                 {loading ? (
-                    <div className="py-20 flex justify-center">
+                    <div className="py-12 sm:py-20 flex justify-center">
                         <Loader className="animate-spin text-blue-500" size={32}/>
                     </div>
                 ) : (
-                    <div className="p-6 space-y-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div className="space-y-4">
+                    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+                            <div className="space-y-3 sm:space-y-4">
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                    <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                         Content Type
                                     </label>
                                     <select
                                         value={contentKind}
                                         onChange={(e) => setContentKind(e.target.value as 'video' | 'article_markdown')}
-                                        className="w-full px-4 py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                     >
                                         <option value="article_markdown">Article (Markdown)</option>
                                         <option value="video">Video</option>
@@ -201,7 +201,7 @@ export function AdminModuleContentModal({
 
                                 {contentKind === 'video' && (
                                     <div className="space-y-3">
-                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">
+                                        <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
                                             Video URL (YouTube, S3, or hosted link)
                                         </label>
                                         <input
@@ -209,10 +209,10 @@ export function AdminModuleContentModal({
                                             value={videoUrl}
                                             onChange={(e) => setVideoUrl(e.target.value)}
                                             placeholder="https://..."
-                                            className="w-full px-4 py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                         />
                                         <label
-                                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50/70 dark:bg-blue-500/10 cursor-pointer font-semibold">
+                                            className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-blue-50/70 dark:bg-blue-500/10 cursor-pointer font-semibold">
                                             <Upload size={16}/>
                                             <span>Upload Video to Platform</span>
                                             <input
@@ -231,13 +231,13 @@ export function AdminModuleContentModal({
                                 {contentKind === 'article_markdown' && (
                                     <div>
                                         <label
-                                            className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                            className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                             Article Markdown
                                         </label>
                                         <div
                                             className="glass-widget-dark overflow-hidden rounded-xl">
                                             <Editor
-                                                height="80vh"
+                                                height="60vh"
                                                 language="markdown"
                                                 value={articleMarkdown}
                                                 onChange={(value) => setArticleMarkdown(value ?? '')}
@@ -255,21 +255,21 @@ export function AdminModuleContentModal({
                                     </div>
                                 )}
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
                                     <div>
                                         <label
-                                            className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                            className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                             Playback Speeds (comma separated)
                                         </label>
                                         <input
                                             type="text"
                                             value={playbackSpeedsText}
                                             onChange={(e) => setPlaybackSpeedsText(e.target.value)}
-                                            className="w-full px-4 py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                         />
                                     </div>
                                     <label
-                                        className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                        className="mt-6 sm:mt-8 inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
                                         <input
                                             type="checkbox"
                                             checked={supportsPip}
@@ -282,8 +282,8 @@ export function AdminModuleContentModal({
 
                             <div className="space-y-4">
                                 {contentKind === 'article_markdown' && (
-                                    <div className="glass-widget-surface rounded-xl p-4">
-                                        <p className="font-bold mb-3 text-slate-900 dark:text-white">Markdown
+                                <div className="glass-widget-surface rounded-xl p-3 sm:p-4">
+                                    <p className="font-bold mb-3 text-slate-900 dark:text-white text-sm sm:text-base">Markdown
                                             Preview</p>
                                         <MarkdownContent
                                             content={articleMarkdown || '*Start writing markdown...*'}
@@ -292,7 +292,7 @@ export function AdminModuleContentModal({
                                     </div>
                                 )}
 
-                                <div className="glass-widget-surface rounded-xl p-4">
+                                <div className="glass-widget-surface rounded-xl p-3 sm:p-4">
                                     <div className="flex items-center gap-2 mb-3">
                                         <Paperclip size={16}/>
                                         <p className="font-bold text-slate-900 dark:text-white">Attachments</p>
@@ -355,17 +355,17 @@ export function AdminModuleContentModal({
                             </div>
                         </div>
 
-                        <div className="flex justify-end gap-3 pt-3 border-t border-blue-200/60 dark:border-blue-500/15">
+                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-blue-200/60 dark:border-blue-500/15">
                             <button
                                 onClick={onClose}
-                                className="glass-button-secondary px-5 py-2 rounded-xl font-bold"
+                                className="glass-button-secondary w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl font-bold"
                             >
                                 Close
                             </button>
                             <button
                                 onClick={() => void handleSaveContent()}
                                 disabled={saving}
-                                className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-bold inline-flex items-center gap-2"
+                                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-bold inline-flex items-center justify-center gap-2"
                             >
                                 {saving ? <Loader size={16} className="animate-spin"/> : <Save size={16}/>}
                                 <span>Save Content</span>

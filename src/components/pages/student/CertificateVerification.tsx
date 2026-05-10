@@ -28,7 +28,7 @@ export function CertificateVerification() {
 				try {
 					const decodedString = atob(payload);
 					decodedPayload = JSON.parse(decodedString);
-				} catch (e) {
+				} catch {
 					setError('Invalid verification payload format');
 					setLoading(false);
 					return;

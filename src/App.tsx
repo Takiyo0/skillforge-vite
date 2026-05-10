@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Routes, Route, Navigate, useLocation} from 'rea
 import type {User} from '@skillforge/vite/lib/types';
 import {Sidebar} from '@skillforge/vite/components/layout/Sidebar';
 import {UserMenu} from '@skillforge/vite/components/layout/UserMenu';
+import {MobileNav} from '@skillforge/vite/components/layout/MobileNav';
 import {StudentDashboard} from '@skillforge/vite/components/pages/student/StudentDashboard';
 import {LearningPath} from '@skillforge/vite/components/pages/student/LearningPath';
 import {LearningPathsPage} from '@skillforge/vite/components/pages/student/LearningPathsPage';
@@ -118,6 +119,7 @@ function AppContent({isDarkMode, user, handleLogout, setIsDarkMode, setUser}: {
     setIsDarkMode: (dark: boolean) => void;
     setUser: (user: User | null) => void
 }) {
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
     const location = useLocation();
 
     const role: 'student' | 'instructor' | 'admin' = useMemo(() => {
@@ -139,8 +141,17 @@ function AppContent({isDarkMode, user, handleLogout, setIsDarkMode, setUser}: {
                     : 'bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.1),transparent_24%),linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(239,246,255,0.96)_48%,rgba(226,242,255,0.92)_100%)]'
                 }`}/>
 
-            <div className="relative z-10 flex min-h-screen gap-4 p-2 md:p-6">
-                <div className="shrink-0 sticky top-4 h-[calc(100vh-2rem)]">
+            {/* Mobile Navigation - only visible on mobile */}
+            <MobileNav
+                isOpen={mobileNavOpen}
+                onOpenChange={setMobileNavOpen}
+                role={role}
+                onLogout={handleLogout}
+            />
+
+            <div className="relative z-10 flex min-h-screen gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-1 sm:p-2 md:p-4 lg:p-6">
+                {/* Sidebar - hidden on mobile, visible on tablet and desktop */}
+                <div className="hidden sm:block shrink-0 sticky top-2 sm:top-3 md:top-4 lg:top-6 h-[calc(100vh-1rem)] sm:h-[calc(100vh-1rem)] md:h-[calc(100vh-2rem)] lg:h-[calc(100vh-3rem)]">
                     <Sidebar
                         role={role}
                         isDarkMode={isDarkMode}
@@ -150,7 +161,7 @@ function AppContent({isDarkMode, user, handleLogout, setIsDarkMode, setUser}: {
 
                 <div className="flex-1 min-w-0 flex flex-col overflow-hidden rounded-[2.25rem]">
                     {/* header with user menu */}
-                    <div className="flex items-center justify-end rounded-[1.75rem] px-3 py-3 sm:px-4">
+                    <div className="flex items-center justify-end rounded-[1.75rem] px-2 sm:px-3 md:px-4 py-2 sm:py-3">
                         {user && <UserMenu user={user} onLogout={handleLogout}/>}
                     </div>
 

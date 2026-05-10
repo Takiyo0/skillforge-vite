@@ -1,4 +1,4 @@
-﻿import {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Play, Target, Flame, Star, Zap} from 'lucide-react';
 import {apiClient} from '@skillforge/vite/lib/api';
@@ -88,34 +88,34 @@ export function StudentDashboard() {
 
     return (
         <div className="flex-1 overflow-y-auto">
-            <div className="pt-8 max-w-7xl mx-auto space-y-8">
+            <div className="pt-4 sm:pt-6 md:pt-8 lg:pt-8 max-w-full md:max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 space-y-4 sm:space-y-6 md:space-y-8">
                 {/* Hero Section */}
                 <div
-                    className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700 rounded-[3rem] p-12 text-white relative overflow-hidden shadow-xl">
+                    className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700 rounded-2xl sm:rounded-3xl md:rounded-[3rem] p-4 sm:p-6 md:p-8 lg:p-12 text-white relative overflow-hidden shadow-xl">
                     <div
                         className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
                     <div
-                        className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                        <div>
-                            <div className="flex items-center space-x-2 mb-4">
+                        className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6 md:gap-8">
+                        <div className="w-full md:flex-1">
+                            <div className="flex items-center space-x-2 mb-2 sm:mb-3 md:mb-4">
                                 <Star size={16} className="text-amber-300" fill="currentColor"/>
-                                <span>Adventurer</span>
+                                <span className="text-sm sm:text-base">Adventurer</span>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-black mb-2 tracking-tight">Ready for your next
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-2 tracking-tight">Ready for your next
                                 quest, {user?.displayName}?</h1>
-                            <p className="text-blue-100 text-lg opacity-90 font-medium">Select a campaign below and
+                            <p className="text-blue-100 text-sm sm:text-base md:text-lg opacity-90 font-medium">Select a campaign below and
                                 continue leveling up.</p>
                         </div>
 
                         <div
-                            className="bg-slate-900/40 backdrop-blur-md p-6 rounded-3xl border border-white/10 w-full md:w-96 shrink-0">
-                            <div className="grid grid-cols-2 gap-4">
+                            className="bg-slate-900/40 backdrop-blur-md p-4 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl border border-white/10 w-full md:w-96 shrink-0">
+                            <div className="grid grid-cols-2 gap-3 sm:gap-4">
                                 {/* Level Card */}
                                 <div>
                                     <p className="text-blue-200 text-xs font-bold uppercase tracking-wider mb-2">Level</p>
-                                    <p className="text-3xl font-black text-white mb-2">{xpSummary?.level || 1}</p>
-                                    <div className="text-sm font-bold text-amber-400">
+                                    <p className="text-2xl sm:text-3xl font-black text-white mb-2">{xpSummary?.level || 1}</p>
+                                    <div className="text-xs sm:text-sm font-bold text-amber-400">
                                         {xpSummary?.xpIntoCurrentLevel || 0} / {xpSummary?.xpNeededForNextLevel || 0}
                                         <span className="text-blue-200 text-xs ml-1">XP</span>
                                     </div>
@@ -131,10 +131,10 @@ export function StudentDashboard() {
                                 {/* Streak Card */}
                                 <div>
                                     <div className="flex items-center space-x-2 mb-2">
-                                        <Flame size={16} className="text-orange-500"/>
+                                        <Flame size={14} className="text-orange-500"/>
                                         <p className="text-blue-200 text-xs font-bold uppercase tracking-wider">Streak</p>
                                     </div>
-                                    <p className="text-3xl font-black text-orange-400 mb-2">{streak?.currentStreakDays || 0}</p>
+                                    <p className="text-2xl sm:text-3xl font-black text-orange-400 mb-2">{streak?.currentStreakDays || 0}</p>
                                     <p className="text-xs text-slate-300">
                                         Best: {streak?.longestStreakDays || 0} days
                                     </p>
@@ -150,24 +150,24 @@ export function StudentDashboard() {
 
                 {/* Courses Section */}
                 <div>
-                    <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center">
-                        <Target className="mr-3 text-blue-500"/> Active Courses ({activeCourses.length})
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white py-2 sm:py-3 md:py-4 mb-4 sm:mb-5 md:mb-6 flex items-center">
+                        <Target size={24} className="mr-3 text-blue-500"/> Active Courses ({activeCourses.length})
                     </h2>
 
                     {activeCourses.length === 0 ? (
                         <StateCard title="No courses enrolled yet" description="Browse the catalog to start a learning path." />
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
                             {activeCourses.map(course => {
                                 const isViolet = (Number(course.progressPercent) || 0) > 50;
 
                                 return (
                                     <div
                                         key={course.id}
-                                        className={`rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell`}
+                                        className={`rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell`}
                                     >
                                         {/* Thumbnail Image */}
-                                        <div className={`h-48 overflow-hidden relative ${
+                                        <div className={`h-40 sm:h-44 md:h-48 overflow-hidden relative ${
                                             !((course as any).thumbnailS3Key) || brokenImages.has(course.id)
                                                 ? 'bg-gradient-to-br from-blue-400 to-cyan-400'
                                                 : 'bg-blue-500/15'
@@ -181,31 +181,31 @@ export function StudentDashboard() {
                                                 />
                                             ) : (
                                                 <div
-                                                    className="absolute inset-0 flex items-center justify-center text-5xl opacity-70 group-hover:scale-110 transition-transform">
+                                                    className="absolute inset-0 flex items-center justify-center text-4xl sm:text-5xl opacity-70 group-hover:scale-110 transition-transform">
                                                     📚
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Card Content */}
-                                        <div className="p-6 relative z-10">
+                                        <div className="p-3 sm:p-4 md:p-6 relative z-10">
                                             {/* Header */}
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div>
+                                            <div className="flex items-start justify-between mb-3 sm:mb-4">
+                                                <div className="flex-1 pr-2">
 													<span
-                                                        className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-widest rounded-lg mb-2 ${isViolet ? 'bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' : 'bg-blue-500/15 text-slate-800 dark:text-slate-300'}`}>
-														{course.level || 'Beginner'}
+                                                        className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-black uppercase tracking-widest rounded-lg mb-1 sm:mb-2 ${isViolet ? 'bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' : 'bg-blue-500/15 text-slate-800 dark:text-slate-300'}`}>
+                                                        {course.level || 'Beginner'}
 													</span>
-                                                    <h3 className={`font-black text-lg mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${isViolet ? 'text-slate-900 dark:text-white' : 'text-slate-900 dark:text-white'}`}>
+                                                    <h3 className={`font-black text-sm sm:text-base md:text-lg mb-1 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${isViolet ? 'text-slate-900 dark:text-white' : 'text-slate-900 dark:text-white'}`}>
                                                         {course.title}
                                                     </h3>
-                                                    <p className="text-sm text-slate-600 dark:text-slate-400">By {course.creator.displayName}</p>
+                                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">By {course.creator.displayName}</p>
                                                 </div>
-                                                <span className="text-3xl">📚</span>
+                                                <span className="text-2xl sm:text-3xl flex-shrink-0">📚</span>
                                             </div>
 
                                             {/* Progress */}
-                                            <div className="mt-6">
+                                            <div className="mt-4 sm:mt-5 md:mt-6">
                                                 <div className="flex justify-between text-xs font-bold mb-2">
                                                     <span
                                                         className="text-slate-700 dark:text-slate-300 uppercase tracking-wider">Progress</span>
@@ -224,14 +224,14 @@ export function StudentDashboard() {
                                             {/* Button */}
                                             <button
                                                 onClick={() => handleEnterCourse(course.id)}
-                                                className={`mt-4 w-full px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center space-x-2 group/btn
+                                                className={`mt-3 sm:mt-4 w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 group/btn
 													${isViolet
                                                     ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/30'
                                                     : 'bg-slate-700 hover:bg-slate-800 text-white dark:bg-slate-600 dark:hover:bg-slate-500 shadow-lg'
                                                 }`}
                                             >
                                                 <span>Continue</span>
-                                                <Play size={16} fill="currentColor"/>
+                                                <Play size={14} fill="currentColor"/>
                                             </button>
                                         </div>
                                     </div>
@@ -241,22 +241,22 @@ export function StudentDashboard() {
                     )}
                 </div>
 
-                {/* Completed Courses Section */}
+                {/*/* Completed Courses Section */}
                 {completedCourses.length > 0 && (
                     <div>
-                        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center">
-                            <Star className="mr-3 text-green-500"/> Completed Courses ({completedCourses.length})
+                        <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white py-2 sm:py-3 md:py-4 mb-4 sm:mb-5 md:mb-6 flex items-center">
+                            <Star size={24} className="mr-3 text-green-500"/> Completed Courses ({completedCourses.length})
                         </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
                             {completedCourses.map(course => {
                                 return (
                                     <div
                                         key={course.id}
-                                        className="rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell"
+                                        className="rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell"
                                     >
                                         {/* Thumbnail Image */}
-                                        <div className={`h-48 overflow-hidden relative ${
+                                        <div className={`h-40 sm:h-44 md:h-48 overflow-hidden relative ${
                                             !((course as any).thumbnailS3Key) || brokenImages.has(course.id)
                                                 ? 'bg-gradient-to-br from-green-400 to-emerald-400'
                                                 : 'bg-blue-500/15'
@@ -270,52 +270,47 @@ export function StudentDashboard() {
                                                 />
                                             ) : (
                                                 <div
-                                                    className="absolute inset-0 flex items-center justify-center text-5xl opacity-70 group-hover:scale-110 transition-transform">
+                                                    className="absolute inset-0 flex items-center justify-center text-4xl sm:text-5xl opacity-70 group-hover:scale-110 transition-transform">
                                                     ✓
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Card Content */}
-                                        <div className="p-6 relative z-10">
+                                        <div className="p-3 sm:p-4 md:p-6 relative z-10">
                                             {/* Header */}
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div>
+                                            <div className="flex items-start justify-between mb-3 sm:mb-4">
+                                                <div className="flex-1 pr-2">
 													<span
-                                                        className="inline-block px-3 py-1 text-xs font-black uppercase tracking-widest rounded-lg mb-2 bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300">
+                                                        className="inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-black uppercase tracking-widest rounded-lg mb-1 sm:mb-2 bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300">
 														{course.level || 'Beginner'}
 													</span>
-                                                    <h3 className="font-black text-lg text-slate-900 dark:text-white mb-1 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                                                    <h3 className="font-black text-sm sm:text-base md:text-lg text-slate-900 dark:text-white mb-1 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                                                         {course.title}
                                                     </h3>
-                                                    <p className="text-sm text-slate-600 dark:text-slate-400">By {course.creator.displayName}</p>
+                                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">By {course.creator.displayName}</p>
                                                 </div>
-                                                <span className="text-3xl">✓</span>
+                                                <span className="text-2xl sm:text-3xl flex-shrink-0">✓</span>
                                             </div>
 
                                             {/* Completion Info */}
-                                            <div className="mt-6">
+                                            <div className="mt-4 sm:mt-5 md:mt-6">
                                                 <div className="flex justify-between text-xs font-bold mb-2">
-                                                    <span
-                                                        className="text-slate-700 dark:text-slate-300 uppercase tracking-wider">Completed</span>
+                                                    <span className="text-slate-700 dark:text-slate-300 uppercase tracking-wider">Completed</span>
                                                     <span className="text-green-700 dark:text-green-300">100%</span>
                                                 </div>
-                                                <div
-                                                    className="w-full rounded-full h-2.5 bg-green-200 dark:bg-green-900/30">
-                                                    <div
-                                                        className="h-2.5 rounded-full bg-green-600 transition-all"
-                                                        style={{width: '100%'}}
-                                                    ></div>
+                                                <div className="w-full rounded-full h-2.5 bg-green-200 dark:bg-green-900/30">
+                                                    <div className="h-2.5 rounded-full bg-green-600 transition-all" style={{width: '100%'}}></div>
                                                 </div>
                                             </div>
 
                                             {/* Button */}
                                             <button
                                                 onClick={() => handleEnterCourse(course.id)}
-                                                className="mt-4 w-full px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/30"
+                                                className="mt-3 sm:mt-4 w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/30"
                                             >
                                                 <span>Review</span>
-                                                <Play size={16} fill="currentColor"/>
+                                                <Play size={14} fill="currentColor"/>
                                             </button>
                                         </div>
                                     </div>
@@ -328,6 +323,9 @@ export function StudentDashboard() {
         </div>
     );
 }
+
+
+
 
 
 

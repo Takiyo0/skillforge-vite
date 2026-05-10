@@ -245,8 +245,11 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
                 // Create question with options
                 const options = questionFormData.options
                     .filter(opt => opt.label.trim())
-                    // @ts-ignore
-                    .map(({tempId, ...rest}) => rest);
+                    .map(opt => {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const {tempId, ...rest} = opt;
+                        return rest;
+                    });
 
                 await apiClient.createFinalExamQuestion(
                     selectedUnitId,

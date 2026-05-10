@@ -167,24 +167,24 @@ export function AssessmentPage() {
     if (quizResult) {
         return (
             <div className="flex-1 overflow-y-auto">
-                <div className="max-w-2xl mx-auto p-8">
-                    <div className="text-center mb-12">
-                        <div className="inline-block mb-6">
-                            <div className={`text-6xl font-black ${quizResult.isPassed ? 'text-emerald-600' : 'text-orange-600'}`}>
+                <div className="max-w-4xl mx-auto mx-auto px-2 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10">
+                    <div className="text-center mb-8 sm:mb-10 md:mb-12">
+                        <div className="inline-block mb-4 sm:mb-5 md:mb-6">
+                            <div className={`text-4xl sm:text-5xl md:text-6xl font-black ${quizResult.isPassed ? 'text-emerald-600' : 'text-orange-600'}`}>
                                 {quizResult.scorePercent}%
                             </div>
                         </div>
-                        <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-2">
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-2">
                             {quizResult.isPassed ? '🎉 You Passed!' : 'Try Again'}
                         </h1>
-                        <p className="text-slate-600 dark:text-slate-400 text-lg mb-8">
+                        <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 mb-6 sm:mb-7 md:mb-8 px-2">
                             {quizResult.isPassed
                                 ? `Great job! You scored ${quizResult.scorePercent}%. You're ready to move forward.`
                                 : `You scored ${quizResult.scorePercent}%. You need ${unit.type === 'final_exam' ? unit.finalExam!.passingScore : unit.quiz!.passingScore}% to pass. Review and try again!`}
                         </p>
 
-                        <div className="space-y-3 mb-8">
-                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                        <div className="space-y-2 sm:space-y-2.5 md:space-y-3 mb-6 sm:mb-7 md:mb-8">
+                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                                 <span className="font-semibold">Attempt #{quizResult.attemptNumber}</span>
                             </p>
                             <p className="text-xs text-slate-500 dark:text-slate-500">
@@ -198,7 +198,7 @@ export function AssessmentPage() {
                                     ? `/student/courses/${courseId}`
                                     : `/student/courses/${courseId}/units/${unitId}`
                             )}
-                            className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-4 rounded-2xl font-black text-lg transition-all hover:scale-[1.02]"
+                            className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02]"
                         >
                             {quizResult.isPassed ? 'Back to Course' : 'Back to Unit'}
                         </button>
@@ -210,19 +210,19 @@ export function AssessmentPage() {
 
     return (
         <div className="flex-1 overflow-y-auto">
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="sticky top-0 z-10 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-white/20 dark:border-white/10 px-8 py-4">
-                    <div className="flex items-center justify-between">
+                <div className="sticky top-0 z-10 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-white/20 dark:border-white/10 px-2 sm:px-4 md:px-6 py-3 sm:py-4">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <button
                             onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}`)}
-                            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-bold transition-colors"
+                            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-bold transition-colors text-sm sm:text-base"
                         >
-                            <ChevronLeft size={20} />
+                            <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
                             <span>Exit Assessment</span>
                         </button>
-                        <div className="flex items-center space-x-2 text-slate-600 dark:text-slate-400">
-                            <Clock size={18} />
+                        <div className="flex items-center space-x-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                            <Clock size={16} className="sm:w-4.5 sm:h-4.5" />
                             <span className="font-semibold">
                                 {Math.floor((unit.type === 'final_exam' ? unit.finalExam!.timeLimitSeconds : unit.quiz!.timeLimitSeconds) / 60)} min
                             </span>
@@ -231,9 +231,9 @@ export function AssessmentPage() {
                 </div>
 
                 {/* Progress */}
-                <div className="px-8 pt-8 pb-4">
-                    <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+                <div className="px-2 sm:px-4 md:px-6 pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <h2 className="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                             Question {currentQuestionIdx + 1} of {questions.length}
                         </h2>
                         <span className="text-xs text-slate-500 dark:text-slate-500">
@@ -249,34 +249,34 @@ export function AssessmentPage() {
                 </div>
 
                 {/* Question Content */}
-                <div className="p-8">
-                    <div className="glass-widget-surface rounded-2xl p-8 mb-8 shadow-xl shadow-blue-950/5">
+                <div className="px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+                    <div className="glass-widget-surface rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-950/5">
                         {/* Question Title */}
-                        <div className="mb-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-black flex-shrink-0">
+                        <div className="mb-4 sm:mb-5 md:mb-6">
+                            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                                <div className="bg-blue-600 text-white rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center font-black flex-shrink-0 text-sm sm:text-base">
                                     {currentQuestionIdx + 1}
                                 </div>
                                 <div>
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 uppercase font-bold">Question</p>
-                                    <p className="font-semibold text-slate-600 dark:text-slate-300">
+                                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 uppercase font-bold">Question</p>
+                                    <p className="font-semibold text-xs sm:text-sm text-slate-600 dark:text-slate-300">
                                         {currentQuestion.points} point{currentQuestion.points !== 1 ? 's' : ''}
                                     </p>
                                 </div>
                             </div>
 
-                            <MarkdownContent content={currentQuestion.prompt} className="text-lg" />
+                            <MarkdownContent content={currentQuestion.prompt} className="text-base sm:text-lg md:text-xl" />
                         </div>
 
                         {/* Options */}
-                        <div className="space-y-3">
+                        <div className="space-y-2 sm:space-y-2.5 md:space-y-3">
                             {currentQuestion.options.map((option) => {
                                 const isSelected = (quizAnswers[currentQuestion.id] || []).includes(option.id);
 
                                 return (
                                     <label
                                         key={option.id}
-                                        className={`flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                                        className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all min-h-[44px] sm:min-h-[48px] ${
                                             isSelected
                                                 ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                                                 : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
@@ -288,10 +288,10 @@ export function AssessmentPage() {
                                             value={option.id}
                                             checked={isSelected}
                                             onChange={() => handleAnswerChange(currentQuestion.id, option.id, currentQuestion.answerMultiple)}
-                                            className={`${currentQuestion.answerMultiple ? 'w-5 h-5' : 'w-5 h-5'} flex-shrink-0 mt-1`}
+                                            className="w-5 h-5 flex-shrink-0 mt-0.5 sm:mt-1 cursor-pointer"
                                         />
-                                        <div className="flex-1">
-                                            <MarkdownContent content={option.label} className="text-sm" />
+                                        <div className="flex-1 min-w-0">
+                                            <MarkdownContent content={option.label} className="text-xs sm:text-sm md:text-base" />
                                         </div>
                                     </label>
                                 );
@@ -300,31 +300,32 @@ export function AssessmentPage() {
                     </div>
 
                     {/* Navigation and Submit */}
-                    <div className="flex gap-4">
+                    <div className="flex gap-2 sm:gap-3 md:gap-4">
                         <button
                             onClick={handlePrevQuestion}
                             disabled={currentQuestionIdx === 0}
-                            className="glass-button-secondary flex items-center gap-2 px-6 py-3 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-white rounded-xl font-bold transition-all"
+                            className="glass-button-secondary flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-white rounded-lg sm:rounded-xl font-bold transition-all text-xs sm:text-sm md:text-base whitespace-nowrap"
                         >
-                            <ChevronLeft size={18} />
-                            Previous
+                            <ChevronLeft size={16} className="sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />
+                            <span className="hidden sm:inline">Previous</span>
+                            <span className="sm:hidden">Prev</span>
                         </button>
 
                         {currentQuestionIdx < questions.length - 1 ? (
                             <button
                                 onClick={handleNextQuestion}
-                                className="glass-button-secondary flex-1 flex items-center gap-2 justify-center px-6 py-3 text-slate-900 dark:text-white rounded-xl font-bold transition-all"
+                                className="glass-button-secondary flex-1 flex items-center gap-1.5 sm:gap-2 justify-center px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 text-slate-900 dark:text-white rounded-lg sm:rounded-xl font-bold transition-all text-xs sm:text-sm md:text-base"
                             >
                                 Next
-                                <ChevronRight size={18} />
+                                <ChevronRight size={16} className="sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />
                             </button>
                         ) : (
                             <button
                                 onClick={handleQuizSubmit}
                                 disabled={quizSubmitting || !allAnswered}
-                                className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-black transition-all hover:scale-[1.02]"
+                                className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl font-black transition-all hover:scale-[1.02] text-xs sm:text-sm md:text-base whitespace-nowrap"
                             >
-                                {quizSubmitting ? 'Submitting...' : 'Submit Assessment'}
+                                {quizSubmitting ? 'Submitting...' : 'Submit'}
                             </button>
                         )}
                     </div>

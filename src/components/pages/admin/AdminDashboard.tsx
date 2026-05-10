@@ -52,7 +52,7 @@ export function AdminDashboard() {
 
     return (
         <div className="flex-1 overflow-y-auto">
-            <div className="space-y-6 overflow-y-auto px-6 py-6 md:px-8 md:py-8 max-w-[1600px]">
+            <div className="space-y-4 sm:space-y-6 overflow-y-auto px-2 sm:px-4 md:px-8 py-3 sm:py-4 md:py-8 max-w-[1600px]">
                 {/* Header with Breadcrumbs */}
                 <div>
                     <Breadcrumbs items={[
@@ -60,8 +60,8 @@ export function AdminDashboard() {
                         {label: getPageTitle()}
                     ]}/>
                     <div className="mt-5"/>
-                    <h1 className="text-3xl font-black text-slate-900 dark:text-white">{getPageTitle()}</h1>
-                    <p className="text-slate-500 dark:text-slate-400 font-medium mt-2">
+                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">{getPageTitle()}</h1>
+                    <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium mt-2">
                         {getPageDescription()}
                     </p>
                 </div>

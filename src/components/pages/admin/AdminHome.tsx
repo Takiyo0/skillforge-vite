@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import {
 	Shield,
 	Search,
@@ -99,8 +99,8 @@ export function AdminHome() {
 			<div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2.5rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-8">
 				<h2 className="text-2xl font-black text-slate-900 dark:text-white mb-6">Manage Players</h2>
 
-				<div className="overflow-x-auto">
-					<table className="w-full">
+				<div className="overflow-x-auto sm:overflow-visible">
+					<table className="min-w-[600px] sm:min-w-0 w-full">
 						<thead>
 							<tr className="border-b border-blue-200/60 dark:border-blue-500/15">
 								<th className="text-left px-4 py-4 font-black text-slate-900 dark:text-white uppercase tracking-wider text-sm">Player</th>
@@ -122,7 +122,7 @@ export function AdminHome() {
 									<span className="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-black uppercase tracking-widest rounded-lg">Active</span>
 								</td>
 								<td className="px-4 py-4 text-center">
-									<button className="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-sm transition-colors">Edit</button>
+									<button className="px-4 py-2.5 min-h-[44px] min-w-[44px] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-sm transition-colors">Edit</button>
 								</td>
 							</tr>
 
@@ -137,7 +137,7 @@ export function AdminHome() {
 									<span className="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-black uppercase tracking-widest rounded-lg">Active</span>
 								</td>
 								<td className="px-4 py-4 text-center">
-									<button className="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-sm transition-colors">Edit</button>
+									<button className="px-4 py-2.5 min-h-[44px] min-w-[44px] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-sm transition-colors">Edit</button>
 								</td>
 							</tr>
 
@@ -152,7 +152,7 @@ export function AdminHome() {
 									<span className="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-black uppercase tracking-widest rounded-lg">Active</span>
 								</td>
 								<td className="px-4 py-4 text-center">
-									<button className="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-sm transition-colors">Edit</button>
+									<button className="px-4 py-2.5 min-h-[44px] min-w-[44px] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-sm transition-colors">Edit</button>
 								</td>
 							</tr>
 						</tbody>

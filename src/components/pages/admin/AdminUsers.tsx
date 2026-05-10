@@ -103,7 +103,7 @@ export function AdminUsers() {
             await apiClient.updateUserRoles(selectedUser.id, selectedRoles);
             setShowModal(false);
             await fetchUsers();
-        } catch (err) {
+        } catch {
             setError('Failed to update user roles');
         } finally {
             setActionLoading(false);
@@ -118,7 +118,7 @@ export function AdminUsers() {
             await apiClient.activateUser(selectedUser.id);
             setShowModal(false);
             await fetchUsers();
-        } catch (err) {
+        } catch {
             setError('Failed to activate user');
         } finally {
             setActionLoading(false);
@@ -133,7 +133,7 @@ export function AdminUsers() {
             await apiClient.deactivateUser(selectedUser.id);
             setShowModal(false);
             await fetchUsers();
-        } catch (err) {
+        } catch {
             setError('Failed to deactivate user');
         } finally {
             setActionLoading(false);
@@ -148,7 +148,7 @@ export function AdminUsers() {
             await apiClient.deleteUser(selectedUser.id);
             setShowModal(false);
             await fetchUsers();
-        } catch (err) {
+        } catch {
             setError('Failed to delete user');
         } finally {
             setActionLoading(false);
@@ -269,8 +269,8 @@ export function AdminUsers() {
                                description="Try adjusting search or filters." className="m-6"/>
                 ) : (
                     <>
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
+                        <div className="overflow-x-auto sm:overflow-visible">
+                            <table className="min-w-[600px] sm:min-w-0 w-full">
                                 <thead>
                                 <tr className="glass-table-head border-b border-blue-200/60 dark:border-blue-500/15">
                                     <th className="text-left px-6 py-4 font-black text-slate-900 dark:text-white uppercase tracking-wider text-xs">User</th>
@@ -311,7 +311,7 @@ export function AdminUsers() {
                                         <td className="px-6 py-4 text-center relative">
                                             <button
                                                 onClick={() => setOpenMenu(openMenu === user.id ? null : user.id)}
-                                                className="glass-chip p-2 rounded-xl transition-colors inline-flex"
+                                                className="glass-chip p-2.5 min-w-[44px] min-h-[44px] rounded-xl transition-colors inline-flex items-center justify-center"
                                             >
                                                 <MoreVertical size={18} className="text-slate-600 dark:text-slate-400"/>
                                             </button>

@@ -634,7 +634,8 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                     ) : (
                         <div
                             className="rounded-[2rem] glass-panel overflow-hidden">
-                            <table className="min-w-[1100px] w-full">
+                            <div className="overflow-x-auto sm:overflow-visible">
+                            <table className="min-w-[800px] sm:min-w-0 w-full">
                                 <thead>
                                 <tr className="border-b border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                                     <th className="text-left px-6 py-4 font-black text-slate-900 dark:text-white uppercase tracking-wider text-sm">
@@ -768,6 +769,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                 ))}
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     )}
 

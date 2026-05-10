@@ -1,5 +1,6 @@
 // Layout Components
 export {Sidebar} from '@skillforge/vite/components/layout/Sidebar';
+export {MobileNav} from '@skillforge/vite/components/layout/MobileNav';
 
 // Student Pages
 export {StudentDashboard} from '@skillforge/vite/components/pages/student/StudentDashboard';

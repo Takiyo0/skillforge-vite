@@ -46,7 +46,7 @@ export function ProfilePage() {
 				let currentUser: User | null = null;
 				try {
 					currentUser = await apiClient.getProfile();
-				} catch (err) {
+				} catch {
 					// Not authenticated - that's okay for public profiles
 					currentUser = null;
 				}
