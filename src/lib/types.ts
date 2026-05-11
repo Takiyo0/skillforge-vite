@@ -411,6 +411,7 @@ export interface Unit {
 	exercise: ExerciseDetails | null;
 	quiz: Quiz | null;
 	finalExam?: FinalExam | null;
+	finalExamSubmissions?: FinalExamSubmissionHistory[];
 	finalExamAttemptProgress?: FinalExamAttemptProgress | null;
 }
 

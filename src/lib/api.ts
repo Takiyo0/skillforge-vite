@@ -1615,9 +1615,8 @@ export const apiClient = {
     async addHint(
         exerciseId: string,
         data: {
-            hintText: string;
-            unlockAfterFailedAttempts?: number;
-            position?: number;
+            content: string;
+            requiredFailedAttempts?: number;
         }
     ): Promise<Hint> {
         const response = await fetch(`${BASE_API}/admin/exercises/${exerciseId}/hints`, {

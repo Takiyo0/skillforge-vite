@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { apiClient } from '@skillforge/vite/lib/api';
-import type { Unit, QuizSubmissionResponse, FinalExamSubmissionResponse, QuizAnswerDto, QuizQuestion } from '@skillforge/vite/lib/types';
+import type {
+    Unit,
+    QuizSubmissionResponse,
+    FinalExamSubmissionResponse,
+    QuizAnswerDto,
+    QuizQuestion,
+} from '@skillforge/vite/lib/types';
 import { MarkdownContent } from '@skillforge/vite/components/ui/MarkdownContent';
 
 export function AssessmentPage() {
@@ -247,7 +253,6 @@ export function AssessmentPage() {
                         ></div>
                     </div>
                 </div>
-
                 {/* Question Content */}
                 <div className="px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
                     <div className="glass-widget-surface rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-950/5">

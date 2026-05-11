@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import type {Unit, FinalExam, ApiError} from '@skillforge/vite/lib/types';
 import {apiClient} from '@skillforge/vite/lib/api';
+import {MarkdownContent} from '@skillforge/vite/components/ui/MarkdownContent';
+import {MarkdownEditor} from '@skillforge/vite/components/ui/MarkdownEditor';
 
 interface AdminFinalExamsProps {
     unitId?: string;
@@ -569,9 +571,15 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
 																	{question.points} pts
 																</span>
                                                             </div>
-                                                            <p className="text-slate-900 dark:text-white font-medium">{question.prompt}</p>
+                                                            <MarkdownContent
+                                                                content={question.prompt}
+                                                                className="text-slate-900 dark:text-white font-medium [&_p]:my-0 [&_pre]:my-2"
+                                                            />
                                                             {question.explanation && (
-                                                                <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">{question.explanation}</p>
+                                                                <MarkdownContent
+                                                                    content={question.explanation}
+                                                                    className="mt-2 text-sm text-slate-600 dark:text-slate-400 [&_p]:my-1 [&_pre]:my-2"
+                                                                />
                                                             )}
                                                         </div>
                                                         <div className="flex items-center gap-2 ml-4">
@@ -626,7 +634,10 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
                                                                             )}
                                                                         </div>
                                                                         <div className="flex-1">
-                                                                            <p className="text-slate-900 dark:text-white text-sm font-medium">{option.label}</p>
+                                                                            <MarkdownContent
+                                                                                content={option.label}
+                                                                                className="text-sm font-medium text-slate-900 dark:text-white [&_p]:my-0 [&_pre]:my-2"
+                                                                            />
                                                                         </div>
                                                                         <div className="flex items-center gap-2">
                                                                             <button
@@ -800,13 +811,15 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
 																{question.points} pts
 															</span>
                                                         </div>
-                                                        <p className="text-slate-900 dark:text-white font-medium">
-                                                            {question.prompt}
-                                                        </p>
+                                                        <MarkdownContent
+                                                            content={question.prompt}
+                                                            className="text-slate-900 dark:text-white font-medium [&_p]:my-0 [&_pre]:my-2"
+                                                        />
                                                         {question.explanation && (
-                                                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                                                                {question.explanation}
-                                                            </p>
+                                                            <MarkdownContent
+                                                                content={question.explanation}
+                                                                className="mt-2 text-sm text-slate-600 dark:text-slate-400 [&_p]:my-1 [&_pre]:my-2"
+                                                            />
                                                         )}
                                                     </div>
                                                     <div className="flex items-center gap-2 ml-4">
@@ -870,9 +883,10 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
                                                                         )}
                                                                     </div>
                                                                     <div className="flex-1">
-                                                                        <p className="text-slate-900 dark:text-white text-sm font-medium">
-                                                                            {option.label}
-                                                                        </p>
+                                                                        <MarkdownContent
+                                                                            content={option.label}
+                                                                            className="text-sm font-medium text-slate-900 dark:text-white [&_p]:my-0 [&_pre]:my-2"
+                                                                        />
                                                                     </div>
                                                                     <div className="flex items-center gap-2">
                                                                         <button
@@ -964,21 +978,13 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
                         </div>
 
                         <div className="p-6 space-y-4">
-                            {/* Prompt */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Question Prompt *
-                                </label>
-                                <textarea
-                                    value={questionFormData.prompt}
-                                    onChange={(e) =>
-                                        setQuestionFormData({...questionFormData, prompt: e.target.value})
-                                    }
-                                    placeholder="Enter your question..."
-                                    rows={3}
-                                    className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                                />
-                            </div>
+                            <MarkdownEditor
+                                label="Question Prompt"
+                                required
+                                value={questionFormData.prompt}
+                                onChange={(value) => setQuestionFormData({...questionFormData, prompt: value})}
+                                height="220px"
+                            />
 
                             {/* Points */}
                             <div>
@@ -999,21 +1005,12 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
                                 />
                             </div>
 
-                            {/* Explanation */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Explanation
-                                </label>
-                                <textarea
-                                    value={questionFormData.explanation}
-                                    onChange={(e) =>
-                                        setQuestionFormData({...questionFormData, explanation: e.target.value})
-                                    }
-                                    placeholder="Optional: Provide explanation for the correct answer..."
-                                    rows={3}
-                                    className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                                />
-                            </div>
+                            <MarkdownEditor
+                                label="Explanation"
+                                value={questionFormData.explanation}
+                                onChange={(value) => setQuestionFormData({...questionFormData, explanation: value})}
+                                height="180px"
+                            />
 
                             {/* Options - Only show when creating */}
                             {!selectedQuestion && (
@@ -1043,14 +1040,13 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
 															Option {idx + 1}
 														</span>
                                                     </div>
-                                                    <textarea
+                                                    <MarkdownEditor
+                                                        label="Option Text"
                                                         value={option.label}
-                                                        onChange={(e) =>
-                                                            updateOptionInQuestion(option.tempId, e.target.value, option.isCorrect)
+                                                        onChange={(value) =>
+                                                            updateOptionInQuestion(option.tempId, value, option.isCorrect)
                                                         }
-                                                        placeholder="Enter option text..."
-                                                        rows={2}
-                                                        className="w-full px-3 py-2 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm resize-none"
+                                                        height="150px"
                                                     />
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-2">
@@ -1129,21 +1125,13 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
                         </div>
 
                         <div className="p-6 space-y-4">
-                            {/* Option Label */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Option Label *
-                                </label>
-                                <textarea
-                                    value={optionFormData.label}
-                                    onChange={(e) =>
-                                        setOptionFormData({...optionFormData, label: e.target.value})
-                                    }
-                                    placeholder="Enter the option text..."
-                                    rows={3}
-                                    className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
-                                />
-                            </div>
+                            <MarkdownEditor
+                                label="Option Label"
+                                required
+                                value={optionFormData.label}
+                                onChange={(value) => setOptionFormData({...optionFormData, label: value})}
+                                height="180px"
+                            />
 
                             {/* Is Correct */}
                             <div className="flex items-center gap-3">

@@ -45,6 +45,10 @@ interface TestCaseFormData {
     isHidden?: boolean;
 }
 
+interface TestCaseDraft extends TestCaseFormData {
+    tempId: string;
+}
+
 interface HintFormData {
     hintText: string;
     unlockAfterFailedAttempts: number;
@@ -65,6 +69,11 @@ const INITIAL_TEST_CASE_FORM: TestCaseFormData = {
     expectedOutput: '',
     isHidden: false,
 };
+
+const createTestCaseDraft = (): TestCaseDraft => ({
+    ...INITIAL_TEST_CASE_FORM,
+    tempId: `test-case-${Date.now()}-${Math.random()}`,
+});
 
 const INITIAL_HINT_FORM: HintFormData = {
     hintText: '',
@@ -126,6 +135,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
     const [modalState, setModalState] = useState<ModalState>('closed');
     const [exerciseFormData, setExerciseFormData] = useState<ExerciseFormData>(INITIAL_EXERCISE_FORM);
     const [testCaseFormData, setTestCaseFormData] = useState<TestCaseFormData>(INITIAL_TEST_CASE_FORM);
+    const [testCaseDrafts, setTestCaseDrafts] = useState<TestCaseDraft[]>([createTestCaseDraft()]);
     const [hintFormData, setHintFormData] = useState<HintFormData>(INITIAL_HINT_FORM);
 
     // State for selected items
@@ -279,6 +289,29 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
         return Object.keys(errors).length === 0;
     };
 
+    const validateTestCaseDrafts = (): boolean => {
+        const errors: Record<string, string> = {};
+        const filledDrafts = testCaseDrafts.filter(
+            (draft) => draft.inputText.trim() || draft.expectedOutput.trim()
+        );
+
+        if (filledDrafts.length === 0) {
+            errors.testCases = 'Add at least one test case';
+        }
+
+        testCaseDrafts.forEach((draft, index) => {
+            if (!draft.inputText.trim() && draft.expectedOutput.trim()) {
+                errors[`testCases.${index}.inputText`] = 'Input is required';
+            }
+            if (draft.inputText.trim() && !draft.expectedOutput.trim()) {
+                errors[`testCases.${index}.expectedOutput`] = 'Expected output is required';
+            }
+        });
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
     const validateHintForm = (): boolean => {
         const errors: Record<string, string> = {};
 
@@ -377,6 +410,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
         setSelectedExercise(exercise);
         setSelectedTestCaseId(null);
         setTestCaseFormData(INITIAL_TEST_CASE_FORM);
+        setTestCaseDrafts([createTestCaseDraft()]);
         setFormErrors({});
         setModalState('test-case');
     };
@@ -395,15 +429,24 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
     };
 
     const handleAddTestCase = async () => {
-        if (!validateTestCaseForm() || !selectedExercise) return;
+        if (!validateTestCaseDrafts() || !selectedExercise) return;
 
         try {
             setIsSubmitting(true);
-            await apiClient.addTestCase(selectedExercise.id, testCaseFormData);
+            const draftsToCreate = testCaseDrafts
+                .filter((draft) => draft.inputText.trim() || draft.expectedOutput.trim())
+                .map(({tempId, ...draft}) => draft);
+
+            await Promise.all(
+                draftsToCreate.map((draft) => apiClient.addTestCase(selectedExercise.id, draft))
+            );
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
             await fetchExercisesForUnit(selectedUnitId);
             setSelectedExercise(updated);
-            addToast('Test case added successfully', 'success');
+            addToast(
+                `${draftsToCreate.length} test case${draftsToCreate.length !== 1 ? 's' : ''} added successfully`,
+                'success'
+            );
             setModalState('closed');
         } catch (err) {
             const apiError = err as ApiError;
@@ -411,6 +454,35 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const handleAddTestCaseDraft = () => {
+        setTestCaseDrafts((prev) => [...prev, createTestCaseDraft()]);
+    };
+
+    const handleRemoveTestCaseDraft = (tempId: string) => {
+        setTestCaseDrafts((prev) => (
+            prev.length > 1 ? prev.filter((draft) => draft.tempId !== tempId) : prev
+        ));
+    };
+
+    const handleTestCaseDraftChange = (
+        tempId: string,
+        field: keyof TestCaseFormData,
+        value: string | boolean
+    ) => {
+        setTestCaseDrafts((prev) =>
+            prev.map((draft) => (draft.tempId === tempId ? {...draft, [field]: value} : draft))
+        );
+        setFormErrors((prev) => {
+            const draftIndex = testCaseDrafts.findIndex((draft) => draft.tempId === tempId);
+            if (draftIndex === -1) return prev;
+            const next = {...prev};
+            delete next[`testCases.${draftIndex}.inputText`];
+            delete next[`testCases.${draftIndex}.expectedOutput`];
+            delete next.testCases;
+            return next;
+        });
     };
 
     const handleUpdateTestCase = async () => {
@@ -477,8 +549,8 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
         try {
             setIsSubmitting(true);
             await apiClient.addHint(selectedExercise.id, {
-                hintText: hintFormData.hintText,
-                unlockAfterFailedAttempts: hintFormData.unlockAfterFailedAttempts,
+                content: hintFormData.hintText,
+                requiredFailedAttempts: hintFormData.unlockAfterFailedAttempts,
             });
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
             await fetchExercisesForUnit(selectedUnitId);
@@ -988,7 +1060,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                                                                 </p>
                                                             ) : (
                                                                 <div className="space-y-3">
-                                                                    {exercise.testCases.map((testCase) => (
+                                                                    {exercise.testCases.map((testCase, index) => (
                                                                         <div
                                                                             key={testCase.id}
                                                                             className="glass-widget-surface p-4 rounded-lg"
@@ -996,12 +1068,26 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                                                                             <div
                                                                                 className="flex items-start justify-between mb-3">
                                                                                 <div className="flex-1">
+                                                                                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                                                                                        <p className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+                                                                                            Test Case {index + 1}
+                                                                                        </p>
+                                                                                        <span
+                                                                                            className={`px-2 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider ${
+                                                                                                testCase.isHidden
+                                                                                                    ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300'
+                                                                                                    : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                                                                                            }`}
+                                                                                        >
+                                                                                            {testCase.isHidden ? 'Hidden' : 'Visible'}
+                                                                                        </span>
+                                                                                    </div>
                                                                                     <p className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
                                                                                         Input
                                                                                     </p>
-                                                                                    <p className="font-mono text-sm text-slate-700 dark:text-slate-300 glass-widget-inset p-2 rounded break-all whitespace-pre-line">
+                                                                                    <pre className="font-mono text-sm text-slate-700 dark:text-slate-300 glass-widget-inset p-3 rounded whitespace-pre-wrap overflow-x-auto">
                                                                                         {testCase.inputText}
-                                                                                    </p>
+                                                                                    </pre>
                                                                                 </div>
                                                                                 <div
                                                                                     className="flex items-center space-x-2 ml-4">
@@ -1031,9 +1117,9 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                                                                             <p className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
                                                                                 Expected Output
                                                                             </p>
-                                                                            <p className="font-mono text-sm text-slate-700 dark:text-slate-300 glass-widget-inset p-2 rounded break-all whitespace-pre-line">
+                                                                            <pre className="font-mono text-sm text-slate-700 dark:text-slate-300 glass-widget-inset p-3 rounded whitespace-pre-wrap overflow-x-auto">
                                                                                 {testCase.expectedOutput}
-                                                                            </p>
+                                                                            </pre>
                                                                         </div>
                                                                     ))}
                                                                 </div>
@@ -1329,11 +1415,18 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
             {modalState === 'test-case' && (
                 <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-40 overflow-y-auto">
                     <div
-                        className="glass-widget-shell rounded-[2rem] p-8 max-w-2xl w-full mx-4 my-8">
+                        className="glass-widget-shell rounded-[2rem] p-8 max-w-5xl w-full mx-4 my-8">
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white">
-                                {selectedTestCaseId ? 'Edit Test Case' : 'Add Test Case'}
-                            </h3>
+                            <div>
+                                <h3 className="text-2xl font-black text-slate-900 dark:text-white">
+                                    {selectedTestCaseId ? 'Edit Test Case' : 'Add Test Cases'}
+                                </h3>
+                                {!selectedTestCaseId && (
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                                        Add multiple cases here, then save them through the existing test case API.
+                                    </p>
+                                )}
+                            </div>
                             <button
                                 onClick={() => setModalState('closed')}
                                 className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
@@ -1343,68 +1436,187 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                         </div>
 
                         <div className="space-y-6">
-                            {/* Input */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Input
-                                </label>
-                                <textarea
-                                    value={testCaseFormData.inputText}
-                                    onChange={(e) => handleFormChange('inputText', e.target.value)}
-                                    placeholder="Enter the input for this test case..."
-                                    rows={4}
-                                    className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white font-mono text-sm"
-                                />
-                                {formErrors.inputText && (
-                                    <p className="text-sm text-red-600 dark:text-red-400 mt-1">{formErrors.inputText}</p>
-                                )}
-                            </div>
+                            {selectedTestCaseId ? (
+                                <>
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                                Input
+                                            </label>
+                                            <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                                <Editor
+                                                    height="220px"
+                                                    language="plaintext"
+                                                    value={testCaseFormData.inputText}
+                                                    onChange={(value) => handleFormChange('inputText', value ?? '')}
+                                                    options={{
+                                                        minimap: {enabled: false},
+                                                        wordWrap: 'on',
+                                                        fontSize: 14,
+                                                        lineNumbers: 'on',
+                                                        scrollBeyondLastLine: false,
+                                                        automaticLayout: true,
+                                                    }}
+                                                    theme="vs-dark"
+                                                />
+                                            </div>
+                                            {formErrors.inputText && (
+                                                <p className="text-sm text-red-600 dark:text-red-400 mt-1">{formErrors.inputText}</p>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                                Expected Output
+                                            </label>
+                                            <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                                <Editor
+                                                    height="220px"
+                                                    language="plaintext"
+                                                    value={testCaseFormData.expectedOutput}
+                                                    onChange={(value) => handleFormChange('expectedOutput', value ?? '')}
+                                                    options={{
+                                                        minimap: {enabled: false},
+                                                        wordWrap: 'on',
+                                                        fontSize: 14,
+                                                        lineNumbers: 'on',
+                                                        scrollBeyondLastLine: false,
+                                                        automaticLayout: true,
+                                                    }}
+                                                    theme="vs-dark"
+                                                />
+                                            </div>
+                                            {formErrors.expectedOutput && (
+                                                <p className="text-sm text-red-600 dark:text-red-400 mt-1">{formErrors.expectedOutput}</p>
+                                            )}
+                                        </div>
+                                    </div>
 
-                            {/* Expected Output */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Expected Output
-                                </label>
-                                <textarea
-                                    value={testCaseFormData.expectedOutput}
-                                    onChange={(e) => handleFormChange('expectedOutput', e.target.value)}
-                                    placeholder="Enter the expected output..."
-                                    rows={4}
-                                    className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white font-mono text-sm"
-                                />
-                                {formErrors.expectedOutput && (
-                                    <p className="text-sm text-red-600 dark:text-red-400 mt-1">{formErrors.expectedOutput}</p>
-                                )}
-                            </div>
-
-                            {/* Options */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="flex items-center space-x-3">
-                                    <input
-                                        type="checkbox"
-                                        id="isHidden"
-                                        checked={testCaseFormData.isHidden || false}
-                                        onChange={(e) => handleFormChange('isHidden', e.target.checked)}
-                                        className="w-4 h-4 rounded border-slate-300 cursor-pointer"
-                                    />
-                                    <label htmlFor="isHidden"
-                                           className="text-sm font-bold text-slate-700 dark:text-slate-300">
-                                        Hide this test case
+                                    <label className="flex items-center space-x-3 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            id="isHidden"
+                                            checked={testCaseFormData.isHidden || false}
+                                            onChange={(e) => handleFormChange('isHidden', e.target.checked)}
+                                            className="w-4 h-4 rounded border-slate-300 cursor-pointer"
+                                        />
+                                        <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                                            Hide this test case from learners
+                                        </span>
                                     </label>
-                                </div>
-                                {/*<div>*/}
-                                {/*	<label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">*/}
-                                {/*		Weight*/}
-                                {/*	</label>*/}
-                                {/*	<input*/}
-                                {/*		type="number"*/}
-                                {/*		min="1"*/}
-                                {/*		value={testCaseFormData.weight || 1}*/}
-                                {/*		onChange={(e) => handleFormChange('weight', parseInt(e.target.value) || 1)}*/}
-                                {/*		className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white"*/}
-                                {/*	/>*/}
-                                {/*</div>*/}
-                            </div>
+                                </>
+                            ) : (
+                                <>
+                                    {formErrors.testCases && (
+                                        <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm font-semibold text-red-700 dark:text-red-300">
+                                            {formErrors.testCases}
+                                        </div>
+                                    )}
+                                    <div className="space-y-4">
+                                        {testCaseDrafts.map((draft, index) => (
+                                            <div
+                                                key={draft.tempId}
+                                                className="glass-widget-surface rounded-2xl p-4 space-y-4"
+                                            >
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <h4 className="font-black text-slate-900 dark:text-white">
+                                                        Test Case {index + 1}
+                                                    </h4>
+                                                    <div className="flex items-center gap-3">
+                                                        <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={draft.isHidden || false}
+                                                                onChange={(e) =>
+                                                                    handleTestCaseDraftChange(draft.tempId, 'isHidden', e.target.checked)
+                                                                }
+                                                                className="w-4 h-4 rounded border-slate-300 cursor-pointer"
+                                                            />
+                                                            Hidden
+                                                        </label>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleRemoveTestCaseDraft(draft.tempId)}
+                                                            disabled={testCaseDrafts.length === 1}
+                                                            className="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                                            title="Remove test case"
+                                                        >
+                                                            <Trash2 size={14}/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                                            Input
+                                                        </label>
+                                                        <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                                            <Editor
+                                                                height="180px"
+                                                                language="plaintext"
+                                                                value={draft.inputText}
+                                                                onChange={(value) =>
+                                                                    handleTestCaseDraftChange(draft.tempId, 'inputText', value ?? '')
+                                                                }
+                                                                options={{
+                                                                    minimap: {enabled: false},
+                                                                    wordWrap: 'on',
+                                                                    fontSize: 14,
+                                                                    lineNumbers: 'on',
+                                                                    scrollBeyondLastLine: false,
+                                                                    automaticLayout: true,
+                                                                }}
+                                                                theme="vs-dark"
+                                                            />
+                                                        </div>
+                                                        {formErrors[`testCases.${index}.inputText`] && (
+                                                            <p className="text-sm text-red-600 dark:text-red-400 mt-1">
+                                                                {formErrors[`testCases.${index}.inputText`]}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                                            Expected Output
+                                                        </label>
+                                                        <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                                            <Editor
+                                                                height="180px"
+                                                                language="plaintext"
+                                                                value={draft.expectedOutput}
+                                                                onChange={(value) =>
+                                                                    handleTestCaseDraftChange(draft.tempId, 'expectedOutput', value ?? '')
+                                                                }
+                                                                options={{
+                                                                    minimap: {enabled: false},
+                                                                    wordWrap: 'on',
+                                                                    fontSize: 14,
+                                                                    lineNumbers: 'on',
+                                                                    scrollBeyondLastLine: false,
+                                                                    automaticLayout: true,
+                                                                }}
+                                                                theme="vs-dark"
+                                                            />
+                                                        </div>
+                                                        {formErrors[`testCases.${index}.expectedOutput`] && (
+                                                            <p className="text-sm text-red-600 dark:text-red-400 mt-1">
+                                                                {formErrors[`testCases.${index}.expectedOutput`]}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={handleAddTestCaseDraft}
+                                        className="w-full py-3 border-2 border-dashed border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 rounded-xl font-bold hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <Plus size={18}/>
+                                        Add Another Test Case
+                                    </button>
+                                </>
+                            )}
 
                             {/* Action Buttons */}
                             <div className="flex gap-3 pt-4">
@@ -1426,7 +1638,11 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                                             <span>Saving...</span>
                                         </>
                                     ) : (
-                                        <span>{selectedTestCaseId ? 'Update' : 'Add'} Test Case</span>
+                                        <span>
+                                            {selectedTestCaseId
+                                                ? 'Update Test Case'
+                                                : `Add ${testCaseDrafts.filter((draft) => draft.inputText.trim() || draft.expectedOutput.trim()).length || 1} Test Case${testCaseDrafts.filter((draft) => draft.inputText.trim() || draft.expectedOutput.trim()).length === 1 ? '' : 's'}`}
+                                        </span>
                                     )}
                                 </button>
                             </div>

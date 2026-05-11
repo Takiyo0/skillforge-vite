@@ -811,6 +811,46 @@ export function UnitView() {
                                 >
                                     {isCompleted ? '✓ Completed' : unit.finalExamAttemptProgress ? 'Continue Final Exam' : 'Start Final Exam'}
                                 </button>
+
+                                {unit.finalExamSubmissions && unit.finalExamSubmissions.length > 0 && (
+                                    <div className="mt-4 sm:mt-6">
+                                        <h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 dark:text-white mb-3 sm:mb-4">
+                                            Submission History
+                                        </h3>
+                                        <div className="space-y-2 sm:space-y-3">
+                                            {unit.finalExamSubmissions
+                                                .slice()
+                                                .sort((a, b) => b.attemptNumber - a.attemptNumber)
+                                                .map((submission) => (
+                                                    <div
+                                                        key={submission.id}
+                                                        className={`border rounded-lg sm:rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 ${
+                                                            submission.isPassed
+                                                                ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700'
+                                                                : 'bg-orange-50 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700'
+                                                        }`}
+                                                    >
+                                                        <div className="text-sm">
+                                                            <p className="font-bold text-slate-900 dark:text-white">
+                                                                Attempt {submission.attemptNumber}
+                                                            </p>
+                                                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                                                                {new Date(submission.submittedAt).toLocaleString()}
+                                                            </p>
+                                                        </div>
+                                                        <div className="sm:text-right">
+                                                            <p className={`text-xl sm:text-2xl font-black ${submission.isPassed ? 'text-emerald-700 dark:text-emerald-400' : 'text-orange-700 dark:text-orange-400'}`}>
+                                                                {submission.scorePercent}%
+                                                            </p>
+                                                            <p className={`text-xs font-bold uppercase ${submission.isPassed ? 'text-emerald-700 dark:text-emerald-400' : 'text-orange-700 dark:text-orange-400'}`}>
+                                                                {submission.isPassed ? 'Passed' : 'Failed'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

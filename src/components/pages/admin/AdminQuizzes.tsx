@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import type {Unit, Quiz, QuizQuestion, QuizOption, ApiError} from '@skillforge/vite/lib/types';
 import {apiClient} from '@skillforge/vite/lib/api';
+import {MarkdownContent} from '@skillforge/vite/components/ui/MarkdownContent';
+import {MarkdownEditor} from '@skillforge/vite/components/ui/MarkdownEditor';
 
 interface AdminQuizzesProps {
     unitId?: string;
@@ -46,6 +48,7 @@ interface QuestionFormData {
     prompt: string;
     points: number;
     explanation?: string;
+    options: Array<{ label: string; isCorrect: boolean; tempId?: string }>;
 }
 
 interface OptionFormData {
@@ -66,6 +69,7 @@ const INITIAL_QUESTION_FORM: QuestionFormData = {
     prompt: '',
     points: 1,
     explanation: '',
+    options: [],
 };
 
 const INITIAL_OPTION_FORM: OptionFormData = {
@@ -220,7 +224,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         const errors: Record<string, string> = {};
 
         if (!questionFormData.prompt.trim()) errors.prompt = 'Prompt is required';
-        if (questionFormData.points < 0) errors.points = 'Points must be non-negative';
+        if (questionFormData.points < 1) errors.points = 'Points must be at least 1';
 
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
@@ -328,6 +332,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
             points: question.points,
             // position: question.position,
             explanation: question.explanation || '',
+            options: [],
         });
         setFormErrors({});
         setModalState('edit-question');
@@ -338,9 +343,18 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
 
         try {
             setIsSubmitting(true);
+            const options = questionFormData.options
+                .filter((option) => option.label.trim())
+                .map((option) => ({
+                    label: option.label,
+                    isCorrect: option.isCorrect,
+                }));
+
             await apiClient.addQuizQuestion(selectedQuiz.id, {
-                ...questionFormData,
-                options: [],
+                prompt: questionFormData.prompt,
+                points: questionFormData.points,
+                explanation: questionFormData.explanation,
+                options,
             });
             await fetchQuizzesForUnit(selectedUnitId);
             addToast('Question created successfully', 'success');
@@ -353,12 +367,46 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         }
     };
 
+    const addOptionToQuestion = () => {
+        setQuestionFormData({
+            ...questionFormData,
+            options: [
+                ...questionFormData.options,
+                {
+                    label: '',
+                    isCorrect: false,
+                    tempId: `temp-${Date.now()}-${Math.random()}`,
+                },
+            ],
+        });
+    };
+
+    const removeOptionFromQuestion = (tempId?: string) => {
+        setQuestionFormData({
+            ...questionFormData,
+            options: questionFormData.options.filter((option) => option.tempId !== tempId),
+        });
+    };
+
+    const updateOptionInQuestion = (tempId: string | undefined, label: string, isCorrect: boolean) => {
+        setQuestionFormData({
+            ...questionFormData,
+            options: questionFormData.options.map((option) =>
+                option.tempId === tempId ? {...option, label, isCorrect} : option
+            ),
+        });
+    };
+
     const handleUpdateQuestion = async () => {
         if (!validateQuestionForm() || !selectedQuestion) return;
 
         try {
             setIsSubmitting(true);
-            await apiClient.updateQuizQuestion(selectedQuestion.id, questionFormData);
+            await apiClient.updateQuizQuestion(selectedQuestion.id, {
+                prompt: questionFormData.prompt,
+                points: questionFormData.points,
+                explanation: questionFormData.explanation,
+            });
             await fetchQuizzesForUnit(selectedUnitId);
             addToast('Question updated successfully', 'success');
             setModalState('closed');
@@ -662,14 +710,21 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                                             >
                                                 <div className="flex items-start justify-between gap-4">
                                                     <div className="flex-1">
-                                                        <p className="text-sm font-black text-slate-900 dark:text-white">
-                                                            Q{idx + 1}: {question.prompt}
-                                                        </p>
+                                                        <div className="text-sm font-black text-slate-900 dark:text-white">
+                                                            <span>Q{idx + 1}: </span>
+                                                            <MarkdownContent
+                                                                content={question.prompt}
+                                                                className="inline text-sm font-medium text-slate-900 dark:text-white [&_p]:my-0 [&_p]:inline [&_pre]:my-2"
+                                                            />
+                                                        </div>
                                                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                                             Type: {question.questionType} | Points: {question.points}
                                                         </p>
                                                         {question.explanation && (
-                                                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-3">{question.explanation}</p>
+                                                            <MarkdownContent
+                                                                content={question.explanation}
+                                                                className="mt-3 text-sm text-slate-600 dark:text-slate-400 [&_p]:my-1 [&_pre]:my-2"
+                                                            />
                                                         )}
                                                     </div>
                                                     <div className="flex items-center space-x-2">
@@ -724,15 +779,14 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                                                                                 <Circle size={16}
                                                                                         className="text-slate-400"/>
                                                                             )}
-                                                                            <span
-                                                                                className={
+                                                                            <MarkdownContent
+                                                                                content={option.label}
+                                                                                className={`text-sm [&_p]:my-0 [&_pre]:my-2 ${
                                                                                     option.isCorrect
                                                                                         ? 'text-green-700 dark:text-green-300 font-medium'
                                                                                         : 'text-slate-700 dark:text-slate-300'
-                                                                                }
-                                                                            >
-																				{option.label}
-																			</span>
+                                                                                }`}
+                                                                            />
                                                                         </div>
                                                                         <div className="flex items-center space-x-1">
                                                                             <button
@@ -881,10 +935,13 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                                                                     className="cursor-pointer flex items-center justify-between"
                                                                 >
                                                                     <div className="flex-1">
-                                                                        <p className="text-sm font-bold text-slate-900 dark:text-white">
-                                                                            Q{idx + 1}: {question.prompt.substring(0, 60)}
-                                                                            {question.prompt.length > 60 ? '...' : ''}
-                                                                        </p>
+                                                                        <div className="text-sm font-bold text-slate-900 dark:text-white">
+                                                                            <span>Q{idx + 1}: </span>
+                                                                            <MarkdownContent
+                                                                                content={question.prompt}
+                                                                                className="inline text-sm font-medium text-slate-900 dark:text-white [&_p]:my-0 [&_p]:inline [&_pre]:my-2"
+                                                                            />
+                                                                        </div>
                                                                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                                                             Type: {question.questionType} |
                                                                             Points: {question.points}
@@ -945,15 +1002,14 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                                                                                                 <Circle size={16}
                                                                                                         className="text-slate-400"/>
                                                                                             )}
-                                                                                            <span
-                                                                                                className={
+                                                                                            <MarkdownContent
+                                                                                                content={option.label}
+                                                                                                className={`text-sm [&_p]:my-0 [&_pre]:my-2 ${
                                                                                                     option.isCorrect
                                                                                                         ? 'text-green-700 dark:text-green-300 font-medium'
                                                                                                         : 'text-slate-700 dark:text-slate-300'
-                                                                                                }
-                                                                                            >
-																								{option.label}
-																							</span>
+                                                                                                }`}
+                                                                                            />
                                                                                         </div>
                                                                                         <div
                                                                                             className="flex items-center space-x-1">
@@ -1159,7 +1215,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
             {(modalState === 'create-question' || modalState === 'edit-question') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-2xl w-full max-h-96 overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15 sticky top-0 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
                             <h3 className="text-xl font-black text-slate-900 dark:text-white">
@@ -1174,24 +1230,14 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                         </div>
 
                         <div className="p-6 space-y-4">
-                            {/* Prompt */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Question Prompt *
-                                </label>
-                                <textarea
-                                    value={questionFormData.prompt}
-                                    onChange={(e) => setQuestionFormData({...questionFormData, prompt: e.target.value})}
-                                    className={`w-full px-4 py-2 rounded-lg border font-medium focus:outline-none focus:ring-2 h-24 ${
-                                        formErrors.prompt
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : 'border-blue-200/60 dark:border-blue-500/15 focus:ring-cyan-500'
-                                    } bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm text-slate-900 dark:text-white`}
-                                    placeholder="Enter question prompt"
-                                />
-                                {formErrors.prompt &&
-                                    <p className="text-red-600 dark:text-red-400 text-xs mt-1">{formErrors.prompt}</p>}
-                            </div>
+                            <MarkdownEditor
+                                label="Question Prompt"
+                                required
+                                value={questionFormData.prompt}
+                                onChange={(value) => setQuestionFormData({...questionFormData, prompt: value})}
+                                height="220px"
+                                error={formErrors.prompt}
+                            />
 
                             {/* Points */}
                             <div>
@@ -1200,12 +1246,12 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                                 </label>
                                 <input
                                     type="number"
-                                    min="0"
+                                    min="1"
                                     value={questionFormData.points}
                                     onChange={(e) =>
                                         setQuestionFormData({
                                             ...questionFormData,
-                                            points: Number(e.target.value),
+                                            points: Math.max(1, Number(e.target.value) || 1),
                                         })
                                     }
                                     className={`w-full px-4 py-2 rounded-lg border font-medium focus:outline-none focus:ring-2 ${
@@ -1218,23 +1264,81 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                                     <p className="text-red-600 dark:text-red-400 text-xs mt-1">{formErrors.points}</p>}
                             </div>
 
-                            {/* Explanation */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                                    Explanation
-                                </label>
-                                <textarea
-                                    value={questionFormData.explanation}
-                                    onChange={(e) =>
-                                        setQuestionFormData({
-                                            ...questionFormData,
-                                            explanation: e.target.value,
-                                        })
-                                    }
-                                    className="w-full px-4 py-2 rounded-lg border border-blue-200/60 dark:border-blue-500/15 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm text-slate-900 dark:text-white h-20"
-                                    placeholder="Enter explanation for answer (optional)"
-                                />
-                            </div>
+                            <MarkdownEditor
+                                label="Explanation"
+                                value={questionFormData.explanation || ''}
+                                onChange={(value) => setQuestionFormData({...questionFormData, explanation: value})}
+                                height="180px"
+                            />
+
+                            {modalState === 'create-question' && (
+                                <div>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">
+                                            Options
+                                        </label>
+                                        <button
+                                            type="button"
+                                            onClick={addOptionToQuestion}
+                                            className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded hover:bg-emerald-200 dark:hover:bg-emerald-900 transition-colors"
+                                        >
+                                            + Add Option
+                                        </button>
+                                    </div>
+
+                                    {questionFormData.options.length > 0 ? (
+                                        <div className="space-y-3">
+                                            {questionFormData.options.map((option, idx) => (
+                                                <div
+                                                    key={option.tempId}
+                                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-blue-200/60 dark:border-blue-500/15 space-y-3"
+                                                >
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <span className="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded">
+                                                            Option {idx + 1}
+                                                        </span>
+                                                    </div>
+                                                    <MarkdownEditor
+                                                        label="Option Text"
+                                                        value={option.label}
+                                                        onChange={(value) =>
+                                                            updateOptionInQuestion(option.tempId, value, option.isCorrect)
+                                                        }
+                                                        height="150px"
+                                                    />
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="flex items-center gap-2 cursor-pointer">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={option.isCorrect}
+                                                                onChange={(e) =>
+                                                                    updateOptionInQuestion(option.tempId, option.label, e.target.checked)
+                                                                }
+                                                                className="w-4 h-4 rounded border-2 border-slate-300 dark:border-slate-600 accent-emerald-600 cursor-pointer"
+                                                            />
+                                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                                                                Mark as correct
+                                                            </span>
+                                                        </label>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => removeOptionFromQuestion(option.tempId)}
+                                                            className="p-1 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded transition-colors"
+                                                            title="Remove option"
+                                                        >
+                                                            <Trash2 size={16}/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 italic">
+                                            No options added yet. Click "Add Option" to add options for this question.
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {/* Modal Actions */}
@@ -1262,7 +1366,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
             {/* Create/Edit Option Modal */}
             {(modalState === 'create-option' || modalState === 'edit-option') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-md w-full">
+                    <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15">
                             <h2 className="text-2xl font-black text-slate-900 dark:text-white">
@@ -1277,24 +1381,14 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                         </div>
 
                         <div className="p-6 space-y-4">
-                            {/* Label */}
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Option
-                                    Label *</label>
-                                <input
-                                    type="text"
-                                    value={optionFormData.label}
-                                    onChange={(e) => setOptionFormData({...optionFormData, label: e.target.value})}
-                                    className={`w-full px-4 py-2 rounded-lg border font-medium focus:outline-none focus:ring-2 ${
-                                        formErrors.label
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : 'border-blue-200/60 dark:border-blue-500/15 focus:ring-cyan-500'
-                                    } bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm text-slate-900 dark:text-white`}
-                                    placeholder="Enter option label"
-                                />
-                                {formErrors.label &&
-                                    <p className="text-red-600 dark:text-red-400 text-xs mt-1">{formErrors.label}</p>}
-                            </div>
+                            <MarkdownEditor
+                                label="Option Label"
+                                required
+                                value={optionFormData.label}
+                                onChange={(value) => setOptionFormData({...optionFormData, label: value})}
+                                height="180px"
+                                error={formErrors.label}
+                            />
 
                             {/* Is Correct */}
                             <label className="flex items-center space-x-3 cursor-pointer">
