@@ -37,6 +37,9 @@ import type {
     CreateBadgeRequest,
     UpdateBadgeRequest,
     ModuleResource,
+    SandboxLanguage,
+    SandboxRunResponse,
+    SandboxTestCaseRequest,
 } from '@skillforge/vite/lib/types';
 
 // Interface for leaderboard entry
@@ -48,6 +51,14 @@ interface LeaderboardEntry {
 }
 
 const BASE_API = import.meta.env.VITE_BASE_API;
+const ADMIN_UNIT_CACHE_TTL_MS = 5000;
+const adminUnitCache = new Map<string, { data: Unit; expiresAt: number }>();
+const adminUnitInFlight = new Map<string, Promise<Unit>>();
+
+function invalidateAdminUnitCache(unitId: string): void {
+    adminUnitCache.delete(unitId);
+    adminUnitInFlight.delete(unitId);
+}
 
 // Helper function to handle API responses and errors
 async function handleResponse<T>(response: Response): Promise<T> {
@@ -521,6 +532,47 @@ export const apiClient = {
         });
 
         return handleResponse<SubmissionResponse[]>(response);
+    },
+
+    async getSandboxLanguages(includeBaseCode = false): Promise<SandboxLanguage[]> {
+        const response = await fetch(`${BASE_API}/submissions/languages?includeBaseCode=${includeBaseCode ? 'true' : 'false'}`, {
+            method: 'GET',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<SandboxLanguage[]>(response);
+    },
+
+    async runCodeSandbox(
+        code: string,
+        language: string,
+        testCases: SandboxTestCaseRequest[]
+    ): Promise<SandboxRunResponse> {
+        const response = await fetch(`${BASE_API}/submissions/sandbox/run`, {
+            method: 'POST',
+            headers: getAuthHeader(),
+            body: JSON.stringify({
+                code,
+                language,
+                testCases,
+            }),
+        });
+
+        return handleResponse<SandboxRunResponse>(response);
+    },
+
+    /**
+     * Ask AI to explain what is wrong with a submission (one-time per submission)
+     */
+    async askAiSubmissionExplanation(
+        submissionId: string
+    ): Promise<{ submissionId: string; aiCodeExplanation: string; alreadyExists: boolean }> {
+        const response = await fetch(`${BASE_API}/submissions/${submissionId}/ai-explanation`, {
+            method: 'POST',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<{ submissionId: string; aiCodeExplanation: string; alreadyExists: boolean }>(response);
     },
 
     // ==================== QUIZZES ====================
@@ -1041,13 +1093,40 @@ export const apiClient = {
     /**
      * Get unit by ID
      */
-    async getUnitByIdAdmin(unitId: string): Promise<Unit> {
-        const response = await fetch(`${BASE_API}/admin/units/${unitId}`, {
-            method: 'GET',
-            headers: getAuthHeader(),
-        });
+    async getUnitByIdAdmin(unitId: string, options?: { forceRefresh?: boolean }): Promise<Unit> {
+        const forceRefresh = options?.forceRefresh === true;
+        const now = Date.now();
+        const cached = adminUnitCache.get(unitId);
+        if (!forceRefresh && cached && cached.expiresAt > now) {
+            return cached.data;
+        }
 
-        return handleResponse<Unit>(response);
+        if (!forceRefresh) {
+            const inFlight = adminUnitInFlight.get(unitId);
+            if (inFlight) {
+                return inFlight;
+            }
+        }
+
+        const request = (async () => {
+            const response = await fetch(`${BASE_API}/admin/units/${unitId}`, {
+                method: 'GET',
+                headers: getAuthHeader(),
+            });
+            const data = await handleResponse<Unit>(response);
+            adminUnitCache.set(unitId, {
+                data,
+                expiresAt: Date.now() + ADMIN_UNIT_CACHE_TTL_MS,
+            });
+            return data;
+        })();
+
+        adminUnitInFlight.set(unitId, request);
+        try {
+            return await request;
+        } finally {
+            adminUnitInFlight.delete(unitId);
+        }
     },
 
     /**
@@ -1070,7 +1149,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<Unit>(response);
+        const updated = await handleResponse<Unit>(response);
+        invalidateAdminUnitCache(unitId);
+        return updated;
     },
 
     /**
@@ -1082,7 +1163,9 @@ export const apiClient = {
             headers: getAuthHeader(),
         });
 
-        return handleResponse<{ success: boolean; message: string }>(response);
+        const result = await handleResponse<{ success: boolean; message: string }>(response);
+        invalidateAdminUnitCache(unitId);
+        return result;
     },
 
     /**
@@ -1098,7 +1181,10 @@ export const apiClient = {
             body: JSON.stringify({prerequisiteUnitId}),
         });
 
-        return handleResponse<{ success: boolean; message: string }>(response);
+        const result = await handleResponse<{ success: boolean; message: string }>(response);
+        invalidateAdminUnitCache(unitId);
+        invalidateAdminUnitCache(prerequisiteUnitId);
+        return result;
     },
 
     /**
@@ -1113,7 +1199,10 @@ export const apiClient = {
             headers: getAuthHeader(),
         });
 
-        return handleResponse<{ success: boolean; message: string }>(response);
+        const result = await handleResponse<{ success: boolean; message: string }>(response);
+        invalidateAdminUnitCache(unitId);
+        invalidateAdminUnitCache(prerequisiteUnitId);
+        return result;
     },
 
     /**
@@ -1137,7 +1226,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<ExerciseDetails>(response);
+        const created = await handleResponse<ExerciseDetails>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     /**
@@ -1160,7 +1251,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<Quiz>(response);
+        const created = await handleResponse<Quiz>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     /**
@@ -1183,7 +1276,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<ModuleContent>(response);
+        const created = await handleResponse<ModuleContent>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     /**
@@ -1248,7 +1343,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<ModuleContent>(response);
+        const updated = await handleResponse<ModuleContent>(response);
+        invalidateAdminUnitCache(unitId);
+        return updated;
     },
 
     /**
@@ -1296,7 +1393,9 @@ export const apiClient = {
             headers: getAuthHeader(),
             body: JSON.stringify(data),
         });
-        return handleResponse<ModuleResource>(response);
+        const created = await handleResponse<ModuleResource>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     async updateModuleResource(
@@ -1338,7 +1437,9 @@ export const apiClient = {
             headers,
             body: formData,
         });
-        return handleResponse<{ resource: ModuleResource; fileUrl: string }>(response);
+        const uploaded = await handleResponse<{ resource: ModuleResource; fileUrl: string }>(response);
+        invalidateAdminUnitCache(unitId);
+        return uploaded;
     },
 
     /**
@@ -1359,7 +1460,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<FinalExam>(response);
+        const created = await handleResponse<FinalExam>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     /**
@@ -1392,7 +1495,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<FinalExam>(response);
+        const updated = await handleResponse<FinalExam>(response);
+        invalidateAdminUnitCache(unitId);
+        return updated;
     },
 
     /**
@@ -1404,7 +1509,9 @@ export const apiClient = {
             headers: getAuthHeader(),
         });
 
-        return handleResponse<{ success: boolean; message: string }>(response);
+        const result = await handleResponse<{ success: boolean; message: string }>(response);
+        invalidateAdminUnitCache(unitId);
+        return result;
     },
 
     /**
@@ -1425,7 +1532,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<FinalExam>(response);
+        const created = await handleResponse<FinalExam>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     /**
@@ -1446,7 +1555,9 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
 
-        return handleResponse<FinalExam>(response);
+        const updated = await handleResponse<FinalExam>(response);
+        invalidateAdminUnitCache(unitId);
+        return updated;
     },
 
     /**
@@ -1467,6 +1578,7 @@ export const apiClient = {
             };
             throw error;
         }
+        invalidateAdminUnitCache(unitId);
         // 204 No Content - no response body to parse
     },
 
@@ -1488,7 +1600,9 @@ export const apiClient = {
             }),
         });
 
-        return handleResponse<FinalExam>(response);
+        const created = await handleResponse<FinalExam>(response);
+        invalidateAdminUnitCache(unitId);
+        return created;
     },
 
     /**
@@ -1510,7 +1624,9 @@ export const apiClient = {
             }),
         });
 
-        return handleResponse<FinalExam>(response);
+        const updated = await handleResponse<FinalExam>(response);
+        invalidateAdminUnitCache(unitId);
+        return updated;
     },
 
     /**
@@ -1535,6 +1651,7 @@ export const apiClient = {
             };
             throw error;
         }
+        invalidateAdminUnitCache(unitId);
         // 204 No Content - no response body to parse
     },
 

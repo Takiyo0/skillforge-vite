@@ -13,12 +13,13 @@ import {
     BookOpen,
     Zap,
 } from 'lucide-react';
-import type {Unit, ExerciseDetails, TestCase, Hint, ApiError} from '@skillforge/vite/lib/types';
+import type {Unit, ExerciseDetails, TestCase, Hint, ApiError, SandboxLanguage} from '@skillforge/vite/lib/types';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {MarkdownContent} from '@skillforge/vite/components/ui/MarkdownContent';
 
 interface AdminExercisesProps {
     unitId?: string;
+    unit?: Unit | null;
 }
 
 type ModalState = 'closed' | 'create' | 'edit' | 'test-case' | 'hint' | 'details';
@@ -58,7 +59,7 @@ const INITIAL_EXERCISE_FORM: ExerciseFormData = {
     title: '',
     promptMarkdown: '',
     difficulty: 'normal',
-    language: 'JavaScript',
+    language: 'javascript',
     starterCode: '',
     maxCpuMs: 5000,
     maxMemoryKb: 256000,
@@ -81,18 +82,6 @@ const INITIAL_HINT_FORM: HintFormData = {
 };
 
 const DIFFICULTIES: Array<'normal' | 'advanced'> = ['normal', 'advanced'];
-const LANGUAGES = [
-    'JavaScript',
-    'Python',
-    'Java',
-    'C++',
-    'Go',
-    'Rust',
-    'TypeScript',
-    'Ruby',
-    'PHP',
-    'C#',
-];
 
 const getMonacoLanguage = (language: string): string => {
     switch (language.toLowerCase()) {
@@ -102,7 +91,7 @@ const getMonacoLanguage = (language: string): string => {
             return 'python';
         case 'java':
             return 'java';
-        case 'c++':
+        case 'cpp':
             return 'cpp';
         case 'go':
             return 'go';
@@ -112,14 +101,14 @@ const getMonacoLanguage = (language: string): string => {
             return 'ruby';
         case 'php':
             return 'php';
-        case 'c#':
-            return 'csharp';
+        case 'gcc':
+            return 'c';
         default:
             return 'javascript';
     }
 };
 
-export function AdminExercises({unitId}: AdminExercisesProps = {}) {
+export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps = {}) {
     const inlineView = Boolean(unitId);
     // State for units and exercises
     const [units, setUnits] = useState<Unit[]>([]);
@@ -148,11 +137,23 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [expandedExerciseId, setExpandedExerciseId] = useState<string | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<{ type: string; id: string; name: string } | null>(null);
+    const [supportedLanguages, setSupportedLanguages] = useState<SandboxLanguage[]>([]);
 
     // Fetch units on mount
     useEffect(() => {
         fetchUnitsAndExercises();
+        void fetchSupportedLanguages();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const fetchSupportedLanguages = async () => {
+        try {
+            const languages = await apiClient.getSandboxLanguages(false);
+            setSupportedLanguages(languages);
+        } catch {
+            setSupportedLanguages([]);
+        }
+    };
 
     useEffect(() => {
         if (unitId) {
@@ -162,10 +163,10 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
 
     // Fetch exercises when unit changes
     useEffect(() => {
-        if (selectedUnitId) {
+        if (selectedUnitId && (!inlineView || !initialUnit)) {
             fetchExercisesForUnit(selectedUnitId);
         }
-    }, [selectedUnitId]);
+    }, [selectedUnitId, inlineView, initialUnit]);
 
     useEffect(() => {
         if (inlineView && selectedExercise) {
@@ -186,17 +187,17 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
             setLoading(true);
             setError(null);
             if (unitId) {
-                const unit = await apiClient.getUnitByIdAdmin(unitId);
-                if (unit.type !== 'exercise') {
+                const activeUnit = initialUnit && initialUnit.id === unitId ? initialUnit : await apiClient.getUnitByIdAdmin(unitId);
+                if (activeUnit.type !== 'exercise') {
                     setUnits([]);
                     setExercises([]);
                     return;
                 }
-                setUnits([unit]);
-                setSelectedUnitId(unit.id);
-                setExercises(unit.exercise ? [unit.exercise] : []);
-                setSelectedExercise(unit.exercise ?? null);
-                setExpandedExerciseId(unit.exercise ? unit.exercise.id : null);
+                setUnits([activeUnit]);
+                setSelectedUnitId(activeUnit.id);
+                setExercises(activeUnit.exercise ? [activeUnit.exercise] : []);
+                setSelectedExercise(activeUnit.exercise ?? null);
+                setExpandedExerciseId(activeUnit.exercise ? activeUnit.exercise.id : null);
                 return;
             }
             const courses = await apiClient.getInstructorCourses();
@@ -241,9 +242,9 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
         }
     };
 
-    const fetchExercisesForUnit = async (unitId: string) => {
+    const fetchExercisesForUnit = async (unitId: string, forceRefresh = false) => {
         try {
-            const unit = await apiClient.getUnitByIdAdmin(unitId);
+            const unit = await apiClient.getUnitByIdAdmin(unitId, {forceRefresh});
             if (unit.exercise) {
                 setExercises([unit.exercise]);
                 setSelectedExercise(unit.exercise);
@@ -338,7 +339,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
             setIsSubmitting(true);
             await apiClient.createExercise(selectedUnitId, exerciseFormData);
             // await new Promise((resolve) => setTimeout(resolve, 700));
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             addToast('Exercise created successfully', 'success');
             setModalState('closed');
         } catch (err) {
@@ -363,7 +364,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                 maxCpuMs: exerciseFormData.maxCpuMs,
                 maxMemoryKb: exerciseFormData.maxMemoryKb,
             });
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setExerciseFormData({
                 title: updated.title,
                 promptMarkdown: updated.promptMarkdown,
@@ -441,7 +442,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                 draftsToCreate.map((draft) => apiClient.addTestCase(selectedExercise.id, draft))
             );
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setSelectedExercise(updated);
             addToast(
                 `${draftsToCreate.length} test case${draftsToCreate.length !== 1 ? 's' : ''} added successfully`,
@@ -492,7 +493,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
             setIsSubmitting(true);
             await apiClient.updateTestCase(selectedTestCaseId, testCaseFormData);
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setSelectedExercise(updated);
             addToast('Test case updated successfully', 'success');
             setModalState('closed');
@@ -511,7 +512,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
             setIsSubmitting(true);
             await apiClient.deleteTestCase(testCaseId);
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setSelectedExercise(updated);
             addToast('Test case deleted successfully', 'success');
             setDeleteConfirm(null);
@@ -553,7 +554,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                 requiredFailedAttempts: hintFormData.unlockAfterFailedAttempts,
             });
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setSelectedExercise(updated);
             addToast('Hint added successfully', 'success');
             setModalState('closed');
@@ -575,7 +576,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                 unlockAfterFailedAttempts: hintFormData.unlockAfterFailedAttempts,
             });
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setSelectedExercise(updated);
             addToast('Hint updated successfully', 'success');
             setModalState('closed');
@@ -594,7 +595,7 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
             setIsSubmitting(true);
             await apiClient.deleteHint(hintId);
             const updated = await apiClient.getExerciseByIdAdmin(selectedExercise.id);
-            await fetchExercisesForUnit(selectedUnitId);
+            await fetchExercisesForUnit(selectedUnitId, true);
             setSelectedExercise(updated);
             addToast('Hint deleted successfully', 'success');
             setDeleteConfirm(null);
@@ -975,9 +976,9 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                                                                             onChange={(e) => handleFormChange('language', e.target.value)}
                                                                             className="w-full px-4 py-3 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border border-blue-200/60 dark:border-blue-500/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-slate-900 dark:text-white"
                                                                         >
-                                                                            {LANGUAGES.map((lang) => (
-                                                                                <option key={lang} value={lang}>
-                                                                                    {lang}
+                                                                            {(supportedLanguages.length > 0 ? supportedLanguages : [{ id: exerciseFormData.language, name: exerciseFormData.language.toUpperCase() }]).map((lang) => (
+                                                                                <option key={lang.id} value={lang.id}>
+                                                                                    {lang.name}
                                                                                 </option>
                                                                             ))}
                                                                         </select>
@@ -1311,9 +1312,9 @@ export function AdminExercises({unitId}: AdminExercisesProps = {}) {
                                         onChange={(e) => handleFormChange('language', e.target.value)}
                                         className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-slate-900 dark:text-white"
                                     >
-                                        {LANGUAGES.map((lang) => (
-                                            <option key={lang} value={lang}>
-                                                {lang}
+                                        {(supportedLanguages.length > 0 ? supportedLanguages : [{ id: exerciseFormData.language, name: exerciseFormData.language.toUpperCase() }]).map((lang) => (
+                                            <option key={lang.id} value={lang.id}>
+                                                {lang.name}
                                             </option>
                                         ))}
                                     </select>

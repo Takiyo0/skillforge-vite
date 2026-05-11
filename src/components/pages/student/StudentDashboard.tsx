@@ -1,13 +1,15 @@
 import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Play, Target, Flame, Star, Zap} from 'lucide-react';
+import {Play, Target, Star} from 'lucide-react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
 import type {User, XpSummary, Streak, Course} from '@skillforge/vite/lib/types';
 import {StateCard} from '@skillforge/vite/components/ui/controls';
+import {useUserSession} from '@skillforge/vite/contexts/UserSessionContext';
 
 export function StudentDashboard() {
     const navigate = useNavigate();
+    const {getProfile, getStreak, getEnrolledCourses} = useUserSession();
     const [user, setUser] = useState<User | null>(null);
     const [xpSummary, setXpSummary] = useState<XpSummary | null>(null);
     const [streak, setStreak] = useState<Streak | null>(null);
@@ -22,10 +24,10 @@ export function StudentDashboard() {
                 setLoading(true);
                 // Use Promise.allSettled to handle partial failures
                 const results = await Promise.allSettled([
-                    apiClient.getProfile(),
+                    getProfile(),
                     apiClient.getXpSummary(),
-                    apiClient.getStreak(),
-                    apiClient.listEnrolledCourses(),
+                    getStreak(),
+                    getEnrolledCourses(),
                 ]);
 
                 // Handle each result individually with fallbacks
@@ -39,7 +41,7 @@ export function StudentDashboard() {
                     setStreak(results[2].value);
                 }
                 if (results[3].status === 'fulfilled') {
-                    setCourses(results[3].value.data || []);
+                    setCourses(results[3].value || []);
                 }
 
                 // Set error only if all requests failed
@@ -57,7 +59,7 @@ export function StudentDashboard() {
         };
 
         fetchData();
-    }, []);
+    }, [getEnrolledCourses, getProfile, getStreak]);
 
     const handleImageError = (courseId: string) => {
         setBrokenImages((prev) => new Set([...prev, courseId]));
@@ -89,64 +91,54 @@ export function StudentDashboard() {
     return (
         <div className="flex-1 overflow-y-auto">
             <div className="pt-4 sm:pt-6 md:pt-8 lg:pt-8 max-w-full md:max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 space-y-4 sm:space-y-6 md:space-y-8">
-                {/* Hero Section */}
-                <div
-                    className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700 rounded-2xl sm:rounded-3xl md:rounded-[3rem] p-4 sm:p-6 md:p-8 lg:p-12 text-white relative overflow-hidden shadow-xl">
-                    <div
-                        className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-blue-200/60 dark:border-blue-500/20 bg-gradient-to-br from-blue-600 via-blue-600 to-cyan-600 dark:from-blue-700 dark:via-blue-700 dark:to-cyan-700 p-4 sm:p-6 md:p-8 shadow-xl">
+                    <div className="absolute -top-16 -right-12 w-56 h-56 rounded-full bg-white/10 blur-2xl"/>
+                    <div className="absolute -bottom-20 -left-12 w-64 h-64 rounded-full bg-slate-900/20 blur-3xl"/>
 
-                    <div
-                        className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6 md:gap-8">
-                        <div className="w-full md:flex-1">
-                            <div className="flex items-center space-x-2 mb-2 sm:mb-3 md:mb-4">
-                                <Star size={16} className="text-amber-300" fill="currentColor"/>
-                                <span className="text-sm sm:text-base">Adventurer</span>
+                    <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
+                        <div className="lg:col-span-7">
+                            <p className="text-xs font-bold uppercase tracking-wider text-blue-100/90">Home Base</p>
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mt-2 leading-tight">
+                                Good to see you{user?.displayName ? `, ${user.displayName}` : ''}.
+                            </h1>
+                            <p className="text-sm sm:text-base text-blue-100/90 mt-3 max-w-2xl">
+                                Pick up where you left off and keep your progress moving.
+                            </p>
+
+                            <div className="mt-5 rounded-2xl bg-slate-950/25 border border-white/15 p-4 sm:p-5">
+                                <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-blue-100 mb-2">
+                                    <span>Level Progress</span>
+                                    <span>{xpSummary?.xpIntoCurrentLevel || 0} / {xpSummary?.xpNeededForNextLevel || 0} XP</span>
+                                </div>
+                                <div className="w-full h-2.5 rounded-full bg-slate-950/50 overflow-hidden">
+                                    <div
+                                        className="h-full bg-gradient-to-r from-amber-300 to-orange-400"
+                                        style={{width: `${xpSummary?.progressPercent || 0}%`}}
+                                    />
+                                </div>
                             </div>
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-2 tracking-tight">Ready for your next
-                                quest, {user?.displayName}?</h1>
-                            <p className="text-blue-100 text-sm sm:text-base md:text-lg opacity-90 font-medium">Select a campaign below and
-                                continue leveling up.</p>
                         </div>
 
-                        <div
-                            className="bg-slate-900/40 backdrop-blur-md p-4 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl border border-white/10 w-full md:w-96 shrink-0">
-                            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                                {/* Level Card */}
-                                <div>
-                                    <p className="text-blue-200 text-xs font-bold uppercase tracking-wider mb-2">Level</p>
-                                    <p className="text-2xl sm:text-3xl font-black text-white mb-2">{xpSummary?.level || 1}</p>
-                                    <div className="text-xs sm:text-sm font-bold text-amber-400">
-                                        {xpSummary?.xpIntoCurrentLevel || 0} / {xpSummary?.xpNeededForNextLevel || 0}
-                                        <span className="text-blue-200 text-xs ml-1">XP</span>
-                                    </div>
-                                    <div
-                                        className="w-full bg-slate-950/50 rounded-full h-2 p-0.5 border border-white/10 mt-2">
-                                        <div
-                                            className="bg-gradient-to-r from-amber-400 to-orange-500 h-full rounded-full"
-                                            style={{width: `${xpSummary?.progressPercent || 0}%`}}
-                                        ></div>
-                                    </div>
-                                </div>
-
-                                {/* Streak Card */}
-                                <div>
-                                    <div className="flex items-center space-x-2 mb-2">
-                                        <Flame size={14} className="text-orange-500"/>
-                                        <p className="text-blue-200 text-xs font-bold uppercase tracking-wider">Streak</p>
-                                    </div>
-                                    <p className="text-2xl sm:text-3xl font-black text-orange-400 mb-2">{streak?.currentStreakDays || 0}</p>
-                                    <p className="text-xs text-slate-300">
-                                        Best: {streak?.longestStreakDays || 0} days
-                                    </p>
-                                    <div className="mt-3 text-xs text-blue-200">
-                                        <Zap size={12} className="inline mr-1"/>
-                                        {xpSummary?.totalXp || 0} total XP
-                                    </div>
-                                </div>
+                        <div className="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
+                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Level</p>
+                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{xpSummary?.level || 1}</p>
+                            </div>
+                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Total XP</p>
+                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{xpSummary?.totalXp || 0}</p>
+                            </div>
+                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Streak</p>
+                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{streak?.currentStreakDays || 0}d</p>
+                            </div>
+                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Best</p>
+                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{streak?.longestStreakDays || 0}d</p>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
                 {/* Courses Section */}
                 <div>

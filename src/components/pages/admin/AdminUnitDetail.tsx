@@ -328,9 +328,9 @@ export function AdminUnitDetail() {
                 </div>
             </div>
 
-            {unit.type === 'exercise' && <AdminExercises unitId={unit.id}/>}
-            {unit.type === 'assessment' && <AdminQuizzes unitId={unit.id}/>}
-            {unit.type === 'final_exam' && <AdminFinalExams unitId={unit.id}/>}
+            {unit.type === 'exercise' && <AdminExercises unitId={unit.id} unit={unit}/>}
+            {unit.type === 'assessment' && <AdminQuizzes unitId={unit.id} unit={unit}/>}
+            {unit.type === 'final_exam' && <AdminFinalExams unitId={unit.id} unit={unit}/>}
             {unit.type === 'module' && (
                 <AdminModuleContentModal
                     unit={unit}

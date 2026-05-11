@@ -4,6 +4,7 @@ import {apiClient} from '@skillforge/vite/lib/api';
 import {AvatarCropper} from '@skillforge/vite/components/ui/AvatarCropper';
 import type {User as UserType} from '@skillforge/vite/lib/types';
 import {GlassButton, GlassSecondaryButton, Input, Select, StateCard, Switch, Tabs, Textarea} from '@skillforge/vite/components/ui/controls';
+import {useUserSession} from '@skillforge/vite/contexts/UserSessionContext';
 
 interface SettingsPageProps {
     onDarkModeChange?: (isDarkMode: boolean) => void;
@@ -11,6 +12,7 @@ interface SettingsPageProps {
 }
 
 export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPageProps) {
+    const {getProfile, refreshSession, invalidateSessionCache} = useUserSession();
     const [user, setUser] = useState<UserType | null>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'account'>('profile');
@@ -38,7 +40,11 @@ export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPagePr
         const fetchUser = async () => {
             try {
                 setLoading(true);
-                const userData = await apiClient.getProfile();
+                const userData = await getProfile();
+                if (!userData) {
+                    setMessage({type: 'error', text: 'Unable to load user profile'});
+                    return;
+                }
                 setUser(userData);
                 setFormData({
                     displayName: userData.displayName || '',
@@ -57,7 +63,7 @@ export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPagePr
             }
         };
         fetchUser();
-    }, []);
+    }, [getProfile]);
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {name, value} = e.target;
@@ -103,6 +109,8 @@ export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPagePr
             onProfileUpdate?.(user ? { ...user, ...updatedUser } : updatedUser);
             setAvatarFile(null);
             setAvatarPreview(null);
+            invalidateSessionCache();
+            await refreshSession();
             setMessage({type: 'success', text: 'Profile updated successfully'});
         } catch (error: any) {
             console.error('Failed to save profile:', error);
@@ -130,6 +138,8 @@ export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPagePr
             // Merge updated preferences with existing user to preserve all other data
             setUser((prevUser) => prevUser ? { ...prevUser, preference: updatedUser.preference } : updatedUser);
             onProfileUpdate?.(user ? { ...user, preference: updatedUser.preference } : updatedUser);
+            invalidateSessionCache();
+            await refreshSession();
             setMessage({type: 'success', text: 'Preferences updated successfully'});
             onDarkModeChange?.(isDarkMode);
         } catch (error: any) {

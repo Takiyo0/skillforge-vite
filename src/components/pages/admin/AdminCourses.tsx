@@ -6,7 +6,7 @@ import {
 	Loader,
 	DollarSign,
 } from 'lucide-react';
-import type { Course, CourseLevel, ApiError } from '@skillforge/vite/lib/types';
+import type { Course, CourseLevel, ApiError, SandboxLanguage } from '@skillforge/vite/lib/types';
 import { apiClient } from '@skillforge/vite/lib/api';
 import { Breadcrumbs } from '@skillforge/vite/components/layout/Breadcrumbs';
 import {Badge, GlassButton, GlassSecondaryButton, Input, Select, StateCard, Textarea} from '@skillforge/vite/components/ui/controls';
@@ -40,7 +40,6 @@ const INITIAL_FORM_DATA: FormData = {
 };
 
 const COURSE_LEVELS: CourseLevel[] = ['beginner', 'intermediate', 'advanced'];
-const LANGUAGES = ['javascript', 'typescript', 'python', 'java', 'gcc', 'cpp', 'rust', 'go', 'ruby', 'php'];
 const CURRENCIES = ['IDR', 'USD', 'EUR', 'GBP', 'JPY', 'CNY'];
 
 export function AdminCourses() {
@@ -54,12 +53,23 @@ export function AdminCourses() {
 	const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
 	const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [supportedLanguages, setSupportedLanguages] = useState<SandboxLanguage[]>([]);
 	const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 	const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
 
 	useEffect(() => {
 		fetchCourses();
+		void fetchSupportedLanguages();
 	}, []);
+
+	const fetchSupportedLanguages = async () => {
+		try {
+			const languages = await apiClient.getSandboxLanguages(false);
+			setSupportedLanguages(languages);
+		} catch {
+			setSupportedLanguages([]);
+		}
+	};
 
 	const fetchCourses = async () => {
 		try {
@@ -97,7 +107,9 @@ export function AdminCourses() {
 	};
 
 	const handleOpenCreate = () => {
+		const defaultLanguage = supportedLanguages[0]?.id || INITIAL_FORM_DATA.language;
 		setFormData(INITIAL_FORM_DATA);
+		setFormData((prev) => ({ ...prev, language: defaultLanguage }));
 		setFormErrors({});
 		setThumbnailFile(null);
 		setThumbnailPreview(null);
@@ -462,9 +474,9 @@ export function AdminCourses() {
 									onChange={(e) => handleFormChange('language', e.target.value)}
 									className="font-medium"
 								>
-									{LANGUAGES.map((lang) => (
-										<option key={lang} value={lang}>
-											{lang.toUpperCase()}
+									{(supportedLanguages.length > 0 ? supportedLanguages : [{ id: formData.language, name: formData.language.toUpperCase() }]).map((lang) => (
+										<option key={lang.id} value={lang.id}>
+											{lang.name}
 										</option>
 									))}
 								</Select>

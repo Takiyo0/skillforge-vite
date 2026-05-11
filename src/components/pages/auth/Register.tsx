@@ -4,6 +4,7 @@ import {UserPlus, Lock, Mail, User, AlertCircle, CheckCircle} from 'lucide-react
 import {apiClient} from '@skillforge/vite/lib/api';
 import type {ApiError} from '@skillforge/vite/lib/types';
 import {GlassButton, Input} from "@skillforge/vite/components/ui/controls.tsx";
+import logo from '@skillforge/vite/assets/logo.svg';
 
 export function Register() {
     const navigate = useNavigate();
@@ -84,10 +85,7 @@ export function Register() {
             <div className="w-full max-w-md space-y-8">
                 {/* Logo Section */}
                 <div className="flex flex-col items-center">
-                    <div
-                        className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-black text-3xl shadow-lg shadow-blue-500/30 mb-4">
-                        S
-                    </div>
+                    <img src={logo} alt="SkillForge logo" className="w-20 h-20 sm:w-24 sm:h-24 object-contain mb-4" />
                     <h1 className="text-3xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                         SkillForge
                     </h1>
@@ -95,7 +93,7 @@ export function Register() {
                 </div>
 
                 {/* Register Form */}
-                <form onSubmit={handleSubmit} className="glass-panel-strong rounded-[2rem] p-8 space-y-6">
+                <form onSubmit={handleSubmit} className="glass-panel rounded-[2rem] p-8 space-y-6">
                     <h2 className="text-2xl font-black text-white text-center">Create Account</h2>
 
                     {/* Success Message */}

@@ -12,7 +12,7 @@ import {
     GripVertical,
     Trash2,
 } from 'lucide-react';
-import type {Unit, Course, ApiError, UnitType, CourseLevel} from '@skillforge/vite/lib/types';
+import type {Unit, Course, ApiError, UnitType, CourseLevel, SandboxLanguage} from '@skillforge/vite/lib/types';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
 import {Breadcrumbs} from '@skillforge/vite/components/layout/Breadcrumbs';
@@ -44,7 +44,6 @@ const UNIT_TYPES: UnitType[] = ['module', 'exercise', 'assessment', 'final_exam'
 
 // Course edit modal helpers (copied minimal from AdminCourses)
 const COURSE_LEVELS = ['beginner', 'intermediate', 'advanced'] as const;
-const LANGUAGES = ['javascript', 'typescript', 'python', 'java', 'gcc', 'cpp', 'rust', 'go', 'ruby', 'php'];
 const CURRENCIES = ['IDR', 'USD', 'EUR', 'GBP', 'JPY', 'CNY'] as const;
 
 interface AdminUnitsProps {
@@ -99,11 +98,13 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
     const [courseDeleteOpen, setCourseDeleteOpen] = useState(false);
     const [courseThumbnailFile, setCourseThumbnailFile] = useState<File | null>(null);
     const [courseThumbnailPreview, setCourseThumbnailPreview] = useState<string | null>(null);
+    const [supportedLanguages, setSupportedLanguages] = useState<SandboxLanguage[]>([]);
 
     useEffect(() => {
         if (courseId) {
             fetchCourseAndUnits(courseId);
         }
+        void fetchSupportedLanguages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [courseId]);
 
@@ -117,12 +118,13 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
     // Course modal handlers
     const handleOpenEditCourse = () => {
         if (!selectedCourse) return;
+        const defaultLanguage = supportedLanguages[0]?.id || 'javascript';
         setCourseForm({
             title: selectedCourse.title || '',
             subtitle: selectedCourse.subtitle || '',
             description: selectedCourse.description || '',
             level: (selectedCourse.level as typeof COURSE_LEVELS[number]) || 'beginner',
-            language: selectedCourse.language || 'javascript',
+            language: selectedCourse.language || defaultLanguage,
             priceCents: selectedCourse.priceCents || 0,
             currencyCode: (selectedCourse.currencyCode as typeof CURRENCIES[number]) || 'IDR',
         });
@@ -132,6 +134,15 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
             thumbnailS3Key?: string
         }).thumbnailS3Key));
         setCourseModalOpen(true);
+    };
+
+    const fetchSupportedLanguages = async () => {
+        try {
+            const languages = await apiClient.getSandboxLanguages(false);
+            setSupportedLanguages(languages);
+        } catch {
+            setSupportedLanguages([]);
+        }
     };
 
     const validateCourseForm = (): boolean => {
@@ -211,19 +222,37 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                 return;
             }
 
-            const detailedUnits: Unit[] = [];
+            const normalizedUnits: Unit[] = courseUnits.map((unitPreview) => ({
+                id: unitPreview.id,
+                courseId: activeCourse.id,
+                course: {
+                    id: activeCourse.id,
+                    slug: activeCourse.slug,
+                    title: activeCourse.title,
+                    subtitle: activeCourse.subtitle,
+                    description: activeCourse.description,
+                    level: activeCourse.level,
+                    language: activeCourse.language,
+                    isPublished: !!activeCourse.isPublished,
+                },
+                title: unitPreview.title,
+                summary: unitPreview.summary || '',
+                type: unitPreview.type,
+                position: unitPreview.position,
+                estimatedMinutes: unitPreview.estimatedMinutes || 0,
+                isPublished: !!unitPreview.isPublished,
+                createdAt: '',
+                updatedAt: '',
+                prerequisites: unitPreview.prerequisites || [],
+                requiredFor: unitPreview.requiredFor || [],
+                moduleContent: null,
+                moduleResources: [],
+                exercise: null,
+                quiz: null,
+                finalExam: null,
+            }));
 
-            // Fetch full details for each unit via admin endpoint
-            for (const unitPreview of courseUnits) {
-                try {
-                    const unit = await apiClient.getUnitByIdAdmin(unitPreview.id);
-                    detailedUnits.push(unit);
-                } catch (err) {
-                    console.error(`Failed to fetch details for unit ${unitPreview.id}`, err);
-                }
-            }
-
-            setUnits(detailedUnits.sort((a, b) => a.position - b.position));
+            setUnits(normalizedUnits.sort((a, b) => a.position - b.position));
         } catch (err) {
             const apiError = err as ApiError;
             setError(apiError.message || 'Failed to fetch units');
@@ -325,10 +354,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
         setSelectedPrerequisites(unit.prerequisites?.map((p) => p.id) || []);
 
         try {
-            const allUnits = await Promise.all(
-                units.map((u) => u.id === unit.id ? Promise.resolve(u) : apiClient.getUnitByIdAdmin(u.id))
-            );
-            setPrerequisiteUnits(allUnits.filter((u) => u.id !== unit.id));
+            setPrerequisiteUnits(units.filter((u) => u.id !== unit.id));
         } catch (err) {
             const apiError = err as ApiError;
             addToast(apiError.message || 'Failed to load prerequisites', 'error');
@@ -1189,9 +1215,9 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                     onChange={(e) => handleCourseFormChange('language', e.target.value)}
                                     className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white"
                                 >
-                                    {LANGUAGES.map((lang) => (
-                                        <option key={lang} value={lang}>
-                                            {lang.toUpperCase()}
+                                    {(supportedLanguages.length > 0 ? supportedLanguages : [{ id: courseForm.language, name: courseForm.language.toUpperCase() }]).map((lang) => (
+                                        <option key={lang.id} value={lang.id}>
+                                            {lang.name}
                                         </option>
                                     ))}
                                 </select>

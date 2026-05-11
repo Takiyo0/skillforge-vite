@@ -28,6 +28,8 @@ import {Login} from '@skillforge/vite/components/pages/auth/Login';
 import {Register} from '@skillforge/vite/components/pages/auth/Register';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {canAccessAdmin, isAdmin, isInstructor} from '@skillforge/vite/lib/roles';
+import {UserSessionProvider, useUserSession} from '@skillforge/vite/contexts/UserSessionContext';
+import logo from '@skillforge/vite/assets/logo.svg';
 import '@skillforge/vite/App.css';
 
 function App() {
@@ -74,10 +76,7 @@ function App() {
             <div
                 className={`flex min-h-screen items-center justify-center ${isDarkMode ? 'dark bg-slate-950' : 'bg-slate-50'}`}>
                 <div className="flex flex-col items-center space-y-4">
-                    <div
-                        className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-black text-3xl shadow-lg shadow-blue-500/30 animate-pulse">
-                        S
-                    </div>
+                    <img src={logo} alt="SkillForge logo" className="w-20 h-20 sm:w-24 sm:h-24 object-contain animate-pulse" />
                     <p className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Loading...</p>
                 </div>
             </div>
@@ -106,19 +105,21 @@ function App() {
 
     return (
         <Router>
-            <AppContent isDarkMode={isDarkMode} user={user} handleLogout={handleLogout} setIsDarkMode={setIsDarkMode}
-                        setUser={setUser}/>
+            <UserSessionProvider initialUser={user}>
+                <AppContent isDarkMode={isDarkMode} handleLogout={handleLogout} setIsDarkMode={setIsDarkMode}
+                            setUser={setUser}/>
+            </UserSessionProvider>
         </Router>
     );
 }
 
-function AppContent({isDarkMode, user, handleLogout, setIsDarkMode, setUser}: {
+function AppContent({isDarkMode, handleLogout, setIsDarkMode, setUser}: {
     isDarkMode: boolean;
-    user: User | null;
     handleLogout: () => void;
     setIsDarkMode: (dark: boolean) => void;
     setUser: (user: User | null) => void
 }) {
+    const {user} = useUserSession();
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
     const location = useLocation();
 
@@ -183,7 +184,8 @@ function AppContent({isDarkMode, user, handleLogout, setIsDarkMode, setUser}: {
                             <Route path="/student/courses/:courseId/units/:unitId/assessment"
                                    element={<AssessmentPage/>}/>
                             <Route path="/student/learning-path" element={<LearningPath activeCourseId="backend"/>}/>
-                            <Route path="/student/playground" element={<CodePlayground/>}/>
+                            <Route path="/student/code-sandbox" element={<CodePlayground/>}/>
+                            <Route path="/student/playground" element={<Navigate to="/student/code-sandbox" replace/>}/>
                             <Route path="/student/certificates" element={<Certificates/>}/>
                             <Route path="/certificates/:certificateId" element={<CertificatePage/>}/>
                             <Route path="/certificates/verification" element={<CertificateVerification/>}/>

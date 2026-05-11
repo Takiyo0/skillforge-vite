@@ -221,6 +221,9 @@ export interface UnitPreview {
 	type: UnitType;
 	estimatedMinutes: number;
 	position: number;
+	isPublished?: boolean;
+	prerequisites?: Prerequisite[];
+	requiredFor?: Prerequisite[];
 }
 
 export interface Prerequisite {
@@ -272,6 +275,7 @@ export interface ExerciseSubmission {
 	status: string;
 	aiScore: number | null;
 	aiSummary: string | null;
+	aiCodeExplanation?: string | null;
 	testsPassed: number;
 	testsFailed: number;
 	stdout: string;
@@ -465,6 +469,7 @@ export interface SubmissionResponse {
 	compileOutput?: string;
 	aiSummary?: string;
 	aiScore?: number;
+	aiCodeExplanation?: string;
 	testsPassed?: number;
 	totalTests?: number;
 	testResults?: SubmissionTestResult[];
@@ -681,10 +686,9 @@ export interface UserCertificate {
 }
 
 export interface RecentActivity {
-	eventType: string;
-	points: number;
-	sourceType: string;
 	createdAt: string;
+	eventCount: number;
+	totalPoints: number;
 }
 
 export interface UserProfile {
@@ -699,6 +703,34 @@ export interface UserProfile {
 	enrolledCourses: UserEnrolledCourse[];
 	certificates: UserCertificate[];
 	recentActivity: RecentActivity[];
+}
+
+export interface SandboxLanguage {
+	id: string;
+	name: string;
+	baseCode?: string;
+}
+
+export interface SandboxTestCaseRequest {
+	input?: string;
+	output?: string;
+}
+
+export interface SandboxRunResultItem {
+	index: number;
+	input: string;
+	expectedOutput?: string;
+	actualOutput: string;
+	stderr?: string;
+	compileOutput?: string;
+	exitCode: number;
+	isCorrect: boolean | null;
+	passed: boolean;
+}
+
+export interface SandboxRunResponse {
+	language: string;
+	results: SandboxRunResultItem[];
 }
 
 // ============================================================================

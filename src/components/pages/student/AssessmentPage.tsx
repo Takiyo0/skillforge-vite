@@ -222,7 +222,7 @@ export function AssessmentPage() {
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <button
                             onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}`)}
-                            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-bold transition-colors text-sm sm:text-base"
+                            className="glass-button-secondary inline-flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-slate-900 dark:text-white font-bold transition-colors text-sm sm:text-base"
                         >
                             <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
                             <span>Exit Assessment</span>

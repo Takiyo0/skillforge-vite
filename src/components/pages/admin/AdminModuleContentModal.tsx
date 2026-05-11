@@ -122,7 +122,8 @@ export function AdminModuleContentModal({
         try {
             setSaving(true);
             const uploaded = await apiClient.uploadModuleVideo(unit.id, file);
-            setVideoUrl(uploaded.videoUrl || uploaded.s3Key);
+            if (!uploaded.videoUrl && !uploaded.s3Key) throw new Error('Invalid video url');
+            setVideoUrl(uploaded.s3Key ? (getS3Url(uploaded.s3Key) || '') : (uploaded.videoUrl || ''));
             onToast('Video uploaded successfully', 'success');
         } catch (error) {
             const apiError = error as ApiError;
@@ -186,7 +187,8 @@ export function AdminModuleContentModal({
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                             <div className="space-y-3 sm:space-y-4">
                                 <div>
-                                    <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                    <label
+                                        className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                         Content Type
                                     </label>
                                     <select
@@ -201,7 +203,8 @@ export function AdminModuleContentModal({
 
                                 {contentKind === 'video' && (
                                     <div className="space-y-3">
-                                        <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
+                                        <label
+                                            className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
                                             Video URL (YouTube, S3, or hosted link)
                                         </label>
                                         <input
@@ -211,6 +214,30 @@ export function AdminModuleContentModal({
                                             placeholder="https://..."
                                             className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                         />
+                                        {videoUrl.trim() && (
+                                            <div className="rounded-xl overflow-hidden bg-slate-900 border border-blue-200/60 dark:border-blue-500/15">
+                                                <div className="w-full aspect-video">
+                                                    {getYoutubeEmbedUrl(videoUrl.trim()) ? (
+                                                        <iframe
+                                                            src={getYoutubeEmbedUrl(videoUrl.trim()) || undefined}
+                                                            title="Video preview"
+                                                            className="w-full h-full"
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                            allowFullScreen
+                                                        />
+                                                    ) : (
+                                                        <video
+                                                            src={videoUrl.trim()}
+                                                            controls
+                                                            className="w-full h-full object-cover"
+                                                            controlsList="nodownload"
+                                                        >
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                         <label
                                             className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-blue-50/70 dark:bg-blue-500/10 cursor-pointer font-semibold">
                                             <Upload size={16}/>
@@ -282,8 +309,8 @@ export function AdminModuleContentModal({
 
                             <div className="space-y-4">
                                 {contentKind === 'article_markdown' && (
-                                <div className="glass-widget-surface rounded-xl p-3 sm:p-4">
-                                    <p className="font-bold mb-3 text-slate-900 dark:text-white text-sm sm:text-base">Markdown
+                                    <div className="glass-widget-surface rounded-xl p-3 sm:p-4">
+                                        <p className="font-bold mb-3 text-slate-900 dark:text-white text-sm sm:text-base">Markdown
                                             Preview</p>
                                         <MarkdownContent
                                             content={articleMarkdown || '*Start writing markdown...*'}
@@ -355,7 +382,8 @@ export function AdminModuleContentModal({
                             </div>
                         </div>
 
-                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-blue-200/60 dark:border-blue-500/15">
+                        <div
+                            className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-blue-200/60 dark:border-blue-500/15">
                             <button
                                 onClick={onClose}
                                 className="glass-button-secondary w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl font-bold"
@@ -376,4 +404,35 @@ export function AdminModuleContentModal({
             </div>
         </div>
     );
+}
+
+function getYoutubeEmbedUrl(input: string): string | null {
+    if (!input) return null;
+    try {
+        const url = new URL(input);
+        const host = url.hostname.replace(/^www\./, '');
+
+        if (host === 'youtu.be') {
+            const id = url.pathname.split('/').filter(Boolean)[0];
+            return id ? `https://www.youtube.com/embed/${id}` : null;
+        }
+
+        if (host === 'youtube.com' || host === 'm.youtube.com') {
+            if (url.pathname === '/watch') {
+                const id = url.searchParams.get('v');
+                return id ? `https://www.youtube.com/embed/${id}` : null;
+            }
+            if (url.pathname.startsWith('/shorts/')) {
+                const id = url.pathname.split('/')[2];
+                return id ? `https://www.youtube.com/embed/${id}` : null;
+            }
+            if (url.pathname.startsWith('/embed/')) {
+                const id = url.pathname.split('/')[2];
+                return id ? `https://www.youtube.com/embed/${id}` : null;
+            }
+        }
+    } catch {
+        return null;
+    }
+    return null;
 }

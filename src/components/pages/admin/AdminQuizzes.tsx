@@ -18,6 +18,7 @@ import {MarkdownEditor} from '@skillforge/vite/components/ui/MarkdownEditor';
 
 interface AdminQuizzesProps {
     unitId?: string;
+    unit?: Unit | null;
 }
 
 type ModalState =
@@ -77,7 +78,7 @@ const INITIAL_OPTION_FORM: OptionFormData = {
     isCorrect: false,
 };
 
-export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
+export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}) {
     const inlineView = Boolean(unitId);
     // State for units and quizzes
     const [units, setUnits] = useState<Unit[]>([]);
@@ -110,6 +111,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
     // Fetch units on mount
     useEffect(() => {
         fetchUnitsAndQuizzes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -120,10 +122,10 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
 
     // Fetch quizzes when unit changes
     useEffect(() => {
-        if (selectedUnitId) {
+        if (selectedUnitId && (!inlineView || !initialUnit)) {
             fetchQuizzesForUnit(selectedUnitId);
         }
-    }, [selectedUnitId]);
+    }, [selectedUnitId, inlineView, initialUnit]);
 
     useEffect(() => {
         if (inlineView && selectedQuiz) {
@@ -143,17 +145,17 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
             setLoading(true);
             setError(null);
             if (unitId) {
-                const unit = await apiClient.getUnitByIdAdmin(unitId);
-                if (unit.type !== 'assessment') {
+                const activeUnit = initialUnit && initialUnit.id === unitId ? initialUnit : await apiClient.getUnitByIdAdmin(unitId);
+                if (activeUnit.type !== 'assessment') {
                     setUnits([]);
                     setQuizzes([]);
                     return;
                 }
-                setUnits([unit]);
-                setSelectedUnitId(unit.id);
-                setQuizzes(unit.quiz ? [unit.quiz] : []);
-                setSelectedQuiz(unit.quiz ?? null);
-                setExpandedQuizId(unit.quiz ? unit.quiz.id : null);
+                setUnits([activeUnit]);
+                setSelectedUnitId(activeUnit.id);
+                setQuizzes(activeUnit.quiz ? [activeUnit.quiz] : []);
+                setSelectedQuiz(activeUnit.quiz ?? null);
+                setExpandedQuizId(activeUnit.quiz ? activeUnit.quiz.id : null);
                 return;
             }
             const courses = await apiClient.getInstructorCourses();
@@ -183,9 +185,9 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         }
     };
 
-    const fetchQuizzesForUnit = async (unitId: string) => {
+    const fetchQuizzesForUnit = async (unitId: string, forceRefresh = false) => {
         try {
-            const unit = await apiClient.getUnitByIdAdmin(unitId);
+            const unit = await apiClient.getUnitByIdAdmin(unitId, {forceRefresh});
             if (unit.quiz) {
                 setQuizzes([unit.quiz]);
                 setSelectedQuiz(unit.quiz);
@@ -285,7 +287,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         try {
             setIsSubmitting(true);
             const updated = await apiClient.updateQuiz(selectedQuiz.id, quizFormData);
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             setSelectedQuiz(updated);
             addToast('Quiz updated successfully', 'success');
             setModalState('closed');
@@ -356,7 +358,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                 explanation: questionFormData.explanation,
                 options,
             });
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             addToast('Question created successfully', 'success');
             setModalState('closed');
         } catch (err) {
@@ -407,7 +409,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
                 points: questionFormData.points,
                 explanation: questionFormData.explanation,
             });
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             addToast('Question updated successfully', 'success');
             setModalState('closed');
         } catch (err) {
@@ -422,7 +424,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         try {
             setIsSubmitting(true);
             await apiClient.deleteQuizQuestion(questionId);
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             addToast('Question deleted successfully', 'success');
             setDeleteConfirm(null);
         } catch (err) {
@@ -464,7 +466,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         try {
             setIsSubmitting(true);
             await apiClient.createQuizOption(selectedQuestion.id, optionFormData);
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             addToast('Option created successfully', 'success');
             setModalState('closed');
         } catch (err) {
@@ -481,7 +483,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         try {
             setIsSubmitting(true);
             await apiClient.updateQuizOption(selectedOption.id, optionFormData);
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             addToast('Option updated successfully', 'success');
             setModalState('closed');
         } catch (err) {
@@ -496,7 +498,7 @@ export function AdminQuizzes({unitId}: AdminQuizzesProps = {}) {
         try {
             setIsSubmitting(true);
             await apiClient.deleteQuizOption(optionId);
-            await fetchQuizzesForUnit(selectedUnitId);
+            await fetchQuizzesForUnit(selectedUnitId, true);
             addToast('Option deleted successfully', 'success');
             setDeleteConfirm(null);
         } catch (err) {

@@ -17,6 +17,7 @@ import {MarkdownEditor} from '@skillforge/vite/components/ui/MarkdownEditor';
 
 interface AdminFinalExamsProps {
     unitId?: string;
+    unit?: Unit | null;
 }
 
 type ModalState = 'closed' | 'create-question' | 'edit-question' | 'create-option' | 'edit-option';
@@ -65,7 +66,7 @@ const INITIAL_OPTION_FORM: OptionFormData = {
     isCorrect: false,
 };
 
-export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
+export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProps = {}) {
     const inlineView = Boolean(unitId);
     // State for units and final exams
     const [units, setUnits] = useState<Unit[]>([]);
@@ -98,6 +99,7 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
     // Fetch units on mount
     useEffect(() => {
         fetchUnitsAndExams();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -108,28 +110,28 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
 
     // Fetch final exam when unit changes
     useEffect(() => {
-        if (selectedUnitId) {
+        if (selectedUnitId && (!inlineView || !initialUnit)) {
             fetchFinalExam(selectedUnitId);
         }
-    }, [selectedUnitId]);
+    }, [selectedUnitId, inlineView, initialUnit]);
 
     const fetchUnitsAndExams = async () => {
         try {
             setLoading(true);
             setError(null);
             if (unitId) {
-                const unit = await apiClient.getUnitByIdAdmin(unitId);
-                if (unit.type !== 'final_exam') {
+                const activeUnit = initialUnit && initialUnit.id === unitId ? initialUnit : await apiClient.getUnitByIdAdmin(unitId);
+                if (activeUnit.type !== 'final_exam') {
                     setUnits([]);
                     setFinalExam(null);
                     setQuestions([]);
                     return;
                 }
-                setUnits([unit]);
-                setSelectedUnitId(unit.id);
-                if (unit.finalExam) {
-                    setFinalExam(unit.finalExam);
-                    setQuestions(extractQuestionsFromExam(unit.finalExam));
+                setUnits([activeUnit]);
+                setSelectedUnitId(activeUnit.id);
+                if (activeUnit.finalExam) {
+                    setFinalExam(activeUnit.finalExam);
+                    setQuestions(extractQuestionsFromExam(activeUnit.finalExam));
                 } else {
                     setFinalExam(null);
                     setQuestions([]);
@@ -178,9 +180,9 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
         return (exam.components as QuestionComponent[]) || [];
     };
 
-    const fetchFinalExam = async (unitId: string) => {
+    const fetchFinalExam = async (unitId: string, forceRefresh = false) => {
         try {
-            const unit = await apiClient.getUnitByIdAdmin(unitId);
+            const unit = await apiClient.getUnitByIdAdmin(unitId, {forceRefresh});
             if (unit.finalExam) {
                 setFinalExam(unit.finalExam);
                 setQuestions(extractQuestionsFromExam(unit.finalExam));
@@ -266,7 +268,7 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
             }
 
             // Refetch to get fresh data
-            await fetchFinalExam(selectedUnitId);
+            await fetchFinalExam(selectedUnitId, true);
 
             setModalState('closed');
             setSelectedQuestion(null);
@@ -292,7 +294,7 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
             setDeleteConfirm(null);
 
             // Refetch to get fresh data
-            await fetchFinalExam(selectedUnitId);
+            await fetchFinalExam(selectedUnitId, true);
         } catch (err) {
             const apiError = err as ApiError;
             addToast(apiError.message || 'Failed to delete question', 'error');
@@ -335,7 +337,7 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
             }
 
             // Refetch to get fresh data
-            await fetchFinalExam(selectedUnitId);
+            await fetchFinalExam(selectedUnitId, true);
 
             setModalState('closed');
             setSelectedOption(null);
@@ -362,7 +364,7 @@ export function AdminFinalExams({unitId}: AdminFinalExamsProps = {}) {
             setOptionDeleteConfirm(null);
 
             // Refetch to get fresh data
-            await fetchFinalExam(selectedUnitId);
+            await fetchFinalExam(selectedUnitId, true);
         } catch (err) {
             const apiError = err as ApiError;
             addToast(apiError.message || 'Failed to delete option', 'error');

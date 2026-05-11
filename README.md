@@ -1,4 +1,11 @@
-# SkillForge - NestJS Backend
+<p align="center">
+  <a href="https://nestjs.com/" target="_blank"><img src="public/favicon.svg" width="90" alt="Nest Logo" /></a>
+</p>
+  <p align="center"><b>Skillforge</b>: A hands-on learning platform where courses, code challenges, and AI guidance turn practice into measurable progress.</p>
+
+---
+
+# SkillForge - Vite Frontend
 
 This project is the frontend of SkillForge App, built with Vite.
 

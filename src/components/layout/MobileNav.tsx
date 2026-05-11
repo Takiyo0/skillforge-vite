@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
 	Menu, X, LayoutDashboard, BookOpen, Award, MessageSquare,
-	LogOut, Settings, Map, Star, Users
+	LogOut, Settings, Map, Star, Users, FlaskConical
 } from 'lucide-react';
+import logo from '@skillforge/vite/assets/logo.svg';
 
 interface NavItem {
 	id: string;
@@ -38,6 +39,7 @@ export function MobileNav({
 			{ id: 'learning_paths', icon: BookOpen, label: 'Learning Paths', path: '/student/learning-paths' },
 			{ id: 'certificates', icon: Award, label: 'Trophy Room', path: '/student/certificates' },
 			{ id: 'forum', icon: MessageSquare, label: 'Forums', path: '/student/forum' },
+			{ id: 'code_sandbox', icon: FlaskConical, label: 'Code Sandbox', path: '/student/code-sandbox' },
 			{ id: 'settings', icon: Settings, label: 'Settings', path: '/student/settings' },
 		],
 		instructor: [
@@ -144,9 +146,7 @@ export function MobileNav({
 					>
 						{/* Logo Section */}
 						<div className="p-6 flex items-center space-x-3">
-							<div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-blue-500/30">
-								S
-							</div>
+							<img src={logo} alt="SkillForge logo" className="w-10 h-10 object-contain shrink-0" />
 							<span className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-300 dark:to-cyan-300">
 								SkillForge
 							</span>

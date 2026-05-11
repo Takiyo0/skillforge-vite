@@ -1,6 +1,6 @@
 ﻿import {useState, useEffect, useRef} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import {CheckCircle2, Lock, Clock, FileText, Play, Zap, X, Paperclip} from 'lucide-react';
+import {CheckCircle2, Lock, Clock, FileText, Play, Zap, X, Paperclip, Bot} from 'lucide-react';
 import Editor from '@monaco-editor/react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import type {Unit, CourseProgress, SubmissionResponse, SubmissionFeedback} from '@skillforge/vite/lib/types';
@@ -25,6 +25,8 @@ export function UnitView() {
     const [feedback, setFeedback] = useState<SubmissionFeedback | null>(null);
     const [submissions, setSubmissions] = useState<SubmissionResponse[]>([]);
     const [selectedSubmissionModal, setSelectedSubmissionModal] = useState<string | null>(null);
+    const [askingAiExplanation, setAskingAiExplanation] = useState(false);
+    const [aiExplanationError, setAiExplanationError] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
 
     useEffect(() => {
@@ -37,14 +39,18 @@ export function UnitView() {
 
             try {
                 setLoading(true);
-                const [unitData, progressData, submissionsData] = await Promise.all([
+                const [unitData, progressData] = await Promise.all([
                     apiClient.getUnitDetail(unitId),
                     apiClient.getCourseProgress(courseId),
-                    apiClient.getUserUnitSubmissions(unitId),
                 ]);
                 setUnit(unitData);
                 setCourseProgress(progressData);
-                setSubmissions(submissionsData);
+                if (unitData.type === 'exercise') {
+                    const submissionsData = await apiClient.getUserUnitSubmissions(unitId);
+                    setSubmissions(submissionsData);
+                } else {
+                    setSubmissions([]);
+                }
 
                 // Initialize exercise with starter code
                 if (unitData.exercise?.starterCode) {
@@ -99,7 +105,7 @@ export function UnitView() {
                     }
 
                     // Refresh submissions list to show new submission in history
-                    if (unitId) {
+                    if (unitId && unit?.type === 'exercise') {
                         try {
                             const updatedSubmissions = await apiClient.getUserUnitSubmissions(unitId);
                             setSubmissions(updatedSubmissions);
@@ -128,7 +134,7 @@ export function UnitView() {
         return () => {
             if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         };
-    }, [submission?.id, courseId]);
+    }, [submission?.id, courseId, unit?.type, unitId]);
 
     const getUnitProgress = () => {
         if (!courseProgress || !unitId) return null;
@@ -138,6 +144,7 @@ export function UnitView() {
     const unitProgress = getUnitProgress();
     const isLocked = unitProgress?.status === 'locked';
     const isCompleted = unitProgress?.status === 'completed';
+    const selectedSubmission = submissions.find((s) => s.id === selectedSubmissionModal);
 
     const handleBack = () => {
         navigate(`/student/courses/${courseId}`);
@@ -196,6 +203,33 @@ export function UnitView() {
             console.error('Error submitting code:', err);
         } finally {
             setSubmitting(false);
+        }
+    };
+
+    const handleAskAiExplanation = async () => {
+        if (!selectedSubmission) return;
+
+        try {
+            setAskingAiExplanation(true);
+            setAiExplanationError(null);
+            const result = await apiClient.askAiSubmissionExplanation(selectedSubmission.id);
+            setSubmissions((prev) =>
+                prev.map((item) =>
+                    item.id === selectedSubmission.id || !item.aiCodeExplanation
+                        ? { ...item, aiCodeExplanation: result.aiCodeExplanation }
+                        : item
+                )
+            );
+            if (submission?.id === selectedSubmission.id) {
+                setSubmission((prev) =>
+                    prev ? { ...prev, aiCodeExplanation: result.aiCodeExplanation } : prev
+                );
+            }
+        } catch (err) {
+            const apiError = err as Error;
+            setAiExplanationError(apiError.message || 'Failed to get AI explanation');
+        } finally {
+            setAskingAiExplanation(false);
         }
     };
 
@@ -366,14 +400,24 @@ export function UnitView() {
                             {unit.moduleContent.videoUrl && (
                                 <div className="mb-4 sm:mb-6 bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl shadow-blue-950/5">
                                     <div className="w-full aspect-video">
-                                        <video
-                                            src={unit.moduleContent.videoUrl}
-                                            controls
-                                            className="w-full h-full object-cover"
-                                            controlsList="nodownload"
-                                        >
-                                            Your browser does not support the video tag.
-                                        </video>
+                                        {getYoutubeEmbedUrl(unit.moduleContent.videoUrl) ? (
+                                            <iframe
+                                                src={getYoutubeEmbedUrl(unit.moduleContent.videoUrl) || undefined}
+                                                title="Module video"
+                                                className="w-full h-full"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowFullScreen
+                                            />
+                                        ) : (
+                                            <video
+                                                src={unit.moduleContent.videoUrl}
+                                                controls
+                                                className="w-full h-full object-cover"
+                                                controlsList="nodownload"
+                                            >
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -680,7 +724,10 @@ export function UnitView() {
                                                         </p>
                                                     )}
                                                     <button
-                                                        onClick={() => setSelectedSubmissionModal(prev.id)}
+                                                        onClick={() => {
+                                                            setAiExplanationError(null);
+                                                            setSelectedSubmissionModal(prev.id);
+                                                        }}
                                                         className="text-xs font-bold px-3 py-1 bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-white rounded hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors"
                                                     >
                                                         View Code
@@ -909,21 +956,20 @@ export function UnitView() {
                                     Status:{' '}
                                     <span
                                         className={`font-semibold ${
-                                            submissions?.find(
-                                                (s) => s.id === selectedSubmissionModal
-                                            )?.status === 'passed'
+                                            selectedSubmission?.status === 'passed'
                                                 ? 'text-emerald-600'
                                                 : 'text-orange-600'
                                         }`}
                                     >
-										{submissions
-                                            ?.find((s) => s.id === selectedSubmissionModal)
-                                            ?.status?.toUpperCase() || 'Unknown'}
+										{selectedSubmission?.status?.toUpperCase() || 'Unknown'}
 									</span>
                                 </p>
                             </div>
                             <button
-                                onClick={() => setSelectedSubmissionModal(null)}
+                                onClick={() => {
+                                    setAiExplanationError(null);
+                                    setSelectedSubmissionModal(null);
+                                }}
                                 className="flex-shrink-0 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 p-1"
                             >
                                 <X size={24}/>
@@ -931,9 +977,7 @@ export function UnitView() {
                         </div>
 
                         <div className="p-4 sm:p-6">
-                            {submissions?.find(
-                                (s) => s.id === selectedSubmissionModal
-                            ) && (
+                            {selectedSubmission && (
                                 <>
                                     <div className="mb-4 sm:mb-6">
                                         <h3 className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 sm:mb-3">
@@ -941,16 +985,8 @@ export function UnitView() {
                                         </h3>
                                         <Editor
                                             height="300px"
-                                            language={
-                                                submissions?.find(
-                                                    (s) => s.id === selectedSubmissionModal
-                                                )?.language || 'javascript'
-                                            }
-                                            defaultValue={
-                                                submissions?.find(
-                                                    (s) => s.id === selectedSubmissionModal
-                                                )?.sourceCode || ''
-                                            }
+                                            language={selectedSubmission.language || 'javascript'}
+                                            defaultValue={selectedSubmission.sourceCode || ''}
                                             theme="vs-dark"
                                             options={{
                                                 readOnly: true,
@@ -968,16 +1004,10 @@ export function UnitView() {
                                             </h3>
                                             <div className="space-y-2">
                                                 {submissions
-                                                    ?.find((s) => s.id === selectedSubmissionModal)
-                                                    ?.testsPassed !== undefined && (
+                                                    ?.find((s) => s.id === selectedSubmissionModal)?.testsPassed !== undefined && (
                                                     <div className="text-sm">
 														<span className="text-emerald-600 font-semibold">
-															{
-                                                                submissions.find(
-                                                                    (s) =>
-                                                                        s.id === selectedSubmissionModal
-                                                                )?.testsPassed
-                                                            }
+															{selectedSubmission.testsPassed}
 														</span>
                                                         <span className="text-slate-600 dark:text-slate-400">
 															{' '}
@@ -986,19 +1016,10 @@ export function UnitView() {
                                                     </div>
                                                 )}
                                                 {submissions
-                                                    ?.find((s) => s.id === selectedSubmissionModal)
-                                                    ?.totalTests !== undefined && (
+                                                    ?.find((s) => s.id === selectedSubmissionModal)?.totalTests !== undefined && (
                                                     <div className="text-sm">
 														<span className="text-red-600 font-semibold">
-															{
-                                                                (submissions.find(
-                                                                    (s) =>
-                                                                        s.id === selectedSubmissionModal
-                                                                )?.totalTests ?? 0) - (submissions.find(
-                                                                    (s) =>
-                                                                        s.id === selectedSubmissionModal
-                                                                )?.testsPassed ?? 0)
-                                                            }
+															{(selectedSubmission.totalTests ?? 0) - (selectedSubmission.testsPassed ?? 0)}
 														</span>
                                                         <span className="text-slate-600 dark:text-slate-400">
 															{' '}
@@ -1015,31 +1036,57 @@ export function UnitView() {
                                             </h3>
                                             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 break-words">
                                                 {submissions
-                                                    ?.find((s) => s.id === selectedSubmissionModal)
-                                                    ?.queuedAt
+                                                    ?.find((s) => s.id === selectedSubmissionModal)?.queuedAt
                                                     ? new Date(
-                                                        submissions.find(
-                                                            (s) =>
-                                                                s.id === selectedSubmissionModal
-                                                        )?.queuedAt || ''
+                                                        selectedSubmission.queuedAt || ''
                                                     ).toLocaleString()
                                                     : 'N/A'}
                                             </p>
                                         </div>
                                     </div>
 
-                                    {submissions?.find(
-                                        (s) => s.id === selectedSubmissionModal
-                                    )?.stdout && (
+                                    <div className="mb-4 sm:mb-6">
+                                        <div className="flex items-center justify-between gap-3 mb-2">
+                                            <h3 className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                                AI Code Explanation
+                                            </h3>
+                                            <button
+                                                onClick={handleAskAiExplanation}
+                                                disabled={askingAiExplanation || !!selectedSubmission.aiCodeExplanation}
+                                                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white font-semibold transition-colors"
+                                            >
+                                                <Bot size={14} />
+                                                {selectedSubmission.aiCodeExplanation
+                                                    ? 'Already Used'
+                                                    : askingAiExplanation
+                                                        ? 'Analyzing...'
+                                                        : "Ask AI What's Wrong"}
+                                            </button>
+                                        </div>
+
+                                        {aiExplanationError && (
+                                            <p className="text-xs sm:text-sm text-red-600 dark:text-red-400 mb-2">{aiExplanationError}</p>
+                                        )}
+
+                                        {selectedSubmission.aiCodeExplanation ? (
+                                            <div className="glass-widget-surface p-3 sm:p-4 rounded-lg shadow-lg shadow-blue-950/5 text-sm text-slate-700 dark:text-slate-300">
+                                                <MarkdownContent content={selectedSubmission.aiCodeExplanation} />
+                                            </div>
+                                        ) : (
+                                            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                                                You can ask AI for explanation once for this submission.
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {selectedSubmission.stdout && (
                                         <div>
                                             <h3 className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                                                 Output
                                             </h3>
                                             <pre
                                                 className="glass-widget-surface p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-slate-700 dark:text-slate-300 overflow-auto max-h-40 shadow-lg shadow-blue-950/5 break-words">
-												{submissions.find(
-                                                    (s) => s.id === selectedSubmissionModal
-                                                )?.stdout}
+												{selectedSubmission.stdout}
 											</pre>
                                         </div>
                                     )}
@@ -1056,6 +1103,37 @@ export function UnitView() {
 // Simple markdown to HTML converter
 function renderMarkdown(markdown: string) {
     return <MarkdownContent content={markdown} />;
+}
+
+function getYoutubeEmbedUrl(input: string): string | null {
+    if (!input) return null;
+    try {
+        const url = new URL(input);
+        const host = url.hostname.replace(/^www\./, '');
+
+        if (host === 'youtu.be') {
+            const id = url.pathname.split('/').filter(Boolean)[0];
+            return id ? `https://www.youtube.com/embed/${id}` : null;
+        }
+
+        if (host === 'youtube.com' || host === 'm.youtube.com') {
+            if (url.pathname === '/watch') {
+                const id = url.searchParams.get('v');
+                return id ? `https://www.youtube.com/embed/${id}` : null;
+            }
+            if (url.pathname.startsWith('/shorts/')) {
+                const id = url.pathname.split('/')[2];
+                return id ? `https://www.youtube.com/embed/${id}` : null;
+            }
+            if (url.pathname.startsWith('/embed/')) {
+                const id = url.pathname.split('/')[2];
+                return id ? `https://www.youtube.com/embed/${id}` : null;
+            }
+        }
+    } catch {
+        return null;
+    }
+    return null;
 }
 
 

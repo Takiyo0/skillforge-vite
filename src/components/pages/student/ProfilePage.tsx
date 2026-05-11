@@ -6,12 +6,14 @@ import type { User, UserProfile } from '@skillforge/vite/lib/types';
 import { getAvatarUrl, getSeededColor, getBadgeIcon } from '@skillforge/vite/lib/s3';
 import { Tooltip } from '@skillforge/vite/components/ui/Tooltip';
 
-function getActivityHeatmapData(recentEvents: any[]) {
+function getActivityHeatmapData(recentEvents: Array<{ createdAt: string; eventCount: number }>) {
 	const eventsByDate: Record<string, number> = {};
 	
 	recentEvents.forEach(event => {
-		const date = new Date(event.createdAt).toISOString().split('T')[0];
-		eventsByDate[date] = (eventsByDate[date] || 0) + 1;
+		const date = event.createdAt.includes('T')
+			? new Date(event.createdAt).toISOString().split('T')[0]
+			: event.createdAt;
+		eventsByDate[date] = (eventsByDate[date] || 0) + Math.max(0, event.eventCount || 0);
 	});
 	
 	const today = new Date();
@@ -24,7 +26,7 @@ function getActivityHeatmapData(recentEvents: any[]) {
 	return heatmapDays.map(date => {
 		const count = eventsByDate[date] || 0;
 		const intensity = Math.min(5, count === 0 ? 0 : Math.ceil(count / 2));
-		return { date, intensity };
+		return { date, intensity, count };
 	});
 }
 
@@ -225,7 +227,7 @@ export function ProfilePage() {
 						<h2 className="text-lg font-black text-slate-900 dark:text-white mb-4">Activity</h2>
 						<div className="flex flex-wrap gap-1">
 							{heatmapData.map((day, idx) => (
-								<Tooltip key={idx} content={`${day.date}: ${day.intensity} events`}>
+								<Tooltip key={idx} content={`${day.date}: ${day.count} events`}>
 									<div
 										className={`w-3 h-3 rounded-sm transition-all ${
 											day.intensity === 0
@@ -244,9 +246,6 @@ export function ProfilePage() {
 								</Tooltip>
 							))}
 						</div>
-						<p className="text-xs text-slate-500 dark:text-slate-400 mt-4">
-							GitHub-style activity heatmap (last 6 months)
-						</p>
 					</div>
 				)}
 
