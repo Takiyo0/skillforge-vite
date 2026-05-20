@@ -741,7 +741,7 @@ export const apiClient = {
     async getCertificateDownloadUrl(certificateId: string): Promise<CertificateDownloadResponse> {
         const response = await fetch(`${BASE_API}/certificates/${certificateId}/download`, {
             method: 'GET',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: getAuthHeader(),
         });
 
         return handleResponse<CertificateDownloadResponse>(response);

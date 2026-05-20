@@ -3,7 +3,7 @@ import {useParams, useNavigate} from 'react-router-dom';
 import {Download, CheckCircle, Calendar, Trophy, Share2} from 'lucide-react';
 import {QRCodeSVG} from 'qrcode.react';
 import {apiClient} from '@skillforge/vite/lib/api';
-import type {Certificate} from '@skillforge/vite/lib/types';
+import type {Certificate, User} from '@skillforge/vite/lib/types';
 
 export function CertificatePage() {
     const {certificateId} = useParams<{ certificateId: string }>();
@@ -12,6 +12,7 @@ export function CertificatePage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [downloading, setDownloading] = useState(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     useEffect(() => {
         const fetchCertificate = async () => {
@@ -33,8 +34,23 @@ export function CertificatePage() {
         fetchCertificate();
     }, [certificateId]);
 
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            try {
+                const me = await apiClient.getProfile();
+                setCurrentUser(me);
+            } catch {
+                setCurrentUser(null);
+            }
+        };
+
+        fetchCurrentUser();
+    }, []);
+
+    const isOwnCertificate = !!currentUser && !!certificate && currentUser.id === certificate.user.id;
+
     const handleDownload = async () => {
-        if (!certificateId) return;
+        if (!certificateId || !isOwnCertificate) return;
 
         try {
             setDownloading(true);
@@ -100,7 +116,7 @@ export function CertificatePage() {
 
     return (
         <div className="flex-1 overflow-y-auto">
-            <div className="p-8 max-w-4xl mx-auto space-y-8">
+            <div className="p-2 md:p-8 max-w-6xl mx-auto space-y-8">
                 {/* Certificate Card - Golden Theme */}
                 <div
                     className="glass-widget-shell rounded-[3rem] p-12 relative overflow-hidden">
@@ -182,19 +198,22 @@ export function CertificatePage() {
                 </div>
 
                 {/* QR Code & Actions Section */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="flex flex-wrap justify-center gap-8">
                     {/* QR Code */}
-                    <div className="md:col-span-1">
+                    <div className="w-fit flex-0">
                         <div
                             className="glass-widget-surface rounded-2xl p-6 text-center">
                             <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider mb-4">Verification
                                 QR Code</p>
                             <div className="glass-widget-inset p-4 rounded-xl inline-block">
                                 <QRCodeSVG
-                                    value={JSON.stringify(certificate.qrPayload)}
-                                    size={180}
+                                    value={window.location.origin + '/student/certificates/verification?payload=' + btoa(JSON.stringify({
+                                        verificationCode: certificate.verificationCode,
+                                        userId: certificate.user.id,
+                                    }))}
+                                    className={"w-64 h-64"}
                                     level="H"
-                                    marginSize={12}
+                                    marginSize={8}
                                     bgColor="white"
                                     fgColor="black"
                                 />
@@ -205,7 +224,7 @@ export function CertificatePage() {
                     </div>
 
                     {/* Certificate Details */}
-                    <div className="md:col-span-2 space-y-4">
+                    <div className="w-full flex-1 space-y-4">
                         {/* Learner Info */}
                         <div
                             className="glass-widget-surface rounded-2xl p-6">
@@ -265,14 +284,16 @@ export function CertificatePage() {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                    <button
-                        onClick={handleDownload}
-                        disabled={downloading}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 disabled:bg-slate-500 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
-                    >
-                        <Download size={18}/>
-                        <span>{downloading ? 'Downloading...' : 'Download PDF'}</span>
-                    </button>
+                    {isOwnCertificate && (
+                        <button
+                            onClick={handleDownload}
+                            disabled={downloading}
+                            className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 disabled:bg-slate-500 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
+                        >
+                            <Download size={18}/>
+                            <span>{downloading ? 'Downloading...' : 'Download PDF'}</span>
+                        </button>
+                    )}
                     <button
                         onClick={handleShare}
                         className="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
@@ -281,7 +302,7 @@ export function CertificatePage() {
                         <span>Share Certificate</span>
                     </button>
                     <button
-                        onClick={() => navigate(`/student/courses/${certificate.courseId}`)}
+                        onClick={() => navigate(`/student/courses/${certificate.course.id}`)}
                         className="flex-1 bg-slate-700/80 hover:bg-slate-600 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors"
                     >
                         View Course

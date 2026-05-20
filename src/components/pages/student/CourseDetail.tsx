@@ -104,7 +104,7 @@ export function CourseDetail() {
 				<div className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700 rounded-2xl sm:rounded-3xl md:rounded-[3rem] p-4 sm:p-8 md:p-12 text-white relative overflow-hidden shadow-xl">
 					<div className="absolute top-0 right-0 w-64 sm:w-80 md:w-96 h-64 sm:h-80 md:h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
-					<div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-4 sm:gap-6 md:gap-8">
+					<div className="relative z-10 flex flex-col flex-wrap md:flex-row justify-between items-start gap-4 sm:gap-6 md:gap-8">
 						<div className="flex-1 w-full">
 							<div className="inline-block px-3 py-1 text-xs font-black uppercase tracking-widest rounded-lg bg-white/20 mb-3 sm:mb-4 backdrop-blur-sm">
 								{course.level}

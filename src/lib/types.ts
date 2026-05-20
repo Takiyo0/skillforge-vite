@@ -615,7 +615,6 @@ export interface QrPayload {
 export interface Certificate {
 	id: string;
 	certificateCode: string;
-	userId: string;
 	courseId: string;
 	issuedAt: string;
 	qrPayload: QrPayload;

@@ -149,14 +149,14 @@ export function StudentDashboard() {
                     {activeCourses.length === 0 ? (
                         <StateCard title="No courses enrolled yet" description="Browse the catalog to start a learning path." />
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+                        <div className="flex flex-wrap gap-4 sm:gap-5 md:gap-6">
                             {activeCourses.map(course => {
                                 const isViolet = (Number(course.progressPercent) || 0) > 50;
 
                                 return (
                                     <div
                                         key={course.id}
-                                        className={`rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell`}
+                                        className={`rounded-lg min-w-58 flex-1 max-w-64 sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell`}
                                     >
                                         {/* Thumbnail Image */}
                                         <div className={`h-40 sm:h-44 md:h-48 overflow-hidden relative ${
@@ -240,12 +240,12 @@ export function StudentDashboard() {
                             <Star size={24} className="mr-3 text-green-500"/> Completed Courses ({completedCourses.length})
                         </h2>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+                        <div className="flex flex-wrap gap-4 sm:gap-5 md:gap-6">
                             {completedCourses.map(course => {
                                 return (
                                     <div
                                         key={course.id}
-                                        className="rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell"
+                                        className="rounded-lg min-w-58 flex-1 max-w-64 sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell"
                                     >
                                         {/* Thumbnail Image */}
                                         <div className={`h-40 sm:h-44 md:h-48 overflow-hidden relative ${
