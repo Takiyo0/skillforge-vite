@@ -53,7 +53,7 @@ export function CertificatePage() {
     const handleShare = () => {
         if (!certificate) return;
 
-        const shareText = `I just completed the course "${certificate.completionSnapshot.courseName}" and earned a certificate! Certificate Code: ${certificate.certificateCode}`;
+        const shareText = `I just completed the course "${certificate.course.title}" and earned a certificate! Certificate Code: ${certificate.certificateCode}`;
 
         if (navigator.share) {
             navigator.share({
@@ -127,7 +127,7 @@ export function CertificatePage() {
                                 <p className="text-slate-600 dark:text-slate-400 text-lg font-medium mb-2">This
                                     certifies that</p>
                                 <p className="text-4xl font-black text-blue-900 dark:text-blue-300">
-                                    {certificate.completionSnapshot.userName}
+                                    {certificate.user.displayName}
                                 </p>
                             </div>
 
@@ -136,15 +136,8 @@ export function CertificatePage() {
                                 <p className="text-slate-600 dark:text-slate-400 text-lg font-medium mb-2">has
                                     successfully completed the course</p>
                                 <p className="text-3xl font-black text-slate-900 dark:text-white">
-                                    {certificate.completionSnapshot.courseName}
+                                    {certificate.course.title}
                                 </p>
-                                <div className="flex items-center justify-center space-x-2 mt-3">
-                                    <CheckCircle size={20} className="text-green-600"/>
-                                    <span
-                                        className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-										{certificate.completionSnapshot.courseLevel}
-									</span>
-                                </div>
                             </div>
 
                             {/* Certificate Details */}
@@ -250,7 +243,7 @@ export function CertificatePage() {
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">Completed</p>
                                     <p className="text-slate-900 dark:text-white font-bold">
-                                        {new Date(certificate.completionSnapshot.completedAt).toLocaleDateString('en-US', {
+                                        {new Date(certificate.issuedAt).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'short',
                                             day: 'numeric',

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { apiClient } from '@skillforge/vite/lib/api';
 import type {
@@ -8,12 +8,15 @@ import type {
     FinalExamSubmissionResponse,
     QuizAnswerDto,
     QuizQuestion,
+    AttemptReviewResponse,
 } from '@skillforge/vite/lib/types';
 import { MarkdownContent } from '@skillforge/vite/components/ui/MarkdownContent';
 
 export function AssessmentPage() {
     const { courseId, unitId } = useParams<{ courseId: string; unitId: string }>();
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const reviewAttemptId = searchParams.get('reviewAttemptId');
 
     const [unit, setUnit] = useState<Unit | null>(null);
     const [loading, setLoading] = useState(true);
@@ -25,6 +28,7 @@ export function AssessmentPage() {
     const [quizSubmitting, setQuizSubmitting] = useState(false);
     const [quizResult, setQuizResult] = useState<QuizSubmissionResponse | FinalExamSubmissionResponse | null>(null);
     const [examQuestions, setExamQuestions] = useState<QuizQuestion[]>([]);
+    const [attemptReview, setAttemptReview] = useState<AttemptReviewResponse | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,8 +42,30 @@ export function AssessmentPage() {
                 setLoading(true);
                 const unitData = await apiClient.getUnitDetail(unitId);
                 setUnit(unitData);
-                
-                // For final exams, start/resume attempt to get questions
+
+                if (reviewAttemptId) {
+                    if (unitData.type === 'assessment' && unitData.quiz) {
+                        const review = await apiClient.getAssessmentAttemptReview(
+                            unitId,
+                            unitData.quiz.id,
+                            reviewAttemptId
+                        );
+                        setAttemptReview(review);
+                        return;
+                    }
+
+                    if (unitData.type === 'final_exam' && unitData.finalExam) {
+                        const review = await apiClient.getFinalExamAttemptReview(
+                            unitId,
+                            unitData.finalExam.unitId,
+                            reviewAttemptId
+                        );
+                        setAttemptReview(review);
+                        return;
+                    }
+                }
+
+                // For final exams in attempt mode, start/resume to get questions
                 if (unitData.type === 'final_exam' && unitData.finalExam) {
                     const attemptResponse = await apiClient.startFinalExamAttempt(unitId, unitData.finalExam.unitId);
                     // Store questions separately from the unit
@@ -55,7 +81,7 @@ export function AssessmentPage() {
         };
 
         fetchData();
-    }, [courseId, unitId]);
+    }, [courseId, reviewAttemptId, unitId]);
 
     const handleAnswerChange = (questionId: string, optionId: string, answerMultiple: boolean) => {
         if (quizResult) return;
@@ -107,6 +133,11 @@ export function AssessmentPage() {
             }
 
             setQuizResult(result);
+            if ('attemptId' in result && result.attemptId) {
+                const next = new URLSearchParams(searchParams);
+                next.set('reviewAttemptId', result.attemptId);
+                setSearchParams(next, { replace: true });
+            }
         } catch (err) {
             const apiError = err as Error;
             setError(apiError.message || 'Failed to submit');
@@ -170,6 +201,79 @@ export function AssessmentPage() {
     const currentQuestion = questions[currentQuestionIdx];
     const allAnswered = questions.every((q) => quizAnswers[q.id]);
 
+    if (attemptReview) {
+        return (
+            <div className="flex-1 overflow-y-auto">
+                <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10 space-y-6">
+                    <div className="glass-widget-surface rounded-2xl p-5 sm:p-6 md:p-8">
+                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-2">
+                            Attempt Review
+                        </h1>
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                            Attempt #{attemptReview.attempt.attemptNumber} • {attemptReview.attempt.scorePercent}%
+                        </p>
+                        {!attemptReview.revealAnswerDetails && (
+                            <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">
+                                Correct answers and explanations are hidden for this attempt.
+                            </p>
+                        )}
+                    </div>
+
+                    {attemptReview.questions.map((q, index) => (
+                        <div key={q.questionId} className="glass-widget-surface rounded-2xl p-4 sm:p-6 space-y-4">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-black text-sm">
+                                    {index + 1}
+                                </div>
+                                <p className="text-xs uppercase font-bold text-slate-500 dark:text-slate-400">{q.points} point(s)</p>
+                            </div>
+                            <MarkdownContent content={q.prompt} className="text-base sm:text-lg" />
+                            <div className="space-y-2">
+                                {q.options.map((option) => {
+                                    const selected = q.selectedOptionIds.includes(option.id);
+                                    const correct = !!attemptReview.revealAnswerDetails && q.correctOptionIds?.includes(option.id);
+                                    return (
+                                        <div
+                                            key={option.id}
+                                            className={`p-3 rounded-lg border ${
+                                                correct
+                                                    ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
+                                                    : selected
+                                                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                                        : 'border-slate-200 dark:border-slate-700'
+                                            }`}
+                                        >
+                                            <MarkdownContent content={option.label} className="text-sm" />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            {attemptReview.revealAnswerDetails && (
+                                <div className="space-y-2">
+                                    <p className={`text-sm font-bold ${q.isCorrect ? 'text-emerald-600' : 'text-orange-600'}`}>
+                                        {q.isCorrect ? 'Correct' : 'Incorrect'}
+                                    </p>
+                                    {q.explanation && (
+                                        <div className="text-sm text-slate-600 dark:text-slate-300">
+                                            <MarkdownContent content={q.explanation} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+
+                    <button
+                        onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}`)}
+                        className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 py-3 rounded-xl font-black"
+                    >
+                        Back to Unit
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     if (quizResult) {
         return (
             <div className="flex-1 overflow-y-auto">
@@ -198,16 +302,30 @@ export function AssessmentPage() {
                             </p>
                         </div>
 
-                        <button
-                            onClick={() => navigate(
-                                quizResult.isPassed 
-                                    ? `/student/courses/${courseId}`
-                                    : `/student/courses/${courseId}/units/${unitId}`
-                            )}
-                            className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02]"
-                        >
-                            {quizResult.isPassed ? 'Back to Course' : 'Back to Unit'}
-                        </button>
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                            <button
+                                onClick={() => {
+                                    const next = new URLSearchParams(searchParams);
+                                    if ('attemptId' in quizResult) {
+                                        next.set('reviewAttemptId', quizResult.attemptId);
+                                    }
+                                    setSearchParams(next);
+                                }}
+                                className="bg-white/10 hover:bg-white/20 text-slate-900 dark:text-white border border-slate-300 dark:border-white/20 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-black text-sm sm:text-base"
+                            >
+                                Review Attempt
+                            </button>
+                            <button
+                                onClick={() => navigate(
+                                    quizResult.isPassed 
+                                        ? `/student/courses/${courseId}`
+                                        : `/student/courses/${courseId}/units/${unitId}`
+                                )}
+                                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02]"
+                            >
+                                {quizResult.isPassed ? 'Back to Course' : 'Back to Unit'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

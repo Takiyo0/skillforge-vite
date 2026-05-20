@@ -797,13 +797,23 @@ export function UnitView() {
                                                         {new Date(submission.submittedAt).toLocaleString()}
                                                     </p>
                                                 </div>
-                                                <div className="sm:text-right">
+                                                <div className="sm:text-right flex flex-col sm:items-end gap-2">
                                                     <p className={`text-xl sm:text-2xl font-black ${submission.isPassed ? 'text-emerald-700 dark:text-emerald-400' : 'text-orange-700 dark:text-orange-400'}`}>
                                                         {submission.scorePercent}%
                                                     </p>
                                                     <p className={`text-xs font-bold uppercase ${submission.isPassed ? 'text-emerald-700 dark:text-emerald-400' : 'text-orange-700 dark:text-orange-400'}`}>
                                                         {submission.isPassed ? 'Passed' : 'Failed'}
                                                     </p>
+                                                    <button
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/student/courses/${courseId}/units/${unitId}/assessment?reviewAttemptId=${submission.id}`,
+                                                            )
+                                                        }
+                                                        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                                                    >
+                                                        Review Attempt
+                                                    </button>
                                                 </div>
                                             </div>
                                         ))}
@@ -885,13 +895,25 @@ export function UnitView() {
                                                                 {new Date(submission.submittedAt).toLocaleString()}
                                                             </p>
                                                         </div>
-                                                        <div className="sm:text-right">
+                                                        <div className="sm:text-right flex flex-col sm:items-end gap-2">
                                                             <p className={`text-xl sm:text-2xl font-black ${submission.isPassed ? 'text-emerald-700 dark:text-emerald-400' : 'text-orange-700 dark:text-orange-400'}`}>
                                                                 {submission.scorePercent}%
                                                             </p>
                                                             <p className={`text-xs font-bold uppercase ${submission.isPassed ? 'text-emerald-700 dark:text-emerald-400' : 'text-orange-700 dark:text-orange-400'}`}>
                                                                 {submission.isPassed ? 'Passed' : 'Failed'}
                                                             </p>
+                                                            {submission.isPassed && (
+                                                                <button
+                                                                    onClick={() =>
+                                                                        navigate(
+                                                                            `/student/courses/${courseId}/units/${unitId}/assessment?reviewAttemptId=${submission.id}`,
+                                                                        )
+                                                                    }
+                                                                    className="text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                                                                >
+                                                                    Review Attempt
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 ))}

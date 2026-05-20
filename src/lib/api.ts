@@ -19,6 +19,7 @@ import type {
     CourseLevel,
     ApiError,
     SubmissionFeedback,
+    AttemptReviewResponse,
     Certificate,
     CertificateDownloadResponse,
     CertificateVerificationResponse,
@@ -594,6 +595,19 @@ export const apiClient = {
         return handleResponse<QuizSubmissionResponse>(response);
     },
 
+    async getAssessmentAttemptReview(
+        unitId: string,
+        quizId: string,
+        attemptId: string
+    ): Promise<AttemptReviewResponse> {
+        const response = await fetch(`${BASE_API}/units/${unitId}/quizzes/${quizId}/submissions/${attemptId}/review`, {
+            method: 'GET',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<AttemptReviewResponse>(response);
+    },
+
     // ==================== FINAL EXAMS ====================
 
     /**
@@ -626,6 +640,19 @@ export const apiClient = {
         });
 
         return handleResponse<FinalExamSubmissionResponse>(response);
+    },
+
+    async getFinalExamAttemptReview(
+        unitId: string,
+        finalExamId: string,
+        attemptId: string
+    ): Promise<AttemptReviewResponse> {
+        const response = await fetch(`${BASE_API}/units/${unitId}/final-exams/${finalExamId}/attempts/${attemptId}/review`, {
+            method: 'GET',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<AttemptReviewResponse>(response);
     },
 
     // ==================== ONBOARDING ====================

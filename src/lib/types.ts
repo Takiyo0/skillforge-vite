@@ -534,6 +534,31 @@ export interface QuizSubmissionResponse {
 	answers: QuizAnswerResultDto[];
 }
 
+export interface AttemptReviewQuestion {
+	questionId: string;
+	questionType: 'single_choice' | 'multiple_choice' | 'short_answer';
+	prompt: string;
+	points: number;
+	selectedOptionIds: string[];
+	isCorrect?: boolean;
+	explanation?: string;
+	correctOptionIds?: string[];
+	options: QuizOption[];
+}
+
+export interface AttemptReviewResponse {
+	attempt: {
+		id: string;
+		attemptNumber: number;
+		scorePercent: number;
+		isPassed: boolean;
+		startedAt: string;
+		submittedAt: string;
+	};
+	revealAnswerDetails: boolean;
+	questions: AttemptReviewQuestion[];
+}
+
 export interface FinalExamAttemptStartResponse {
 	attemptId: string;
 	attemptNumber: number;
@@ -593,7 +618,6 @@ export interface Certificate {
 	userId: string;
 	courseId: string;
 	issuedAt: string;
-	completionSnapshot: CertificateCompletionSnapshot;
 	qrPayload: QrPayload;
 	pdfS3Key: string;
 	verificationCode: string;
