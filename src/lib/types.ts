@@ -655,6 +655,14 @@ export interface LearningPathCourse {
 	courseDescription: string;
 	courseThumbnail: string | null;
 	position: number;
+	id?: string;
+	title?: string;
+	description?: string | null;
+	level?: CourseLevel;
+	language?: string;
+	thumbnailS3Key?: string | null;
+	progressPercent?: number;
+	completed?: boolean;
 }
 
 export interface LearningPathCriteria {
@@ -682,6 +690,15 @@ export interface LearningPathResponse {
 	criteria?: LearningPathCriteria;
 	courses?: LearningPathCourse[];
 	createdAt?: string;
+}
+
+export interface JoinLearningPathResponse {
+	message: string;
+	learningPathId: string;
+}
+
+export interface LeaveLearningPathResponse {
+	message: string;
 }
 
 export interface UserCourseProgress {

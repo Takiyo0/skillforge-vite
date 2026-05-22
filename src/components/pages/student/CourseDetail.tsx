@@ -167,8 +167,8 @@ export function CourseDetail() {
 												if (nextUnit) {
 													navigate(`/student/courses/${courseId}/units/${nextUnit.unitId}`);
 												} else {
-													// Fallback to learning path if no unit found
-													navigate('/student/learning-path');
+													// Fallback to the merged learning paths view if no unit found
+													navigate('/student/learning-paths');
 												}
 											}}
 											className="w-full mt-4 sm:mt-6 bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-black text-xs sm:text-sm transition-colors flex items-center justify-center space-x-2 min-h-[44px]"

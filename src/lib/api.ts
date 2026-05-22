@@ -23,7 +23,9 @@ import type {
     Certificate,
     CertificateDownloadResponse,
     CertificateVerificationResponse,
+    JoinLearningPathResponse,
     LearningPath,
+    LeaveLearningPathResponse,
     UserProfile,
     ExerciseDetails,
     ModuleContent,
@@ -828,6 +830,30 @@ export const apiClient = {
         });
 
         return handleResponse<LearningPath | { message: string }>(response);
+    },
+
+    /**
+     * Join a learning path
+     */
+    async joinLearningPath(learningPathId: string): Promise<JoinLearningPathResponse> {
+        const response = await fetch(`${BASE_API}/learning-paths/${learningPathId}/join`, {
+            method: 'POST',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<JoinLearningPathResponse>(response);
+    },
+
+    /**
+     * Leave a learning path
+     */
+    async leaveLearningPath(learningPathId: string): Promise<LeaveLearningPathResponse> {
+        const response = await fetch(`${BASE_API}/learning-paths/${learningPathId}/leave`, {
+            method: 'DELETE',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<LeaveLearningPathResponse>(response);
     },
 
     /**

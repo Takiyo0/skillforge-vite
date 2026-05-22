@@ -5,7 +5,6 @@ import {Sidebar} from '@skillforge/vite/components/layout/Sidebar';
 import {UserMenu} from '@skillforge/vite/components/layout/UserMenu';
 import {MobileNav} from '@skillforge/vite/components/layout/MobileNav';
 import {StudentDashboard} from '@skillforge/vite/components/pages/student/StudentDashboard';
-import {LearningPath} from '@skillforge/vite/components/pages/student/LearningPath';
 import {LearningPathsPage} from '@skillforge/vite/components/pages/student/LearningPathsPage';
 import {CodePlayground} from '@skillforge/vite/components/pages/student/CodePlayground';
 import {Certificates} from '@skillforge/vite/components/pages/student/Certificates';
@@ -183,7 +182,7 @@ function AppContent({isDarkMode, handleLogout, setIsDarkMode, setUser}: {
                             <Route path="/student/courses/:courseId/units/:unitId" element={<UnitView/>}/>
                             <Route path="/student/courses/:courseId/units/:unitId/assessment"
                                    element={<AssessmentPage/>}/>
-                            <Route path="/student/learning-path" element={<LearningPath activeCourseId="backend"/>}/>
+                            <Route path="/student/learning-path" element={<Navigate to="/student/learning-paths" replace/>}/>
                             <Route path="/student/code-sandbox" element={<CodePlayground/>}/>
                             <Route path="/student/playground" element={<Navigate to="/student/code-sandbox" replace/>}/>
                             <Route path="/student/certificates" element={<Certificates/>}/>
