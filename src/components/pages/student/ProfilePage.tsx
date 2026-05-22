@@ -222,42 +222,47 @@ export function ProfilePage() {
 				</div>
 
 				{/* Activity Heatmap */}
-				{profile.recentActivity.length > 0 && (
-					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
-						<h2 className="text-lg font-black text-slate-900 dark:text-white mb-4">Activity</h2>
-						<div className="flex flex-wrap gap-1">
-							{heatmapData.map((day, idx) => (
-								<Tooltip key={idx} content={`${day.date}: ${day.count} events`}>
-									<div
-										className={`w-3 h-3 rounded-sm transition-all ${
-											day.intensity === 0
-												? 'bg-blue-500/15'
-												: day.intensity === 1
-												? 'bg-blue-200 dark:bg-blue-800'
-												: day.intensity === 2
-												? 'bg-blue-400 dark:bg-blue-600'
-												: day.intensity === 3
-												? 'bg-blue-600 dark:bg-blue-500'
-												: day.intensity === 4
-												? 'bg-blue-700 dark:bg-blue-400'
-												: 'bg-blue-900 dark:bg-blue-300'
-										}`}
-									/>
-								</Tooltip>
-							))}
-						</div>
+				<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
+					<h2 className="text-lg font-black text-slate-900 dark:text-white mb-4">
+						Activity ({profile.recentActivity.length})
+					</h2>
+					<div className="flex flex-wrap gap-1">
+						{heatmapData.map((day, idx) => (
+							<Tooltip key={idx} content={`${day.date}: ${day.count} events`}>
+								<div
+									className={`w-3 h-3 rounded-sm transition-all ${
+										day.intensity === 0
+											? 'bg-blue-500/15'
+											: day.intensity === 1
+											? 'bg-blue-200 dark:bg-blue-800'
+											: day.intensity === 2
+											? 'bg-blue-400 dark:bg-blue-600'
+											: day.intensity === 3
+											? 'bg-blue-600 dark:bg-blue-500'
+											: day.intensity === 4
+											? 'bg-blue-700 dark:bg-blue-400'
+											: 'bg-blue-900 dark:bg-blue-300'
+									}`}
+								/>
+							</Tooltip>
+						))}
 					</div>
-				)}
+					{profile.recentActivity.length === 0 && (
+						<p className="text-sm text-slate-500 dark:text-slate-400 italic">
+							No activity yet.
+						</p>
+					)}
+				</div>
 
 				{/* Badges */}
-				{profile.badges.length > 0 && (
-					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
-						<div className="flex items-center space-x-2 mb-6">
-							<Trophy size={24} className="text-amber-500" />
-							<h2 className="text-xl font-black text-slate-900 dark:text-white">
-								Badges ({profile.badges.length})
-							</h2>
-						</div>
+				<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
+					<div className="flex items-center space-x-2 mb-6">
+						<Trophy size={24} className="text-amber-500" />
+						<h2 className="text-xl font-black text-slate-900 dark:text-white">
+							Badges ({profile.badges.length})
+						</h2>
+					</div>
+					{profile.badges.length > 0 ? (
 						<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 							{profile.badges.map((badge) => (
 								<div
@@ -279,18 +284,22 @@ export function ProfilePage() {
 								</div>
 							))}
 						</div>
-					</div>
-				)}
+					) : (
+						<p className="text-sm text-slate-500 dark:text-slate-400 italic">
+							No badges yet.
+						</p>
+					)}
+				</div>
 
 				{/* Currently Learning Courses */}
-				{currentlyLearningCourses.length > 0 && (
-					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
-						<div className="flex items-center space-x-2 mb-6">
-							<BookOpen size={24} className="text-blue-500" />
-							<h2 className="text-xl font-black text-slate-900 dark:text-white">
-								Currently Learning ({currentlyLearningCourses.length})
-							</h2>
-						</div>
+				<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
+					<div className="flex items-center space-x-2 mb-6">
+						<BookOpen size={24} className="text-blue-500" />
+						<h2 className="text-xl font-black text-slate-900 dark:text-white">
+							Currently Learning ({currentlyLearningCourses.length})
+						</h2>
+					</div>
+					{currentlyLearningCourses.length > 0 ? (
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							{currentlyLearningCourses.map((course) => (
 								<div
@@ -324,18 +333,22 @@ export function ProfilePage() {
 								</div>
 							))}
 						</div>
-					</div>
-				)}
+					) : (
+						<p className="text-sm text-slate-500 dark:text-slate-400 italic">
+							No currently learning courses yet.
+						</p>
+					)}
+				</div>
 
 				{/* Completed Courses */}
-				{completedCourses.length > 0 && (
-					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
-						<div className="flex items-center space-x-2 mb-6">
-							<Award size={24} className="text-green-500" />
-							<h2 className="text-xl font-black text-slate-900 dark:text-white">
-								Completed ({completedCourses.length})
-							</h2>
-						</div>
+				<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
+					<div className="flex items-center space-x-2 mb-6">
+						<Award size={24} className="text-green-500" />
+						<h2 className="text-xl font-black text-slate-900 dark:text-white">
+							Completed ({completedCourses.length})
+						</h2>
+					</div>
+					{completedCourses.length > 0 ? (
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							{completedCourses.map((course) => (
 								<div
@@ -360,18 +373,22 @@ export function ProfilePage() {
 								</div>
 							))}
 						</div>
-					</div>
-				)}
+					) : (
+						<p className="text-sm text-slate-500 dark:text-slate-400 italic">
+							No completed courses yet.
+						</p>
+					)}
+				</div>
 
 				{/* Certificates */}
-				{profile.certificates.length > 0 && (
-					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
-						<div className="flex items-center space-x-2 mb-6">
-							<Trophy size={24} className="text-yellow-500" />
-							<h2 className="text-xl font-black text-slate-900 dark:text-white">
-								Certificates ({profile.certificates.length})
-							</h2>
-						</div>
+				<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-6 mb-8 shadow-xl shadow-blue-950/5">
+					<div className="flex items-center space-x-2 mb-6">
+						<Trophy size={24} className="text-yellow-500" />
+						<h2 className="text-xl font-black text-slate-900 dark:text-white">
+							Certificates ({profile.certificates.length})
+						</h2>
+					</div>
+					{profile.certificates.length > 0 ? (
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							{profile.certificates.map((cert) => (
 								<div
@@ -391,8 +408,12 @@ export function ProfilePage() {
 								</div>
 							))}
 						</div>
-					</div>
-				)}
+					) : (
+						<p className="text-sm text-slate-500 dark:text-slate-400 italic">
+							No certificates yet.
+						</p>
+					)}
+				</div>
 			</div>
 		</div>
 	);

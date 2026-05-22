@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronDown, BookOpen, Lock, CheckCircle, Play, MessageSquare } from 'lucide-react';
 import { apiClient } from '@skillforge/vite/lib/api';
 import type { Course, CourseUnitsResponse, CourseProgress } from '@skillforge/vite/lib/types';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 export function CourseDetail() {
 	const { courseId } = useParams<{ courseId: string }>();
@@ -123,7 +124,11 @@ export function CourseDetail() {
 							<div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6 mt-4 sm:mt-6">
 								<div>
 									<p className="text-blue-200 text-xs font-bold uppercase tracking-wider mb-1">Instructor</p>
-									<p className="text-lg sm:text-xl font-black">{course.creator.displayName}</p>
+									<p className="text-lg sm:text-xl font-black">
+										<UserProfileLink userId={course.creator?.id} className="hover:underline">
+											{course.creator.displayName}
+										</UserProfileLink>
+									</p>
 								</div>
 								<div>
 									<p className="text-blue-200 text-xs font-bold uppercase tracking-wider mb-1">Language</p>

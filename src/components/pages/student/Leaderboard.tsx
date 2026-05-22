@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Flame, Trophy, TrendingUp } from 'lucide-react';
 import { apiClient } from '@skillforge/vite/lib/api';
 import type { User } from '@skillforge/vite/lib/types';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface LeaderboardEntry {
 	userId: string;
@@ -167,7 +168,9 @@ export function Leaderboard() {
 																		: 'text-slate-900 dark:text-white'
 																}`}
 															>
-																{entry.displayName}
+																<UserProfileLink userId={entry.userId} className="hover:underline">
+																	{entry.displayName}
+																</UserProfileLink>
 																{isUser && (
 																	<span className="ml-2 text-xs font-bold uppercase bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full">
 																		You

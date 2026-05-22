@@ -3,6 +3,7 @@ import {ArrowLeft, MessageSquare, Search, Clock, Plus, Send, X} from 'lucide-rea
 import {useEffect, useState} from 'react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {getAvatarUrl} from '@skillforge/vite/lib/s3';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface ForumPost {
     id: string;
@@ -308,12 +309,18 @@ export function CourseForumsPage() {
                                                     className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
                                                     {/* Author */}
                                                     <div className="flex items-center gap-2">
-                                                        <img
-                                                            src={getAvatarUrl(post.author.avatarS3Key, post.author.id)}
-                                                            alt={post.author.displayName}
-                                                            className="w-6 h-6 rounded-full"
-                                                        />
-                                                        <span className="font-medium">{post.author.displayName}</span>
+                                                        <UserProfileLink
+                                                            userId={post.author?.id}
+                                                            className="inline-flex items-center gap-2 font-medium hover:underline"
+                                                            stopPropagation
+                                                        >
+                                                            <img
+                                                                src={getAvatarUrl(post.author.avatarS3Key, post.author.id)}
+                                                                alt={post.author.displayName}
+                                                                className="w-6 h-6 rounded-full"
+                                                            />
+                                                            <span className="font-medium">{post.author.displayName}</span>
+                                                        </UserProfileLink>
                                                     </div>
 
                                                     {/* Date */}

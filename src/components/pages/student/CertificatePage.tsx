@@ -4,6 +4,7 @@ import {Download, CheckCircle, Calendar, Trophy, Share2} from 'lucide-react';
 import {QRCodeSVG} from 'qrcode.react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import type {Certificate, User} from '@skillforge/vite/lib/types';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 export function CertificatePage() {
     const {certificateId} = useParams<{ certificateId: string }>();
@@ -143,7 +144,9 @@ export function CertificatePage() {
                                 <p className="text-slate-600 dark:text-slate-400 text-lg font-medium mb-2">This
                                     certifies that</p>
                                 <p className="text-4xl font-black text-blue-900 dark:text-blue-300">
-                                    {certificate.user.displayName}
+                                    <UserProfileLink userId={certificate.user?.id} className="hover:underline">
+                                        {certificate.user.displayName}
+                                    </UserProfileLink>
                                 </p>
                             </div>
 
@@ -233,7 +236,11 @@ export function CertificatePage() {
                             <div className="space-y-3">
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">Name</p>
-                                    <p className="text-slate-900 dark:text-white font-bold">{certificate.user.displayName}</p>
+                                    <p className="text-slate-900 dark:text-white font-bold">
+                                        <UserProfileLink userId={certificate.user?.id} className="hover:underline">
+                                            {certificate.user.displayName}
+                                        </UserProfileLink>
+                                    </p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">Email</p>
@@ -312,7 +319,7 @@ export function CertificatePage() {
                 {/* Back Link */}
                 <div className="pt-4">
                     <button
-                        onClick={() => navigate('/student/profile/me')}
+                        onClick={() => navigate(`/student/profile/${certificate.user.id}`)}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-bold text-sm transition-colors"
                     >
                         ← Back to Profile

@@ -17,6 +17,7 @@ import { apiClient } from '@skillforge/vite/lib/api';
 import type { User as UserType } from '@skillforge/vite/lib/types';
 import { isAdmin } from '@skillforge/vite/lib/roles';
 import { getAvatarUrl } from '@skillforge/vite/lib/s3';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface ForumAuthor {
 	id: string;
@@ -303,15 +304,19 @@ export function ForumThreadView({
 						<div className="flex items-start justify-between mb-3">
 							<div className="flex items-center gap-3 flex-1">
 								{reply.author?.avatarS3Key && (
-									<img
-										src={getAvatarUrl(reply.author.avatarS3Key)}
-										alt={reply.author.displayName}
-										className="w-10 h-10 rounded-full"
-									/>
+									<UserProfileLink userId={reply.author?.id} className="inline-flex hover:opacity-90">
+										<img
+											src={getAvatarUrl(reply.author.avatarS3Key)}
+											alt={reply.author.displayName}
+											className="w-10 h-10 rounded-full"
+										/>
+									</UserProfileLink>
 								)}
 								<div className="flex-1">
 									<div className="font-medium text-sm">
-										{reply.author?.displayName}
+										<UserProfileLink userId={reply.author?.id} className="hover:underline">
+											{reply.author?.displayName}
+										</UserProfileLink>
 									</div>
 									<div className="text-xs text-gray-500">
 										{formatDate(reply.createdAt)}
@@ -455,14 +460,20 @@ export function ForumThreadView({
 						<h1 className="text-2xl font-bold mb-2">{post.title}</h1>
 						<div className="flex items-center gap-3">
 							{post.author?.avatarS3Key && (
-								<img
-									src={getAvatarUrl(post.author.avatarS3Key)}
-									alt={post.author.displayName}
-									className="w-12 h-12 rounded-full"
-								/>
+								<UserProfileLink userId={post.author?.id} className="inline-flex hover:opacity-90">
+									<img
+										src={getAvatarUrl(post.author.avatarS3Key)}
+										alt={post.author.displayName}
+										className="w-12 h-12 rounded-full"
+									/>
+								</UserProfileLink>
 							)}
 							<div>
-								<div className="font-medium">{post.author?.displayName}</div>
+								<div className="font-medium">
+									<UserProfileLink userId={post.author?.id} className="hover:underline">
+										{post.author?.displayName}
+									</UserProfileLink>
+								</div>
 								<div className="text-sm text-gray-500">
 									{formatDate(post.createdAt)}
 								</div>
@@ -527,7 +538,12 @@ export function ForumThreadView({
 						<div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded flex items-start justify-between">
 							<div>
 								<div className="text-sm font-medium text-blue-900">
-									Replying to: <strong>{replyTarget.author?.displayName}</strong>
+									Replying to:{' '}
+									<strong>
+										<UserProfileLink userId={replyTarget.author?.id} className="hover:underline">
+											{replyTarget.author?.displayName}
+										</UserProfileLink>
+									</strong>
 								</div>
 								<div className="text-xs text-blue-700 mt-1 line-clamp-2">
 									"{replyTarget.body}"

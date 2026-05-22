@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Search, Clock, BookOpen, ChevronRight, Send, X } from 'lucide-react';
 import { apiClient } from '@skillforge/vite/lib/api';
 import { getAvatarUrl } from '@skillforge/vite/lib/s3';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface ForumPost {
 	id: string;
@@ -322,12 +323,18 @@ export function UserForumsPage() {
 											<div className="flex items-center gap-3">
 												{/* Author */}
 												<div className="flex items-center gap-2">
-													<img
-														src={getAvatarUrl(post.author.avatarS3Key, post.author.id)}
-														alt={post.author.displayName}
-														className="w-6 h-6 rounded-full"
-													/>
-													<span className="font-medium">{post.author.displayName}</span>
+													<UserProfileLink
+														userId={post.author?.id}
+														className="inline-flex items-center gap-2 font-medium hover:underline"
+														stopPropagation
+													>
+														<img
+															src={getAvatarUrl(post.author.avatarS3Key, post.author.id)}
+															alt={post.author.displayName}
+															className="w-6 h-6 rounded-full"
+														/>
+														<span className="font-medium">{post.author.displayName}</span>
+													</UserProfileLink>
 												</div>
 
 												{/* Date */}

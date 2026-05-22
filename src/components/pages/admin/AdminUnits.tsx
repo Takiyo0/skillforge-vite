@@ -16,6 +16,7 @@ import type {Unit, Course, ApiError, UnitType, CourseLevel, SandboxLanguage} fro
 import {apiClient} from '@skillforge/vite/lib/api';
 import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
 import {Breadcrumbs} from '@skillforge/vite/components/layout/Breadcrumbs';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 import {trimString} from "../../../lib/utils.ts";
 
 type ModalState = 'closed' | 'create' | 'prerequisites';
@@ -571,7 +572,11 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                 <p className="text-slate-500 dark:text-slate-400 mt-1">{selectedCourse!.subtitle}</p>
                                 <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
                                     Author: <span
-                                    className="font-semibold text-slate-900 dark:text-white">{selectedCourse!.creator?.displayName || 'Unknown'}</span>
+                                    className="font-semibold text-slate-900 dark:text-white">
+                                    <UserProfileLink userId={selectedCourse?.creator?.id} className="hover:underline">
+                                        {selectedCourse!.creator?.displayName || 'Unknown'}
+                                    </UserProfileLink>
+                                </span>
                                 </p>
                                 <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
                                     <span

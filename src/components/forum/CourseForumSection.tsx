@@ -20,6 +20,7 @@ import { apiClient } from '@skillforge/vite/lib/api';
 import type { User as UserType } from '@skillforge/vite/lib/types';
 import { isAdmin, isInstructor } from '@skillforge/vite/lib/roles';
 import { getAvatarUrl } from '@skillforge/vite/lib/s3';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface ForumAuthor {
 	id: string;
@@ -326,15 +327,19 @@ export function CourseForumSection({
 			>
 				<div className="flex items-start justify-between gap-3">
 					<div className="flex items-start gap-3 min-w-0">
-						<img
-							src={getAvatarUrl(reply.author?.avatarS3Key, reply.author?.id)}
-							alt={reply.author?.displayName || 'User'}
-							className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700"
-						/>
+						<UserProfileLink userId={reply.author?.id} className="inline-flex hover:opacity-90">
+							<img
+								src={getAvatarUrl(reply.author?.avatarS3Key, reply.author?.id)}
+								alt={reply.author?.displayName || 'User'}
+								className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700"
+							/>
+						</UserProfileLink>
 						<div className="min-w-0">
 							<div className="flex items-center gap-2 flex-wrap">
 								<p className="font-bold text-sm text-slate-900 dark:text-white">
-									{reply.author?.displayName || 'Unknown User'}
+									<UserProfileLink userId={reply.author?.id} className="hover:underline">
+										{reply.author?.displayName || 'Unknown User'}
+									</UserProfileLink>
 								</p>
 								<span className="text-xs text-slate-500 dark:text-slate-400 inline-flex items-center gap-1">
 									<Clock3 size={12} />
@@ -542,13 +547,16 @@ export function CourseForumSection({
 											<h3 className="text-lg font-black text-slate-900 dark:text-white">{post.title}</h3>
 											<p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mt-1">{post.body}</p>
 											<div className="mt-3 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-												<div className="inline-flex items-center gap-1">
-													<img
-														src={getAvatarUrl(post.author?.avatarS3Key, post.author?.id)}
-														alt={post.author?.displayName || 'User'}
-														className="w-5 h-5 rounded-full border border-slate-200 dark:border-slate-700"
-													/>
-													<span className="font-semibold">{post.author?.displayName || 'Unknown User'}</span>
+											<div className="inline-flex items-center gap-1">
+													<UserProfileLink userId={post.author?.id}
+																	 className="inline-flex items-center gap-1 font-semibold hover:underline">
+														<img
+															src={getAvatarUrl(post.author?.avatarS3Key, post.author?.id)}
+															alt={post.author?.displayName || 'User'}
+															className="w-5 h-5 rounded-full border border-slate-200 dark:border-slate-700"
+														/>
+														<span className="font-semibold">{post.author?.displayName || 'Unknown User'}</span>
+													</UserProfileLink>
 												</div>
 												<span>•</span>
 												<span>{post.replyCount} replies</span>
@@ -650,7 +658,13 @@ export function CourseForumSection({
 													{replyTargetByPost[post.id] && (
 														<div className="mb-2 text-xs text-slate-600 dark:text-slate-400 flex items-center justify-between gap-2">
 															<span>
-																Replying to <b>{replyTargetByPost[post.id]?.author?.displayName}</b>
+																Replying to{' '}
+																<b>
+																	<UserProfileLink userId={replyTargetByPost[post.id]?.author?.id}
+																					 className="hover:underline">
+																		{replyTargetByPost[post.id]?.author?.displayName}
+																	</UserProfileLink>
+																</b>
 															</span>
 															<button
 																onClick={() =>

@@ -3,6 +3,7 @@ import {MessageSquare, Search, Clock, User, X} from 'lucide-react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import type {User as UserType} from '@skillforge/vite/lib/types';
 import {getAvatarUrl} from "../../../lib/s3.ts";
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface ForumPost {
     id: string;
@@ -201,7 +202,9 @@ export function ForumPage() {
                                         className="flex items-center space-x-4 text-sm text-slate-600 dark:text-slate-400">
                                         <div className="flex items-center gap-1">
                                             <User size={14}/>
-                                            {post.author.displayName}
+                                            <UserProfileLink userId={post.author?.id} className="hover:underline">
+                                                {post.author.displayName}
+                                            </UserProfileLink>
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <Clock size={14}/>
@@ -250,19 +253,22 @@ export function ForumPage() {
                                         <div
                                             className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
                                             <div className="flex items-center gap-2">
-                                                {selectedPost.author?.avatarS3Key ? (
-                                                    <img
-                                                        src={getAvatarUrl(selectedPost.author.avatarS3Key, selectedPost.author.id)}
-                                                        alt={selectedPost.author.displayName}
-                                                        className="w-8 h-8 rounded-full"
-                                                    />
-                                                ) : (
-                                                    <div
-                                                        className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white text-xs font-bold">
-                                                        {selectedPost.author?.displayName.charAt(0)}
-                                                    </div>
-                                                )}
-                                                <span>{selectedPost.author?.displayName}</span>
+                                                <UserProfileLink userId={selectedPost.author?.id}
+                                                                 className="inline-flex items-center gap-2 hover:underline">
+                                                    {selectedPost.author?.avatarS3Key ? (
+                                                        <img
+                                                            src={getAvatarUrl(selectedPost.author.avatarS3Key, selectedPost.author.id)}
+                                                            alt={selectedPost.author.displayName}
+                                                            className="w-8 h-8 rounded-full"
+                                                        />
+                                                    ) : (
+                                                        <div
+                                                            className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white text-xs font-bold">
+                                                            {selectedPost.author?.displayName.charAt(0)}
+                                                        </div>
+                                                    )}
+                                                    <span>{selectedPost.author?.displayName}</span>
+                                                </UserProfileLink>
                                             </div>
                                             <span>{new Date(selectedPost.createdAt).toLocaleString()}</span>
                                         </div>

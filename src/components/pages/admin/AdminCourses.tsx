@@ -10,6 +10,7 @@ import type { Course, CourseLevel, ApiError, SandboxLanguage } from '@skillforge
 import { apiClient } from '@skillforge/vite/lib/api';
 import { Breadcrumbs } from '@skillforge/vite/components/layout/Breadcrumbs';
 import {Badge, GlassButton, GlassSecondaryButton, Input, Select, StateCard, Textarea} from '@skillforge/vite/components/ui/controls';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 type ModalState = 'closed' | 'create';
 
@@ -298,7 +299,9 @@ export function AdminCourses() {
 											</td>
 											<td className="px-6 py-4">
 												<p className="font-medium text-slate-700 dark:text-slate-300">
-													{course.creator?.displayName || 'Unknown'}
+													<UserProfileLink userId={course.creator?.id} className="hover:underline">
+														{course.creator?.displayName || 'Unknown'}
+													</UserProfileLink>
 												</p>
 											</td>
 											<td className="px-6 py-4">

@@ -5,6 +5,7 @@ import {apiClient} from '@skillforge/vite/lib/api';
 import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
 import type {Course, CourseLevel} from '@skillforge/vite/lib/types';
 import {GlassButton, SearchField, StateCard} from '@skillforge/vite/components/ui/controls';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 export function BrowseCourses() {
     const navigate = useNavigate();
@@ -194,8 +195,13 @@ export function BrowseCourses() {
 
                                             {/* Instructor */}
                                             <p className="text-slate-500 dark:text-slate-500 text-sm font-medium">
-                                                By <span
-                                                className="font-bold text-slate-700 dark:text-slate-300">{course.creator.displayName}</span>
+                                                By{' '}
+                                                <UserProfileLink
+                                                    userId={course.creator?.id}
+                                                    className="font-bold text-slate-700 dark:text-slate-300 hover:underline"
+                                                >
+                                                    {course.creator.displayName}
+                                                </UserProfileLink>
                                             </p>
 
                                             {/* Stats */}

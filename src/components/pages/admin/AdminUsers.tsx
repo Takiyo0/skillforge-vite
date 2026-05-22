@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {Badge, GlassSecondaryButton, Input, Select, StateCard} from '@skillforge/vite/components/ui/controls';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 interface User {
     id: string;
@@ -285,7 +286,11 @@ export function AdminUsers() {
                                     <tr key={user.id}
                                         className="glass-table-row border-b border-blue-200/60 dark:border-blue-500/15">
                                         <td className="px-6 py-4">
-                                            <p className="font-bold text-slate-900 dark:text-white">{user.displayName}</p>
+                                            <p className="font-bold text-slate-900 dark:text-white">
+                                                <UserProfileLink userId={user.id} className="hover:underline">
+                                                    {user.displayName}
+                                                </UserProfileLink>
+                                            </p>
                                             <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
                                         </td>
                                         <td className="px-6 py-4">
@@ -423,7 +428,11 @@ export function AdminUsers() {
                         <div className="space-y-4">
                             <div>
                                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">User</p>
-                                <p className="font-bold text-slate-900 dark:text-white">{selectedUser.displayName}</p>
+                                <p className="font-bold text-slate-900 dark:text-white">
+                                    <UserProfileLink userId={selectedUser.id} className="hover:underline">
+                                        {selectedUser.displayName}
+                                    </UserProfileLink>
+                                </p>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">{selectedUser.email}</p>
                             </div>
 

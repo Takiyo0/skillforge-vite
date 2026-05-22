@@ -6,6 +6,7 @@ import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
 import type {User, XpSummary, Streak, Course} from '@skillforge/vite/lib/types';
 import {StateCard} from '@skillforge/vite/components/ui/controls';
 import {useUserSession} from '@skillforge/vite/contexts/UserSessionContext';
+import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
 
 export function StudentDashboard() {
     const navigate = useNavigate();
@@ -99,7 +100,16 @@ export function StudentDashboard() {
                         <div className="lg:col-span-7">
                             <p className="text-xs font-bold uppercase tracking-wider text-blue-100/90">Home Base</p>
                             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mt-2 leading-tight">
-                                Good to see you{user?.displayName ? `, ${user.displayName}` : ''}.
+                                Good to see you
+                                {user?.displayName ? (
+                                    <>
+                                        ,{' '}
+                                        <UserProfileLink userId={user.id} className="hover:underline">
+                                            {user.displayName}
+                                        </UserProfileLink>
+                                    </>
+                                ) : ''}
+                                .
                             </h1>
                             <p className="text-sm sm:text-base text-blue-100/90 mt-3 max-w-2xl">
                                 Pick up where you left off and keep your progress moving.
@@ -191,7 +201,16 @@ export function StudentDashboard() {
                                                     <h3 className={`font-black text-sm sm:text-base md:text-lg mb-1 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${isViolet ? 'text-slate-900 dark:text-white' : 'text-slate-900 dark:text-white'}`}>
                                                         {course.title}
                                                     </h3>
-                                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">By {course.creator.displayName}</p>
+                                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">
+                                                        By{' '}
+                                                        <UserProfileLink
+                                                            userId={course.creator?.id}
+                                                            className="hover:underline"
+                                                            stopPropagation
+                                                        >
+                                                            {course.creator.displayName}
+                                                        </UserProfileLink>
+                                                    </p>
                                                 </div>
                                                 <span className="text-2xl sm:text-3xl flex-shrink-0">📚</span>
                                             </div>
@@ -280,7 +299,16 @@ export function StudentDashboard() {
                                                     <h3 className="font-black text-sm sm:text-base md:text-lg text-slate-900 dark:text-white mb-1 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                                                         {course.title}
                                                     </h3>
-                                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">By {course.creator.displayName}</p>
+                                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">
+                                                        By{' '}
+                                                        <UserProfileLink
+                                                            userId={course.creator?.id}
+                                                            className="hover:underline"
+                                                            stopPropagation
+                                                        >
+                                                            {course.creator.displayName}
+                                                        </UserProfileLink>
+                                                    </p>
                                                 </div>
                                                 <span className="text-2xl sm:text-3xl flex-shrink-0">✓</span>
                                             </div>
