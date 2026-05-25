@@ -582,13 +582,13 @@ export interface AttemptReviewResponse {
 	attempt: {
 		id: string;
 		attemptNumber: number;
-		scorePercent: number;
+		scorePercent: number | string;
 		isPassed: boolean;
 		startedAt: string;
 		submittedAt: string;
 	};
 	revealAnswerDetails: boolean;
-	questions: AttemptReviewQuestion[];
+	questions?: AttemptReviewQuestion[];
 }
 
 export interface FinalExamAttemptStartResponse {

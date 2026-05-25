@@ -191,17 +191,15 @@ export function AssessmentPage() {
         return <div className="flex-1 flex items-center justify-center text-slate-400">Assessment not found</div>;
     }
 
-    // Use examQuestions for final exams, quiz questions for assessments
-    const questions = unit.type === 'final_exam' ? examQuestions : unit.quiz?.questions || [];
-    
-    if (!questions.length) {
-        return <div className="flex-1 flex items-center justify-center text-slate-400">Loading questions...</div>;
-    }
-
-    const currentQuestion = questions[currentQuestionIdx];
-    const allAnswered = questions.every((q) => quizAnswers[q.id]);
-
     if (attemptReview) {
+        const reviewQuestions = attemptReview.questions || [];
+        const submittedAt = attemptReview.attempt.submittedAt
+            ? new Date(attemptReview.attempt.submittedAt).toLocaleString()
+            : 'Not submitted yet';
+        const startedAt = attemptReview.attempt.startedAt
+            ? new Date(attemptReview.attempt.startedAt).toLocaleString()
+            : 'Unknown';
+
         return (
             <div className="flex-1 overflow-y-auto">
                 <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10 space-y-6">
@@ -212,6 +210,22 @@ export function AssessmentPage() {
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Attempt #{attemptReview.attempt.attemptNumber} • {attemptReview.attempt.scorePercent}%
                         </p>
+                        <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div className="rounded-2xl border border-white/15 bg-white/40 dark:bg-slate-950/30 p-4">
+                                <p className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Status</p>
+                                <p className={`mt-1 text-lg font-black ${attemptReview.attempt.isPassed ? 'text-emerald-600 dark:text-emerald-300' : 'text-orange-600 dark:text-orange-300'}`}>
+                                    {attemptReview.attempt.isPassed ? 'Passed' : 'Not Passed'}
+                                </p>
+                            </div>
+                            <div className="rounded-2xl border border-white/15 bg-white/40 dark:bg-slate-950/30 p-4">
+                                <p className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Started</p>
+                                <p className="mt-1 text-sm font-bold text-slate-900 dark:text-white">{startedAt}</p>
+                            </div>
+                            <div className="rounded-2xl border border-white/15 bg-white/40 dark:bg-slate-950/30 p-4">
+                                <p className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Submitted</p>
+                                <p className="mt-1 text-sm font-bold text-slate-900 dark:text-white">{submittedAt}</p>
+                            </div>
+                        </div>
                         {!attemptReview.revealAnswerDetails && (
                             <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">
                                 Correct answers and explanations are hidden for this attempt.
@@ -219,7 +233,7 @@ export function AssessmentPage() {
                         )}
                     </div>
 
-                    {attemptReview.questions.map((q, index) => (
+                    {reviewQuestions.map((q, index) => (
                         <div key={q.questionId} className="glass-widget-surface rounded-2xl p-4 sm:p-6 space-y-4">
                             <div className="flex items-center gap-3">
                                 <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-black text-sm">
@@ -273,6 +287,16 @@ export function AssessmentPage() {
             </div>
         );
     }
+
+    // Use examQuestions for final exams, quiz questions for assessments
+    const questions = unit.type === 'final_exam' ? examQuestions : unit.quiz?.questions || [];
+
+    if (!questions.length) {
+        return <div className="flex-1 flex items-center justify-center text-slate-400">Loading questions...</div>;
+    }
+
+    const currentQuestion = questions[currentQuestionIdx];
+    const allAnswered = questions.every((q) => quizAnswers[q.id]);
 
     if (quizResult) {
         return (
