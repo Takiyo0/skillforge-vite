@@ -1,9 +1,9 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Play, Target, Star} from 'lucide-react';
+import {Play, Star, Target} from 'lucide-react';
 import {apiClient} from '@skillforge/vite/lib/api';
 import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
-import type {User, XpSummary, Streak, Course} from '@skillforge/vite/lib/types';
+import type {Course, Streak, User, XpSummary} from '@skillforge/vite/lib/types';
 import {StateCard} from '@skillforge/vite/components/ui/controls';
 import {useUserSession} from '@skillforge/vite/contexts/UserSessionContext';
 import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
@@ -101,8 +101,10 @@ export function StudentDashboard() {
                         className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(125,211,252,0.34),transparent_30%),radial-gradient(circle_at_78%_42%,rgba(59,130,246,0.2),transparent_32%),linear-gradient(135deg,rgba(37,99,235,0.96)_0%,rgba(14,116,144,0.86)_46%,rgba(15,23,42,0.98)_100%)]"/>
                     <div className="absolute -bottom-24 right-0 h-72 w-1/2 rounded-full bg-cyan-300/12 blur-3xl"/>
 
-                    <img src={BannerImage} alt={"Banner Image"} className="absolute left-0 lg:left-1/2 top-0 h-full w-full lg:w-1/2 object-cover overflow-visible"/>
-                    <div className="absolute inset-0 bg-slate-950/82 lg:bg-transparent lg:bg-[linear-gradient(90deg,rgba(2,6,23,0.92)_0%,rgba(2,6,23,0.6)_40%,rgba(2,6,23,0.2)_62%,rgba(2,6,23,0)_100%)]"/>
+                    <img src={BannerImage} alt={"Banner Image"}
+                         className="absolute left-0 lg:left-1/2 top-0 h-full w-full lg:w-1/2 object-cover overflow-visible"/>
+                    <div
+                        className="absolute inset-0 bg-slate-950/82 lg:bg-transparent lg:bg-[linear-gradient(90deg,rgba(2,6,23,0.92)_0%,rgba(2,6,23,0.6)_40%,rgba(2,6,23,0.2)_62%,rgba(2,6,23,0)_100%)]"/>
 
                     <div className="relative flex min-h-[312px] items-center">
                         <div className="w-full max-w-2xl lg:w-1/2">
@@ -128,7 +130,7 @@ export function StudentDashboard() {
                                 <div
                                     className="flex items-center justify-between text-xs sm:text-sm font-bold text-blue-100 mb-2">
                                     <span>Level Progress</span>
-                                    <span>{xpSummary?.xpIntoCurrentLevel || 0} / {xpSummary?.xpNeededForNextLevel || 0} XP</span>
+                                    <span>{xpSummary?.xpIntoCurrentLevel || 0} / {xpSummary ? (xpSummary.xpForNextLevel + xpSummary.xpForCurrentLevel) : 0} XP</span>
                                 </div>
                                 <div className="w-full h-2.5 rounded-full bg-slate-950/50 overflow-hidden">
                                     <div
