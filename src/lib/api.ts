@@ -276,12 +276,13 @@ export const apiClient = {
      * Get streak leaderboard
      */
     async getStreakLeaderboard(limit?: number): Promise<StreakLeaderboardEntry[]> {
-        const url = new URL(`${BASE_API}/streaks/leaderboard`);
+        const params = new URLSearchParams();
         if (limit) {
-            url.searchParams.append('limit', limit.toString());
+            params.append('limit', limit.toString());
         }
+        const url = `${BASE_API}/streaks/leaderboard${params.toString() ? `?${params.toString()}` : ''}`;
 
-        const response = await fetch(url.toString(), {
+        const response = await fetch(url, {
             method: 'GET',
             headers: getAuthHeader(),
         });
@@ -296,11 +297,13 @@ export const apiClient = {
         period: LeaderboardPeriod;
         limit?: number;
     }): Promise<GlobalLeaderboardResponse> {
-        const url = new URL(`${BASE_API}/leaderboards/global`);
-        url.searchParams.append('period', options.period);
-        url.searchParams.append('limit', String(options.limit ?? 100));
+        const params = new URLSearchParams({
+            period: options.period,
+            limit: String(options.limit ?? 100),
+        });
+        const url = `${BASE_API}/leaderboards/global?${params.toString()}`;
 
-        const response = await fetch(url.toString(), {
+        const response = await fetch(url, {
             method: 'GET',
             headers: getAuthHeader(),
         });
