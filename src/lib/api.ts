@@ -43,10 +43,11 @@ import type {
     SandboxLanguage,
     SandboxRunResponse,
     SandboxTestCaseRequest,
+    GlobalLeaderboardResponse,
+    LeaderboardPeriod,
 } from '@skillforge/vite/lib/types';
 
-// Interface for leaderboard entry
-interface LeaderboardEntry {
+interface StreakLeaderboardEntry {
     userId: string;
     displayName: string;
     currentStreakDays: number;
@@ -274,7 +275,7 @@ export const apiClient = {
     /**
      * Get streak leaderboard
      */
-    async getStreakLeaderboard(limit?: number): Promise<LeaderboardEntry[]> {
+    async getStreakLeaderboard(limit?: number): Promise<StreakLeaderboardEntry[]> {
         const url = new URL(`${BASE_API}/streaks/leaderboard`);
         if (limit) {
             url.searchParams.append('limit', limit.toString());
@@ -285,7 +286,26 @@ export const apiClient = {
             headers: getAuthHeader(),
         });
 
-        return handleResponse<LeaderboardEntry[]>(response);
+        return handleResponse<StreakLeaderboardEntry[]>(response);
+    },
+
+    /**
+     * Get authenticated global leaderboard
+     */
+    async getGlobalLeaderboard(options: {
+        period: LeaderboardPeriod;
+        limit?: number;
+    }): Promise<GlobalLeaderboardResponse> {
+        const url = new URL(`${BASE_API}/leaderboards/global`);
+        url.searchParams.append('period', options.period);
+        url.searchParams.append('limit', String(options.limit ?? 100));
+
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            headers: getAuthHeader(),
+        });
+
+        return handleResponse<GlobalLeaderboardResponse>(response);
     },
 
     /**

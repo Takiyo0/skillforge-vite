@@ -6,6 +6,7 @@ import {getCourseThumbUrl} from '@skillforge/vite/lib/s3';
 import type {Course, CourseLevel} from '@skillforge/vite/lib/types';
 import {GlassButton, SearchField, StateCard} from '@skillforge/vite/components/ui/controls';
 import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
+import BannerImage from "@skillforge/vite/assets/img_3.png";
 
 export function BrowseCourses() {
     const navigate = useNavigate();
@@ -76,7 +77,7 @@ export function BrowseCourses() {
             <div className="p-8 max-w-7xl mx-auto space-y-8">
                 {/* Header Section */}
                 <div
-                    className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700 rounded-[3rem] p-12 text-white relative overflow-hidden shadow-xl">
+                    className="relative bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700 rounded-2xl p-12 text-white relative overflow-hidden shadow-xl">
                     <div
                         className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
@@ -85,6 +86,8 @@ export function BrowseCourses() {
                         <p className="text-blue-100 text-lg font-medium">Explore all available courses and start
                             learning today</p>
                     </div>
+
+                    <img src={BannerImage} alt={"Banner"} className={"absolute -right-2 -top-10 w-94 hidden xl:block"} />
                 </div>
 
                 {/* Search and Filter Section */}

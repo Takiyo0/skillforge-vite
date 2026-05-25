@@ -1,7 +1,7 @@
 ﻿import {useNavigate, useLocation} from 'react-router-dom';
 import {
     LayoutDashboard, BookOpen, Award, MessageSquare,
-    LogOut, Settings, Map, Star, Users, FlaskConical
+    LogOut, Settings, Map, Star, Users, FlaskConical, Trophy
 } from 'lucide-react';
 import logo from '@skillforge/vite/assets/logo.svg';
 
@@ -28,6 +28,7 @@ export function Sidebar({role, onLogout}: SidebarProps) {
             {id: 'dashboard', icon: LayoutDashboard, label: 'Home Base', path: '/student/dashboard'},
             {id: 'browse_courses', icon: BookOpen, label: 'Browse Courses', path: '/student/browse-courses'},
             {id: 'learning_paths', icon: BookOpen, label: 'Learning Paths', path: '/student/learning-paths'},
+            {id: 'leaderboard', icon: Trophy, label: 'Leaderboard', path: '/student/leaderboard'},
             {id: 'certificates', icon: Award, label: 'Trophy Room', path: '/student/certificates'},
             {id: 'forum', icon: MessageSquare, label: 'Forums', path: '/student/forum'},
             {id: 'code_sandbox', icon: FlaskConical, label: 'Code Sandbox', path: '/student/code-sandbox'},

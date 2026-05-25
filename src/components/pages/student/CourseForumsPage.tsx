@@ -102,7 +102,7 @@ export function CourseForumsPage() {
     if (!courseId) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
+                <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-6">
                     <p className="text-red-300 font-medium">Course not found</p>
                 </div>
             </div>
@@ -116,7 +116,7 @@ export function CourseForumsPage() {
                 <div className="flex items-center space-x-4">
                     <button
                         onClick={() => navigate(`/student/courses/${courseId}`)}
-                        className="glass-chip p-2 rounded-lg transition-colors"
+                        className="glass-chip p-2 rounded-2xl transition-colors"
                     >
                         <ArrowLeft size={20} className="text-slate-600 dark:text-slate-400"/>
                     </button>
@@ -153,7 +153,7 @@ export function CourseForumsPage() {
                 {!showCreateForm && (
                     <button
                         onClick={() => setShowCreateForm(true)}
-                                className="glass-button inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors"
+                                className="glass-button inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium transition-colors"
                     >
                         <Plus size={18} />
                         Create New Post
@@ -222,14 +222,14 @@ export function CourseForumsPage() {
                                         setNewPostContent('');
                                         setError(null);
                                     }}
-                                    className="glass-button-secondary px-6 py-2 rounded-lg font-medium transition-colors"
+                                    className="glass-button-secondary px-6 py-2 rounded-2xl font-medium transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={submittingPost || !newPostTitle.trim() || !newPostContent.trim()}
-                                    className="glass-button inline-flex items-center gap-2 px-6 py-2 rounded-lg font-medium disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                                    className="glass-button inline-flex items-center gap-2 px-6 py-2 rounded-2xl font-medium disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                                 >
                                     <Send size={16} />
                                     {submittingPost ? 'Creating...' : 'Create Post'}
@@ -351,7 +351,7 @@ export function CourseForumsPage() {
                                 <button
                                     onClick={() => setPage(Math.max(1, page - 1))}
                                     disabled={page === 1}
-                                    className="glass-button-secondary px-4 py-2 rounded-lg font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="glass-button-secondary px-4 py-2 rounded-2xl font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     Previous
                                 </button>
@@ -361,7 +361,7 @@ export function CourseForumsPage() {
                                 <button
                                     onClick={() => setPage(Math.min(totalPages, page + 1))}
                                     disabled={page === totalPages}
-                                    className="glass-button-secondary px-4 py-2 rounded-lg font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="glass-button-secondary px-4 py-2 rounded-2xl font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     Next
                                 </button>

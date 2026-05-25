@@ -303,7 +303,7 @@ export function AdminLearningPaths() {
             {/* Toast Notifications */}
             {toast && (
                 <div
-                    className={`fixed top-4 right-4 px-6 py-4 rounded-lg text-white font-bold flex items-center gap-3 z-50 ${
+                    className={`fixed top-4 right-4 px-6 py-4 rounded-2xl text-white font-bold flex items-center gap-3 z-50 ${
                         toast.type === 'success'
                             ? 'bg-emerald-500'
                             : 'bg-red-500'
@@ -344,7 +344,7 @@ export function AdminLearningPaths() {
             {/* Error State */}
             {error && !loading && (
                 <div
-                    className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-[2rem] p-6 flex items-start gap-4">
+                    className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-6 flex items-start gap-4">
                     <AlertCircle className="text-red-600 dark:text-red-400 shrink-0 mt-1" size={24}/>
                     <div>
                         <h3 className="font-black text-red-700 dark:text-red-300 mb-1">Error Loading Paths</h3>
@@ -362,7 +362,7 @@ export function AdminLearningPaths() {
             {/* Learning Paths Table */}
             {!loading && !error && learningPaths.length > 0 && (
                 <div
-                    className="rounded-[2rem] glass-panel overflow-hidden">
+                    className="rounded-2xl glass-panel overflow-hidden">
                     <div className="overflow-x-auto sm:overflow-visible">
                         <table className="min-w-[700px] sm:min-w-0 w-full">
                             <thead>
@@ -407,13 +407,13 @@ export function AdminLearningPaths() {
                                     </td>
                                     <td className="px-6 py-4 text-center">
 											<span
-                                                className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-black rounded-lg">
+                                                className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-black rounded-2xl">
 												{path.courses?.length || 0}
 											</span>
                                     </td>
                                     <td className="px-6 py-4 text-center">
 											<span
-                                                className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-black rounded-lg">
+                                                className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-black rounded-2xl">
 												<Unlock size={12}/> Public
 											</span>
                                     </td>
@@ -421,21 +421,21 @@ export function AdminLearningPaths() {
                                         <div className="flex items-center justify-center gap-2">
                                             <button
                                                 onClick={() => handleManageCoursesClick(path)}
-                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-lg font-bold text-xs transition-colors"
+                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-2xl font-bold text-xs transition-colors"
                                                 title="Manage Courses"
                                             >
                                                 📚 Manage
                                             </button>
                                             <button
                                                 onClick={() => handleEditClick(path)}
-                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold text-xs transition-colors inline-flex items-center justify-center"
+                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-xs transition-colors inline-flex items-center justify-center"
                                                 title="Edit"
                                             >
                                                 <Edit2 size={14}/>
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteClick(path)}
-                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded-lg font-bold text-xs transition-colors inline-flex items-center justify-center"
+                                                className="px-3 py-2.5 min-h-[44px] min-w-[44px] bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 rounded-2xl font-bold text-xs transition-colors inline-flex items-center justify-center"
                                                 title="Delete"
                                             >
                                                 <Trash2 size={14}/>
@@ -453,7 +453,7 @@ export function AdminLearningPaths() {
             {/* Empty State */}
             {!loading && !error && learningPaths.length === 0 && (
                 <div
-                    className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-12 text-center">
+                    className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-12 text-center">
                     <div className="text-6xl mb-4">📚</div>
                     <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">
                         No Learning Paths Yet
@@ -474,7 +474,7 @@ export function AdminLearningPaths() {
             {(showCreateModal || showEditModal) && (
                 <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-8">
                             {/* Header */}
                             <div className="flex items-center justify-between mb-6">
@@ -487,7 +487,7 @@ export function AdminLearningPaths() {
                                         setShowEditModal(false);
                                         resetForm();
                                     }}
-                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                                 >
                                     <X size={24} className="text-slate-600 dark:text-slate-400"/>
                                 </button>
@@ -642,14 +642,14 @@ export function AdminLearningPaths() {
                                         setShowEditModal(false);
                                         resetForm();
                                     }}
-                                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleCreateOrUpdatePath}
                                     disabled={submitting}
-                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2"
                                 >
                                     {submitting && <Loader size={16} className="animate-spin"/>}
                                     {editingPath ? 'Update Path' : 'Create Path'}
@@ -664,7 +664,7 @@ export function AdminLearningPaths() {
             {showManageCoursesModal && selectedPath && (
                 <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-8">
                             {/* Header */}
                             <div className="flex items-center justify-between mb-6">
@@ -678,7 +678,7 @@ export function AdminLearningPaths() {
                                 </div>
                                 <button
                                     onClick={() => setShowManageCoursesModal(false)}
-                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                                 >
                                     <X size={24} className="text-slate-600 dark:text-slate-400"/>
                                 </button>
@@ -695,7 +695,7 @@ export function AdminLearningPaths() {
                                             coursesInPath.map((course, idx) => (
                                                 <div
                                                     key={course.courseId}
-                                                    className="flex items-center justify-between p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm rounded-lg border border-blue-200/60 dark:border-blue-500/15"
+                                                    className="flex items-center justify-between p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm rounded-2xl border border-blue-200/60 dark:border-blue-500/15"
                                                 >
                                                     <div className="flex-1">
                                                         <p className="font-bold text-slate-900 dark:text-white text-sm">
@@ -759,7 +759,7 @@ export function AdminLearningPaths() {
                                             getAvailableCourses().map(course => (
                                                 <label
                                                     key={course.id}
-                                                    className="flex items-center gap-3 p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm rounded-lg border border-blue-200/60 dark:border-blue-500/15 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                                    className="flex items-center gap-3 p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm rounded-2xl border border-blue-200/60 dark:border-blue-500/15 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -792,14 +792,14 @@ export function AdminLearningPaths() {
                             <div className="flex gap-3 mt-8">
                                 <button
                                     onClick={() => setShowManageCoursesModal(false)}
-                                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                                 >
                                     Close
                                 </button>
                                 <button
                                     onClick={handleAddCourses}
                                     disabled={savingCourses}
-                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2"
                                 >
                                     {savingCourses && <Loader size={16} className="animate-spin"/>}
                                     Save Changes
@@ -814,7 +814,7 @@ export function AdminLearningPaths() {
             {showDeleteConfirm && pathToDelete && (
                 <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-sm w-full">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-sm w-full">
                         <div className="p-8 text-center">
                             <div
                                 className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -833,14 +833,14 @@ export function AdminLearningPaths() {
                                         setShowDeleteConfirm(false);
                                         setPathToDelete(null);
                                     }}
-                                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleDeletePath}
                                     disabled={deleting}
-                                    className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-bold transition-colors flex items-center justify-center gap-2"
+                                    className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-bold transition-colors flex items-center justify-center gap-2"
                                 >
                                     {deleting && <Loader size={16} className="animate-spin"/>}
                                     Delete

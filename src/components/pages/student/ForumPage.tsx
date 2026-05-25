@@ -124,7 +124,7 @@ export function ForumPage() {
                     <div className="flex gap-2 flex-wrap">
                         <button
                             onClick={() => setFilter('all')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                            className={`px-4 py-2 rounded-2xl font-medium transition-colors ${
                                 filter === 'all'
                                     ? 'bg-blue-600 text-white'
                                     : 'glass-chip text-slate-900 dark:text-white hover:bg-white/20'
@@ -134,7 +134,7 @@ export function ForumPage() {
                         </button>
                         <button
                             onClick={() => setFilter('my-posts')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                            className={`px-4 py-2 rounded-2xl font-medium transition-colors ${
                                 filter === 'my-posts'
                                     ? 'bg-blue-600 text-white'
                                     : 'glass-chip text-slate-900 dark:text-white hover:bg-white/20'
@@ -144,7 +144,7 @@ export function ForumPage() {
                         </button>
                         <button
                             onClick={() => setFilter('my-replies')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                            className={`px-4 py-2 rounded-2xl font-medium transition-colors ${
                                 filter === 'my-replies'
                                     ? 'bg-blue-600 text-white'
                                     : 'glass-chip text-slate-900 dark:text-white hover:bg-white/20'
@@ -228,7 +228,7 @@ export function ForumPage() {
                     <div
                         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                         <div
-                            className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-blue-400/20 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl shadow-blue-950/10">
+                            className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-white/20 dark:border-blue-400/20 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl shadow-blue-950/10">
                             <div className="p-8 space-y-6">
                                 {/* Post Header */}
                                 <div className="flex items-start justify-between">
@@ -291,7 +291,7 @@ export function ForumPage() {
                                 {/* Close Button */}
                                 <button
                                     onClick={() => setSelectedPost(null)}
-                                    className="glass-button-secondary w-full py-3 rounded-xl font-bold text-slate-900 dark:text-white transition-colors"
+                                    className="glass-button-secondary w-full py-3 rounded-2xl font-bold text-slate-900 dark:text-white transition-colors"
                                 >
                                     Close
                                 </button>

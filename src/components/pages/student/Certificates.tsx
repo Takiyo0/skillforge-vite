@@ -83,7 +83,7 @@ export function Certificates() {
                                 >
                                     <div className="flex items-start justify-between mb-4">
                                         <div
-                                            className="w-12 h-12 bg-amber-500/20 text-amber-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            className="w-12 h-12 bg-amber-500/20 text-amber-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
                                             <Award size={24}/>
                                         </div>
                                         <span

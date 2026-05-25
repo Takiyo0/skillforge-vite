@@ -7,6 +7,7 @@ import type {User, XpSummary, Streak, Course} from '@skillforge/vite/lib/types';
 import {StateCard} from '@skillforge/vite/components/ui/controls';
 import {useUserSession} from '@skillforge/vite/contexts/UserSessionContext';
 import {UserProfileLink} from '@skillforge/vite/components/ui/UserProfileLink';
+import BannerImage from "@skillforge/vite/assets/img_4.png";
 
 export function StudentDashboard() {
     const navigate = useNavigate();
@@ -73,7 +74,7 @@ export function StudentDashboard() {
     if (loading) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <StateCard title="Loading dashboard..." description="Gathering your progress and enrolled courses." />
+                <StateCard title="Loading dashboard..." description="Gathering your progress and enrolled courses."/>
             </div>
         );
     }
@@ -81,7 +82,8 @@ export function StudentDashboard() {
     if (error) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <StateCard title="Unable to load dashboard" description={error} className="border-red-500/20 bg-red-500/10 max-w-md" />
+                <StateCard title="Unable to load dashboard" description={error}
+                           className="border-red-500/20 bg-red-500/10 max-w-md"/>
             </div>
         );
     }
@@ -91,15 +93,21 @@ export function StudentDashboard() {
 
     return (
         <div className="flex-1 overflow-y-auto">
-            <div className="pt-4 sm:pt-6 md:pt-8 lg:pt-8 max-w-full md:max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 space-y-4 sm:space-y-6 md:space-y-8">
-                <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-blue-200/60 dark:border-blue-500/20 bg-gradient-to-br from-blue-600 via-blue-600 to-cyan-600 dark:from-blue-700 dark:via-blue-700 dark:to-cyan-700 p-4 sm:p-6 md:p-8 shadow-xl">
-                    <div className="absolute -top-16 -right-12 w-56 h-56 rounded-full bg-white/10 blur-2xl"/>
-                    <div className="absolute -bottom-20 -left-12 w-64 h-64 rounded-full bg-slate-900/20 blur-3xl"/>
+            <div
+                className="pt-4 sm:pt-6 md:pt-8 lg:pt-8 max-w-full md:max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 space-y-4 sm:space-y-6 md:space-y-8">
+                <section
+                    className="relative min-h-[360px] overflow-hidden rounded-2xl border border-blue-200/60 bg-slate-950 p-4 shadow-xl shadow-blue-950/20 sm:p-6 md:p-8 dark:border-blue-500/20">
+                    <div
+                        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(125,211,252,0.34),transparent_30%),radial-gradient(circle_at_78%_42%,rgba(59,130,246,0.2),transparent_32%),linear-gradient(135deg,rgba(37,99,235,0.96)_0%,rgba(14,116,144,0.86)_46%,rgba(15,23,42,0.98)_100%)]"/>
+                    <div className="absolute -bottom-24 right-0 h-72 w-1/2 rounded-full bg-cyan-300/12 blur-3xl"/>
 
-                    <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
-                        <div className="lg:col-span-7">
-                            <p className="text-xs font-bold uppercase tracking-wider text-blue-100/90">Home Base</p>
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mt-2 leading-tight">
+                    <img src={BannerImage} alt={"Banner Image"} className="absolute left-0 lg:left-1/2 top-0 h-full w-full lg:w-1/2 object-cover overflow-visible"/>
+                    <div className="absolute inset-0 bg-slate-950/82 lg:bg-transparent lg:bg-[linear-gradient(90deg,rgba(2,6,23,0.92)_0%,rgba(2,6,23,0.6)_40%,rgba(2,6,23,0.2)_62%,rgba(2,6,23,0)_100%)]"/>
+
+                    <div className="relative flex min-h-[312px] items-center">
+                        <div className="w-full max-w-2xl lg:w-1/2">
+                            <p className="text-xs font-black uppercase tracking-[0.28em] text-cyan-100/90">Home Base</p>
+                            <h1 className="mt-3 text-3xl font-black leading-[0.95] tracking-tight text-white sm:text-4xl md:text-5xl">
                                 Good to see you
                                 {user?.displayName ? (
                                     <>
@@ -111,12 +119,14 @@ export function StudentDashboard() {
                                 ) : ''}
                                 .
                             </h1>
-                            <p className="text-sm sm:text-base text-blue-100/90 mt-3 max-w-2xl">
+                            <p className="mt-4 max-w-lg text-sm font-medium leading-6 text-blue-100/86 sm:text-base">
                                 Pick up where you left off and keep your progress moving.
                             </p>
 
-                            <div className="mt-5 rounded-2xl bg-slate-950/25 border border-white/15 p-4 sm:p-5">
-                                <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-blue-100 mb-2">
+                            <div
+                                className="mt-6 rounded-2xl border border-white/15 bg-slate-950/28 p-4 backdrop-blur-sm sm:p-5">
+                                <div
+                                    className="flex items-center justify-between text-xs sm:text-sm font-bold text-blue-100 mb-2">
                                     <span>Level Progress</span>
                                     <span>{xpSummary?.xpIntoCurrentLevel || 0} / {xpSummary?.xpNeededForNextLevel || 0} XP</span>
                                 </div>
@@ -127,24 +137,25 @@ export function StudentDashboard() {
                                     />
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
-                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
-                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Level</p>
-                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{xpSummary?.level || 1}</p>
-                            </div>
-                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
-                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Total XP</p>
-                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{xpSummary?.totalXp || 0}</p>
-                            </div>
-                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
-                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Streak</p>
-                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{streak?.currentStreakDays || 0}d</p>
-                            </div>
-                            <div className="rounded-2xl bg-white/12 border border-white/20 p-3 sm:p-4 backdrop-blur-sm">
-                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100/90">Best</p>
-                                <p className="text-2xl sm:text-3xl font-black text-white mt-1">{streak?.longestStreakDays || 0}d</p>
+                            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                                <div className="rounded-2xl border border-white/12 bg-white/10 p-3 backdrop-blur-sm">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-100/70">Level</p>
+                                    <p className="mt-1 text-xl font-black text-white">{xpSummary?.level || 1}</p>
+                                </div>
+                                <div className="rounded-2xl border border-white/12 bg-white/10 p-3 backdrop-blur-sm">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-100/70">Total
+                                        XP</p>
+                                    <p className="mt-1 text-xl font-black text-white">{xpSummary?.totalXp || 0}</p>
+                                </div>
+                                <div className="rounded-2xl border border-white/12 bg-white/10 p-3 backdrop-blur-sm">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-100/70">Streak</p>
+                                    <p className="mt-1 text-xl font-black text-white">{streak?.currentStreakDays || 0}d</p>
+                                </div>
+                                <div className="rounded-2xl border border-white/12 bg-white/10 p-3 backdrop-blur-sm">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-100/70">Best</p>
+                                    <p className="mt-1 text-xl font-black text-white">{streak?.longestStreakDays || 0}d</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +168,8 @@ export function StudentDashboard() {
                     </h2>
 
                     {activeCourses.length === 0 ? (
-                        <StateCard title="No courses enrolled yet" description="Browse the catalog to start a learning path." />
+                        <StateCard title="No courses enrolled yet"
+                                   description="Browse the catalog to start a learning path."/>
                     ) : (
                         <div className="flex flex-wrap gap-4 sm:gap-5 md:gap-6">
                             {activeCourses.map(course => {
@@ -166,7 +178,7 @@ export function StudentDashboard() {
                                 return (
                                     <div
                                         key={course.id}
-                                        className={`rounded-lg min-w-58 flex-1 max-w-64 sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell`}
+                                        className={`rounded-2xl min-w-58 flex-1 max-w-64 sm:rounded-2xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell`}
                                     >
                                         {/* Thumbnail Image */}
                                         <div className={`h-40 sm:h-44 md:h-48 overflow-hidden relative ${
@@ -195,7 +207,7 @@ export function StudentDashboard() {
                                             <div className="flex items-start justify-between mb-3 sm:mb-4">
                                                 <div className="flex-1 pr-2">
 													<span
-                                                        className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-black uppercase tracking-widest rounded-lg mb-1 sm:mb-2 ${isViolet ? 'bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' : 'bg-blue-500/15 text-slate-800 dark:text-slate-300'}`}>
+                                                        className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-black uppercase tracking-widest rounded-2xl mb-1 sm:mb-2 ${isViolet ? 'bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' : 'bg-blue-500/15 text-slate-800 dark:text-slate-300'}`}>
                                                         {course.level || 'Beginner'}
 													</span>
                                                     <h3 className={`font-black text-sm sm:text-base md:text-lg mb-1 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${isViolet ? 'text-slate-900 dark:text-white' : 'text-slate-900 dark:text-white'}`}>
@@ -235,7 +247,7 @@ export function StudentDashboard() {
                                             {/* Button */}
                                             <button
                                                 onClick={() => handleEnterCourse(course.id)}
-                                                className={`mt-3 sm:mt-4 w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 group/btn
+                                                className={`mt-3 sm:mt-4 w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl sm:rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 group/btn
 													${isViolet
                                                     ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/30'
                                                     : 'bg-slate-700 hover:bg-slate-800 text-white dark:bg-slate-600 dark:hover:bg-slate-500 shadow-lg'
@@ -256,7 +268,8 @@ export function StudentDashboard() {
                 {completedCourses.length > 0 && (
                     <div>
                         <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white py-2 sm:py-3 md:py-4 mb-4 sm:mb-5 md:mb-6 flex items-center">
-                            <Star size={24} className="mr-3 text-green-500"/> Completed Courses ({completedCourses.length})
+                            <Star size={24} className="mr-3 text-green-500"/> Completed Courses
+                            ({completedCourses.length})
                         </h2>
 
                         <div className="flex flex-wrap gap-4 sm:gap-5 md:gap-6">
@@ -264,7 +277,7 @@ export function StudentDashboard() {
                                 return (
                                     <div
                                         key={course.id}
-                                        className="rounded-lg min-w-58 flex-1 max-w-64 sm:rounded-xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell"
+                                        className="rounded-2xl min-w-58 flex-1 max-w-64 sm:rounded-2xl md:rounded-2xl shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative overflow-hidden glass-shell"
                                     >
                                         {/* Thumbnail Image */}
                                         <div className={`h-40 sm:h-44 md:h-48 overflow-hidden relative ${
@@ -293,7 +306,7 @@ export function StudentDashboard() {
                                             <div className="flex items-start justify-between mb-3 sm:mb-4">
                                                 <div className="flex-1 pr-2">
 													<span
-                                                        className="inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-black uppercase tracking-widest rounded-lg mb-1 sm:mb-2 bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300">
+                                                        className="inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-xs font-black uppercase tracking-widest rounded-2xl mb-1 sm:mb-2 bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300">
 														{course.level || 'Beginner'}
 													</span>
                                                     <h3 className="font-black text-sm sm:text-base md:text-lg text-slate-900 dark:text-white mb-1 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
@@ -316,18 +329,21 @@ export function StudentDashboard() {
                                             {/* Completion Info */}
                                             <div className="mt-4 sm:mt-5 md:mt-6">
                                                 <div className="flex justify-between text-xs font-bold mb-2">
-                                                    <span className="text-slate-700 dark:text-slate-300 uppercase tracking-wider">Completed</span>
+                                                    <span
+                                                        className="text-slate-700 dark:text-slate-300 uppercase tracking-wider">Completed</span>
                                                     <span className="text-green-700 dark:text-green-300">100%</span>
                                                 </div>
-                                                <div className="w-full rounded-full h-2.5 bg-green-200 dark:bg-green-900/30">
-                                                    <div className="h-2.5 rounded-full bg-green-600 transition-all" style={{width: '100%'}}></div>
+                                                <div
+                                                    className="w-full rounded-full h-2.5 bg-green-200 dark:bg-green-900/30">
+                                                    <div className="h-2.5 rounded-full bg-green-600 transition-all"
+                                                         style={{width: '100%'}}></div>
                                                 </div>
                                             </div>
 
                                             {/* Button */}
                                             <button
                                                 onClick={() => handleEnterCourse(course.id)}
-                                                className="mt-3 sm:mt-4 w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/30"
+                                                className="mt-3 sm:mt-4 w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl sm:rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/30"
                                             >
                                                 <span>Review</span>
                                                 <Play size={14} fill="currentColor"/>
@@ -343,9 +359,6 @@ export function StudentDashboard() {
         </div>
     );
 }
-
-
-
 
 
 

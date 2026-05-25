@@ -49,7 +49,7 @@ export function Login() {
                 </div>
 
                 {/* Login Form */}
-                <form onSubmit={handleSubmit} className="glass-panel rounded-[2rem] p-8 space-y-6">
+                <form onSubmit={handleSubmit} className="glass-panel rounded-2xl p-8 space-y-6">
                     <h2 className="text-2xl font-black text-white text-center">Welcome Back</h2>
 
                     {/* Error Message */}

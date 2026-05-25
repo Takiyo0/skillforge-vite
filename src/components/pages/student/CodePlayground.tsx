@@ -125,7 +125,7 @@ export function CodePlayground() {
 							<select
 								value={language}
 								onChange={(e) => onChangeLanguage(e.target.value)}
-								className="w-full rounded-xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-900/60 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-slate-100"
+								className="w-full rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-900/60 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-slate-100"
 							>
 								{languages.map((item) => (
 									<option key={item.id} value={item.id}>
@@ -162,7 +162,7 @@ export function CodePlayground() {
 								<h2 className="text-sm font-black uppercase tracking-wider text-slate-700 dark:text-slate-200">Test Cases</h2>
 								<button
 									onClick={addCase}
-									className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
+									className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white"
 								>
 									<Plus size={14} />
 									Add
@@ -170,7 +170,7 @@ export function CodePlayground() {
 							</div>
 							<div className="space-y-3 max-h-[360px] overflow-auto pr-1">
 								{cases.map((item, index) => (
-									<div key={item.id} className="rounded-xl border border-white/20 dark:border-white/10 p-3 bg-white/50 dark:bg-slate-900/40">
+									<div key={item.id} className="rounded-2xl border border-white/20 dark:border-white/10 p-3 bg-white/50 dark:bg-slate-900/40">
 										<div className="flex items-center justify-between mb-2">
 											<p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
 												Case {index + 1}
@@ -187,13 +187,13 @@ export function CodePlayground() {
 											value={item.input}
 											onChange={(e) => updateCase(item.id, 'input', e.target.value)}
 											placeholder="Input"
-											className="w-full mb-2 min-h-16 rounded-lg text-xs font-mono p-2 border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-950/60 text-slate-900 dark:text-slate-100"
+											className="w-full mb-2 min-h-16 rounded-2xl text-xs font-mono p-2 border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-950/60 text-slate-900 dark:text-slate-100"
 										/>
 										<textarea
 											value={item.output}
 											onChange={(e) => updateCase(item.id, 'output', e.target.value)}
 											placeholder="Expected output (optional)"
-											className="w-full min-h-14 rounded-lg text-xs font-mono p-2 border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-950/60 text-slate-900 dark:text-slate-100"
+											className="w-full min-h-14 rounded-2xl text-xs font-mono p-2 border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-950/60 text-slate-900 dark:text-slate-100"
 										/>
 									</div>
 								))}
@@ -201,7 +201,7 @@ export function CodePlayground() {
 							<button
 								onClick={run}
 								disabled={running}
-								className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-60 text-white font-black text-sm"
+								className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-60 text-white font-black text-sm"
 							>
 								<Play size={16} />
 								{running ? 'Running...' : 'Run Code'}
@@ -216,7 +216,7 @@ export function CodePlayground() {
 							) : (
 								<div className="space-y-3 max-h-[340px] overflow-auto pr-1">
 									{result.results.map((item) => (
-										<div key={item.index} className="rounded-xl border border-white/20 dark:border-white/10 p-3 bg-white/50 dark:bg-slate-900/40">
+										<div key={item.index} className="rounded-2xl border border-white/20 dark:border-white/10 p-3 bg-white/50 dark:bg-slate-900/40">
 											<div className="flex items-center justify-between mb-2">
 												<p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
 													Case {item.index + 1}

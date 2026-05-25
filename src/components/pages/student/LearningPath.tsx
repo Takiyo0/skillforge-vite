@@ -47,7 +47,7 @@ export function LearningPath({ activeCourseId = 'backend' }: LearningPathProps) 
 				</div>
 
 				{/* Course Header */}
-				<div className="glass-panel-strong p-8 rounded-[2.5rem] flex justify-between items-center relative overflow-hidden">
+				<div className="glass-panel-strong p-8 rounded-2xl flex justify-between items-center relative overflow-hidden">
 					<div className={`absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl ${currentCourse.color === 'blue' ? 'bg-blue-500/10' : 'bg-emerald-500/10'}`}></div>
 					<div className="relative z-10 flex items-center space-x-6">
 						<div className={`w-16 h-16 rounded-2xl flex items-center justify-center border border-white/15 shadow-inner ${currentCourse.color === 'blue' ? 'bg-blue-100/80 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300' : 'bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-300'}`}>
@@ -73,7 +73,7 @@ export function LearningPath({ activeCourseId = 'backend' }: LearningPathProps) 
 						return (
 							<div
 								key={module.id}
-							className={`glass-panel p-6 rounded-[2rem] transition-all ${!isLocked ? 'hover:border-blue-400/30 hover:-translate-y-1 cursor-pointer' : 'opacity-60'}`}
+							className={`glass-panel p-6 rounded-2xl transition-all ${!isLocked ? 'hover:border-blue-400/30 hover:-translate-y-1 cursor-pointer' : 'opacity-60'}`}
 								onClick={() => {
 									if (!isLocked) {
 										navigate(`/student/playground?module=${module.id}`);
@@ -82,7 +82,7 @@ export function LearningPath({ activeCourseId = 'backend' }: LearningPathProps) 
 							>
 								<div className="flex items-center space-x-4">
 									{/* Status Icon */}
-									<div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${getStatusColor(module.status)}`}>
+									<div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${getStatusColor(module.status)}`}>
 										{module.status === 'completed' ? <CheckCircle size={24} /> : module.status === 'locked' ? <Lock size={24} /> : getModuleIcon(module.type)}
 									</div>
 
@@ -90,7 +90,7 @@ export function LearningPath({ activeCourseId = 'backend' }: LearningPathProps) 
 									<div className="flex-1">
 										<div className="flex items-center space-x-3 mb-2">
 											<h3 className="font-black text-slate-900 dark:text-white text-lg">{module.title}</h3>
-											<span className={`text-xs font-black uppercase tracking-wider px-3 py-1 rounded-lg ${getStatusColor(module.status)}`}>
+											<span className={`text-xs font-black uppercase tracking-wider px-3 py-1 rounded-2xl ${getStatusColor(module.status)}`}>
 												{getStatusLabel(module.status)}
 											</span>
 										</div>

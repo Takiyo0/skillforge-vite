@@ -199,7 +199,7 @@ export function AdminCourses() {
 				</div>
 
 				{/* Header with Create Button */}
-				<div className="flex flex-col gap-3 sm:gap-4 rounded-2xl sm:rounded-[2rem] glass-panel px-3 sm:px-4 md:px-6 py-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
+				<div className="flex flex-col gap-3 sm:gap-4 rounded-2xl sm:rounded-2xl glass-panel px-3 sm:px-4 md:px-6 py-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
 					<div>
 						<h2 className="text-2xl font-black text-slate-900 dark:text-white">Manage Courses</h2>
 						<p className="text-slate-500 dark:text-slate-400 font-medium mt-1">
@@ -218,7 +218,7 @@ export function AdminCourses() {
 				{/* Error Message */}
 				{error && (
 					<div className="glass-state p-3 sm:p-4 md:p-6 rounded-2xl flex items-start space-x-3 sm:space-x-4 border-red-500/20 bg-red-500/10">
-						<div className="w-10 h-10 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+						<div className="w-10 h-10 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center shrink-0 mt-0.5">
 							<AlertCircle size={24} />
 						</div>
 						<div className="flex-1">
@@ -234,7 +234,7 @@ export function AdminCourses() {
 				)}
 
 				{/* Courses Table */}
-				<div className="glass-shell rounded-2xl sm:rounded-[2.5rem] overflow-hidden">
+				<div className="glass-shell rounded-2xl sm:rounded-2xl overflow-hidden">
 					{loading ? (
 						<div className="flex items-center justify-center py-16">
 							<StateCard title="Loading courses..." description="Please wait while the catalog syncs." />
@@ -362,7 +362,7 @@ export function AdminCourses() {
 			{/* Create Modal */}
 			{modalState === 'create' && (
 				<div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
-					<div className="glass-panel-strong rounded-2xl sm:rounded-[2.5rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+					<div className="glass-panel-strong rounded-2xl sm:rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
 						<div className="sticky top-0 glass-panel-strong border-b border-blue-200/60 dark:border-blue-500/15 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
 							<h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
 								Create New Course
@@ -430,7 +430,7 @@ export function AdminCourses() {
 										<img
 											src={thumbnailPreview}
 											alt="Course banner preview"
-											className="w-full h-40 object-cover rounded-xl border border-blue-200/60 dark:border-blue-500/15"
+											className="w-full h-40 object-cover rounded-2xl border border-blue-200/60 dark:border-blue-500/15"
 										/>
 									)}
 									<input

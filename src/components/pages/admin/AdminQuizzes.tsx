@@ -524,7 +524,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
             {/* Unit Selection */}
             {!unitId && (
                 <div
-                    className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6">
+                    className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6">
                     <label
                         className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">
                         Select Unit
@@ -558,7 +558,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                     {activeQuiz ? (
                         <>
                             <div
-                                className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6 space-y-5">
+                                className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6 space-y-5">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <h3 className="text-xl font-black text-slate-900 dark:text-white">{activeQuiz.title}</h3>
@@ -569,7 +569,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                     <button
                                         onClick={handleUpdateQuiz}
                                         disabled={isSubmitting}
-                                        className="px-5 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
+                                        className="px-5 py-2.5 rounded-2xl bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
                                     >
                                         {isSubmitting && <Loader size={18} className="animate-spin"/>}
                                         <span>Save Quiz</span>
@@ -683,7 +683,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                     </h3>
                                     <button
                                         onClick={() => handleOpenCreateQuestion(activeQuiz)}
-                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105"
+                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105"
                                     >
                                         <Plus size={16}/>
                                         <span>Add Question</span>
@@ -692,12 +692,12 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
 
                                 {(!activeQuiz.questions || activeQuiz.questions.length === 0) ? (
                                     <div
-                                        className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
+                                        className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
                                         <p className="text-slate-600 dark:text-slate-400 font-medium">No questions
                                             yet</p>
                                         <button
                                             onClick={() => handleOpenCreateQuestion(activeQuiz)}
-                                            className="mt-4 inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105 mx-auto"
+                                            className="mt-4 inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105 mx-auto"
                                         >
                                             <Plus size={20}/>
                                             <span>Add Question</span>
@@ -708,7 +708,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                         {activeQuiz.questions.map((question, idx) => (
                                             <div
                                                 key={question.id}
-                                                className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[1.5rem] border border-blue-200/60 dark:border-blue-500/15 p-4"
+                                                className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 p-4"
                                             >
                                                 <div className="flex items-start justify-between gap-4">
                                                     <div className="flex-1">
@@ -732,7 +732,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                                     <div className="flex items-center space-x-2">
                                                         <button
                                                             onClick={() => handleOpenEditQuestion(question)}
-                                                            className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg transition-colors"
+                                                            className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl transition-colors"
                                                         >
                                                             <Edit2 size={16}/>
                                                         </button>
@@ -744,7 +744,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                                                     name: question.prompt.substring(0, 40),
                                                                 })
                                                             }
-                                                            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors"
+                                                            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl transition-colors"
                                                         >
                                                             <Trash2 size={16}/>
                                                         </button>
@@ -771,7 +771,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                                                 {question.options.map((option) => (
                                                                     <div
                                                                         key={option.id}
-                                                                        className="flex items-center justify-between bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 p-3 rounded-lg text-sm"
+                                                                        className="flex items-center justify-between bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 p-3 rounded-2xl text-sm"
                                                                     >
                                                                         <div className="flex items-center space-x-2">
                                                                             {option.isCorrect ? (
@@ -824,11 +824,11 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                         </>
                     ) : (
                         <div
-                            className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
+                            className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
                             <p className="text-slate-600 dark:text-slate-400 font-medium">No quiz for this unit yet</p>
                             <button
                                 onClick={handleOpenCreateQuiz}
-                                className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105 mx-auto"
+                                className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105 mx-auto"
                             >
                                 <Plus size={20}/>
                                 <span>Create Quiz</span>
@@ -842,12 +842,12 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
 
                     {quizzes.length === 0 ? (
                         <div
-                            className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
+                            className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
                             <p className="text-slate-600 dark:text-slate-400 font-medium">No quizzes for this unit
                                 yet</p>
                             <button
                                 onClick={handleOpenCreateQuiz}
-                                className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105 mx-auto"
+                                className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105 mx-auto"
                             >
                                 <Plus size={20}/>
                                 <span>Create Quiz</span>
@@ -857,7 +857,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                         <div className="space-y-3">
                             {quizzes.map((quiz) => (
                                 <div key={quiz.id}
-                                     className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-lg border border-blue-200/60 dark:border-blue-500/15 overflow-hidden">
+                                     className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 overflow-hidden">
                                     {/* Quiz Header */}
                                     <div
                                         onClick={() => setExpandedQuizId(expandedQuizId === quiz.id ? null : quiz.id)}
@@ -877,7 +877,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                                     e.stopPropagation();
                                                     handleOpenEditQuiz(quiz);
                                                 }}
-                                                className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg transition-colors"
+                                                className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl transition-colors"
                                             >
                                                 <Edit2 size={18}/>
                                             </button>
@@ -886,7 +886,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                                     e.stopPropagation();
                                                     setDeleteConfirm({type: 'quiz', id: quiz.id, name: quiz.title});
                                                 }}
-                                                className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors"
+                                                className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl transition-colors"
                                             >
                                                 <Trash2 size={18}/>
                                             </button>
@@ -913,7 +913,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                                     <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Questions</p>
                                                     <button
                                                         onClick={() => handleOpenCreateQuestion(quiz)}
-                                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105"
+                                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105"
                                                     >
                                                         <Plus size={16}/>
                                                         <span>Add Question</span>
@@ -1066,7 +1066,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
             {(modalState === 'create-quiz' || modalState === 'edit-quiz') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15 sticky top-0 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
                             <h2 className="text-2xl font-black text-slate-900 dark:text-white">
@@ -1074,7 +1074,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             </h2>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24}/>
                             </button>
@@ -1196,14 +1196,14 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             className="flex items-center justify-end space-x-3 p-6 border-t border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="px-6 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                className="px-6 py-2 rounded-2xl border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={modalState === 'create-quiz' ? handleCreateQuiz : handleUpdateQuiz}
                                 disabled={isSubmitting}
-                                className="px-6 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
+                                className="px-6 py-2 rounded-2xl bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
                             >
                                 {isSubmitting && <Loader size={18} className="animate-spin"/>}
                                 <span>{modalState === 'create-quiz' ? 'Create' : 'Update'}</span>
@@ -1217,7 +1217,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
             {(modalState === 'create-question' || modalState === 'edit-question') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15 sticky top-0 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
                             <h3 className="text-xl font-black text-slate-900 dark:text-white">
@@ -1225,7 +1225,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             </h3>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl"
                             >
                                 <X size={24}/>
                             </button>
@@ -1293,7 +1293,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                             {questionFormData.options.map((option, idx) => (
                                                 <div
                                                     key={option.tempId}
-                                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-blue-200/60 dark:border-blue-500/15 space-y-3"
+                                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-2xl border border-blue-200/60 dark:border-blue-500/15 space-y-3"
                                                 >
                                                     <div className="flex items-center gap-2 mb-2">
                                                         <span className="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded">
@@ -1348,14 +1348,14 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             className="flex items-center justify-end space-x-3 p-6 border-t border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="px-6 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                className="px-6 py-2 rounded-2xl border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={modalState === 'create-question' ? handleCreateQuestion : handleUpdateQuestion}
                                 disabled={isSubmitting}
-                                className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
+                                className="px-6 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
                             >
                                 {isSubmitting && <Loader size={18} className="animate-spin"/>}
                                 <span>{modalState === 'create-question' ? 'Create' : 'Update'}</span>
@@ -1368,7 +1368,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
             {/* Create/Edit Option Modal */}
             {(modalState === 'create-option' || modalState === 'edit-option') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15">
                             <h2 className="text-2xl font-black text-slate-900 dark:text-white">
@@ -1376,7 +1376,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             </h2>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24}/>
                             </button>
@@ -1413,14 +1413,14 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             className="flex items-center justify-end space-x-3 p-6 border-t border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="px-6 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                className="px-6 py-2 rounded-2xl border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={modalState === 'create-option' ? handleCreateOption : handleUpdateOption}
                                 disabled={isSubmitting}
-                                className="px-6 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
+                                className="px-6 py-2 rounded-2xl bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
                             >
                                 {isSubmitting && <Loader size={18} className="animate-spin"/>}
                                 <span>{modalState === 'create-option' ? 'Create' : 'Update'}</span>
@@ -1433,7 +1433,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
             {/* Delete Confirmation */}
             {deleteConfirm && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-xl shadow-xl max-w-md w-full">
+                    <div className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl shadow-xl max-w-md w-full">
                         <div className="p-6 space-y-4">
                             <div className="flex items-center space-x-3">
                                 <div
@@ -1454,7 +1454,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                             className="flex items-center justify-end space-x-3 p-6 border-t border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                             <button
                                 onClick={() => setDeleteConfirm(null)}
-                                className="px-6 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                className="px-6 py-2 rounded-2xl border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                             >
                                 Cancel
                             </button>
@@ -1469,7 +1469,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                                     }
                                 }}
                                 disabled={isSubmitting}
-                                className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
+                                className="px-6 py-2 rounded-2xl bg-red-600 hover:bg-red-500 disabled:bg-slate-400 text-white font-bold transition-colors flex items-center space-x-2"
                             >
                                 {isSubmitting && <Loader size={18} className="animate-spin"/>}
                                 <span>Delete</span>
@@ -1484,7 +1484,7 @@ export function AdminQuizzes({unitId, unit: initialUnit}: AdminQuizzesProps = {}
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`px-6 py-3 rounded-lg font-medium shadow-lg text-white animate-in fade-in slide-in-from-bottom-4 ${
+                        className={`px-6 py-3 rounded-2xl font-medium shadow-lg text-white animate-in fade-in slide-in-from-bottom-4 ${
                             toast.type === 'success'
                                 ? 'bg-emerald-600'
                                 : toast.type === 'error'

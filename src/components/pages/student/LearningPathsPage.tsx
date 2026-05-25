@@ -4,6 +4,7 @@ import {ArrowRight, BookOpen, CheckCircle, LogOut, MapPin, Sparkles} from 'lucid
 import {apiClient} from '@skillforge/vite/lib/api';
 import {getCourseThumbUrl, getSeededColor} from '@skillforge/vite/lib/s3';
 import type {LearningPath, LearningPathCourse} from '@skillforge/vite/lib/types';
+import BannerImage from "@skillforge/vite/assets/img_2.png";
 
 type PathCourse = LearningPathCourse;
 
@@ -191,7 +192,7 @@ export function LearningPathsPage() {
         <div className="flex-1 overflow-y-auto">
             <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
                 <div
-                    className="flex flex-col gap-4 rounded-[2rem] border border-blue-200/40 dark:border-blue-400/20 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl p-5 sm:p-6 shadow-xl shadow-blue-950/5">
+                    className="relative overflow-hidden flex flex-col gap-4 rounded-2xl border border-blue-200/40 dark:border-blue-400/20 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl p-5 sm:p-6 shadow-xl shadow-blue-950/5">
                     <div className="flex items-center gap-4">
                         <div
                             className="w-12 h-12 bg-blue-500/20 text-blue-500 rounded-2xl flex items-center justify-center shrink-0">
@@ -202,9 +203,10 @@ export function LearningPathsPage() {
                                 Learning Paths
                             </h1>
                             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-                                Review your active path, then choose another path only after leaving the current one.
+                                Learning paths to help you stay on track.
                             </p>
                         </div>
+                        <img src={BannerImage} alt={"mascott"} className={"absolute -right-6 -top-12 w-96 -z-1 hidden xl:block"}/>
                     </div>
 
                     {hasUserPath && userPath ? (
@@ -262,7 +264,7 @@ export function LearningPathsPage() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-5">
                             <div
-                                className="rounded-[2rem] border border-white/20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-5 sm:p-7 text-white shadow-2xl shadow-slate-950/20 overflow-hidden relative">
+                                className="rounded-2xl border border-white/20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-5 sm:p-7 text-white shadow-2xl shadow-slate-950/20 overflow-hidden relative">
                                 <div
                                     className="absolute inset-0 opacity-35 pointer-events-none"
                                     style={{
@@ -325,7 +327,7 @@ export function LearningPathsPage() {
                             </div>
 
                             <div
-                                className="rounded-[2rem] border border-blue-200/30 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-5 sm:p-7 shadow-xl shadow-blue-950/5">
+                                className="rounded-2xl border border-blue-200/30 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-5 sm:p-7 shadow-xl shadow-blue-950/5">
                                 <h3 className="text-lg font-black text-slate-900 dark:text-white mb-4">
                                     Path details
                                 </h3>
@@ -375,7 +377,7 @@ export function LearningPathsPage() {
                                 return (
                                     <article
                                         key={courseId}
-                                        className="group overflow-hidden rounded-[2rem] border border-white/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-lg shadow-blue-950/5 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/10"
+                                        className="group overflow-hidden rounded-2xl border border-white/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-lg shadow-blue-950/5 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/10"
                                     >
                                         <div className="relative h-44 sm:h-52 overflow-hidden">
                                             {renderCourseBanner(course, userPath.id)}
@@ -478,7 +480,7 @@ export function LearningPathsPage() {
                             return (
                                 <div
                                     key={path.id}
-                                    className="rounded-[2rem] border border-white/20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-5 sm:p-6 shadow-lg shadow-blue-950/5 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/10"
+                                    className="rounded-2xl border border-white/20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-5 sm:p-6 shadow-lg shadow-blue-950/5 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-950/10"
                                     style={{
                                         background: `linear-gradient(to bottom right, ${pathColor}14, ${pathColor}06)`,
                                         borderColor: `${pathColor}40`,
@@ -541,7 +543,7 @@ export function LearningPathsPage() {
                                     </div>
 
                                     <div
-                                        className="mt-5 rounded-3xl border border-white/20 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl p-4 shadow-lg shadow-blue-950/5">
+                                        className="mt-5 rounded-2xl border border-white/20 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl p-4 shadow-lg shadow-blue-950/5">
                                         <div
                                             className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-600 dark:text-slate-400">
                                             <BookOpen size={14}/>
@@ -553,7 +555,7 @@ export function LearningPathsPage() {
                                                 <div key={getPathCourseId(course) || course.position}
                                                      className="flex items-center gap-3">
                                                     <div
-                                                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-xs font-black text-white"
+                                                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-xs font-black text-white"
                                                         style={{backgroundColor: getSeededColor(getPathCourseId(course) || course.courseName)}}
                                                     >
                                                         {course.position}
@@ -582,7 +584,7 @@ export function LearningPathsPage() {
 
                     {visiblePaths.length === 0 && (
                         <div
-                            className="rounded-[2rem] border border-dashed border-blue-200/40 dark:border-blue-400/20 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl p-12 text-center shadow-xl shadow-blue-950/5">
+                            className="rounded-2xl border border-dashed border-blue-200/40 dark:border-blue-400/20 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl p-12 text-center shadow-xl shadow-blue-950/5">
                             <MapPin size={48} className="mx-auto mb-4 text-slate-400"/>
                             <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
                                 No learning paths available yet

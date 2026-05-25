@@ -174,7 +174,7 @@ export function AssessmentPage() {
     if (error) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6 max-w-md">
+                <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-6 max-w-md">
                     <p className="text-red-300 font-medium">{error}</p>
                     <button
                         onClick={() => navigate(`/student/courses/${courseId}`)}
@@ -235,7 +235,7 @@ export function AssessmentPage() {
                                     return (
                                         <div
                                             key={option.id}
-                                            className={`p-3 rounded-lg border ${
+                                            className={`p-3 rounded-2xl border ${
                                                 correct
                                                     ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
                                                     : selected
@@ -265,7 +265,7 @@ export function AssessmentPage() {
 
                     <button
                         onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}`)}
-                        className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 py-3 rounded-xl font-black"
+                        className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 py-3 rounded-2xl font-black"
                     >
                         Back to Unit
                     </button>
@@ -311,7 +311,7 @@ export function AssessmentPage() {
                                     }
                                     setSearchParams(next);
                                 }}
-                                className="bg-white/10 hover:bg-white/20 text-slate-900 dark:text-white border border-slate-300 dark:border-white/20 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-black text-sm sm:text-base"
+                                className="bg-white/10 hover:bg-white/20 text-slate-900 dark:text-white border border-slate-300 dark:border-white/20 px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-black text-sm sm:text-base"
                             >
                                 Review Attempt
                             </button>
@@ -321,7 +321,7 @@ export function AssessmentPage() {
                                         ? `/student/courses/${courseId}`
                                         : `/student/courses/${courseId}/units/${unitId}`
                                 )}
-                                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02]"
+                                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-2xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02]"
                             >
                                 {quizResult.isPassed ? 'Back to Course' : 'Back to Unit'}
                             </button>
@@ -340,7 +340,7 @@ export function AssessmentPage() {
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <button
                             onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}`)}
-                            className="glass-button-secondary inline-flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-slate-900 dark:text-white font-bold transition-colors text-sm sm:text-base"
+                            className="glass-button-secondary inline-flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-2xl sm:rounded-2xl text-slate-900 dark:text-white font-bold transition-colors text-sm sm:text-base"
                         >
                             <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
                             <span>Exit Assessment</span>
@@ -373,7 +373,7 @@ export function AssessmentPage() {
                 </div>
                 {/* Question Content */}
                 <div className="px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
-                    <div className="glass-widget-surface rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-950/5">
+                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl md:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-950/5">
                         {/* Question Title */}
                         <div className="mb-4 sm:mb-5 md:mb-6">
                             <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
@@ -399,7 +399,7 @@ export function AssessmentPage() {
                                 return (
                                     <label
                                         key={option.id}
-                                        className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all min-h-[44px] sm:min-h-[48px] ${
+                                        className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl border-2 cursor-pointer transition-all min-h-[44px] sm:min-h-[48px] ${
                                             isSelected
                                                 ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                                                 : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
@@ -427,7 +427,7 @@ export function AssessmentPage() {
                         <button
                             onClick={handlePrevQuestion}
                             disabled={currentQuestionIdx === 0}
-                            className="glass-button-secondary flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-white rounded-lg sm:rounded-xl font-bold transition-all text-xs sm:text-sm md:text-base whitespace-nowrap"
+                            className="glass-button-secondary flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-white rounded-2xl sm:rounded-2xl font-bold transition-all text-xs sm:text-sm md:text-base whitespace-nowrap"
                         >
                             <ChevronLeft size={16} className="sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />
                             <span className="hidden sm:inline">Previous</span>
@@ -437,7 +437,7 @@ export function AssessmentPage() {
                         {currentQuestionIdx < questions.length - 1 ? (
                             <button
                                 onClick={handleNextQuestion}
-                                className="glass-button-secondary flex-1 flex items-center gap-1.5 sm:gap-2 justify-center px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 text-slate-900 dark:text-white rounded-lg sm:rounded-xl font-bold transition-all text-xs sm:text-sm md:text-base"
+                                className="glass-button-secondary flex-1 flex items-center gap-1.5 sm:gap-2 justify-center px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 text-slate-900 dark:text-white rounded-2xl sm:rounded-2xl font-bold transition-all text-xs sm:text-sm md:text-base"
                             >
                                 Next
                                 <ChevronRight size={16} className="sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />
@@ -446,7 +446,7 @@ export function AssessmentPage() {
                             <button
                                 onClick={handleQuizSubmit}
                                 disabled={quizSubmitting || !allAnswered}
-                                className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl font-black transition-all hover:scale-[1.02] text-xs sm:text-sm md:text-base whitespace-nowrap"
+                                className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-2xl sm:rounded-2xl font-black transition-all hover:scale-[1.02] text-xs sm:text-sm md:text-base whitespace-nowrap"
                             >
                                 {quizSubmitting ? 'Submitting...' : 'Submit'}
                             </button>

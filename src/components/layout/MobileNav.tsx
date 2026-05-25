@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
 	Menu, X, LayoutDashboard, BookOpen, Award, MessageSquare,
-	LogOut, Settings, Map, Star, Users, FlaskConical
+	LogOut, Settings, Map, Star, Users, FlaskConical, Trophy
 } from 'lucide-react';
 import logo from '@skillforge/vite/assets/logo.svg';
 
@@ -37,6 +37,7 @@ export function MobileNav({
 			{ id: 'dashboard', icon: LayoutDashboard, label: 'Home Base', path: '/student/dashboard' },
 			{ id: 'browse_courses', icon: BookOpen, label: 'Browse Courses', path: '/student/browse-courses' },
 			{ id: 'learning_paths', icon: BookOpen, label: 'Learning Paths', path: '/student/learning-paths' },
+			{ id: 'leaderboard', icon: Trophy, label: 'Leaderboard', path: '/student/leaderboard' },
 			{ id: 'certificates', icon: Award, label: 'Trophy Room', path: '/student/certificates' },
 			{ id: 'forum', icon: MessageSquare, label: 'Forums', path: '/student/forum' },
 			{ id: 'code_sandbox', icon: FlaskConical, label: 'Code Sandbox', path: '/student/code-sandbox' },
@@ -103,7 +104,7 @@ export function MobileNav({
 			{/* Hamburger Menu Button - Only visible on mobile */}
 			<button
 				onClick={() => onOpenChange(!isOpen)}
-				className="sm:hidden fixed top-4 left-4 z-40 h-11 w-11 flex items-center justify-center rounded-2xl glass-chip hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+				className="lg:hidden fixed top-4 left-4 z-40 h-11 w-11 flex items-center justify-center rounded-2xl glass-chip hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
 				aria-label="Toggle navigation menu"
 				aria-expanded={isOpen}
 			>

@@ -257,7 +257,7 @@ export function AdminBadges() {
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`px-6 py-3 rounded-xl shadow-lg text-white flex items-center gap-3 ${
+                        className={`px-6 py-3 rounded-2xl shadow-lg text-white flex items-center gap-3 ${
                             toast.type === 'success'
                                 ? 'bg-emerald-500'
                                 : toast.type === 'error'
@@ -273,21 +273,21 @@ export function AdminBadges() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
-                    className="p-8 rounded-[2rem] glass-shell">
+                    className="p-8 rounded-2xl glass-shell">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">
                         Total Badges
                     </p>
                     <h3 className="text-5xl font-black text-slate-900 dark:text-white">{totalBadges}</h3>
                 </div>
                 <div
-                    className="p-8 rounded-[2rem] glass-shell">
+                    className="p-8 rounded-2xl glass-shell">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">
                         First Course
                     </p>
                     <h3 className="text-5xl font-black text-slate-900 dark:text-white">{firstCourseBadges}</h3>
                 </div>
                 <div
-                    className="p-8 rounded-[2rem] glass-shell">
+                    className="p-8 rounded-2xl glass-shell">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">
                         XP Milestones
                     </p>
@@ -296,7 +296,7 @@ export function AdminBadges() {
             </div>
 
             <div
-                className="rounded-[2rem] glass-shell p-8 text-center">
+                className="rounded-2xl glass-shell p-8 text-center">
                 <div className="flex flex-col lg:flex-row lg:items-end gap-4 justify-between">
                     <div>
                         <label
@@ -350,10 +350,10 @@ export function AdminBadges() {
 
             {error && (
                 <div
-                    className="glass-state border-red-500/20 bg-red-500/10 rounded-[2rem] p-8">
+                    className="glass-state border-red-500/20 bg-red-500/10 rounded-2xl p-8">
                     <div className="flex items-start gap-4">
                         <div
-                            className="w-12 h-12 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center shrink-0">
+                            className="w-12 h-12 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center shrink-0">
                             <AlertCircle size={28}/>
                         </div>
                         <div className="flex-1">
@@ -383,7 +383,7 @@ export function AdminBadges() {
                     {filteredBadges.map((badge) => (
                         <div
                             key={badge.id}
-                            className="glass-panel rounded-[2rem] p-6 space-y-4"
+                            className="glass-panel rounded-2xl p-6 space-y-4"
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div>
@@ -399,7 +399,7 @@ export function AdminBadges() {
                                         <img
                                             src={getS3Url(badge.iconS3Key) || badge.iconS3Key}
                                             alt={badge.name}
-                                            className="w-full h-full object-cover rounded-xl"
+                                            className="w-full h-full object-cover rounded-2xl"
                                         />
                                     ) : (
                                         getBadgeIcon(null, badge.id)
@@ -453,7 +453,7 @@ export function AdminBadges() {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="glass-panel-strong rounded-[2.5rem] max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+                        className="glass-panel-strong rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
                         <div className="p-8 space-y-6">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
@@ -515,12 +515,12 @@ export function AdminBadges() {
                                     </label>
                                     <div className="flex gap-4">
                                         <div
-                                            className="w-24 h-24 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border-2 border-dashed border-blue-200/60 dark:border-blue-500/15 rounded-xl flex items-center justify-center shrink-0">
+                                            className="w-24 h-24 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border-2 border-dashed border-blue-200/60 dark:border-blue-500/15 rounded-2xl flex items-center justify-center shrink-0">
                                             {form.iconPreview ? (
                                                 <img
                                                     src={form.iconPreview}
                                                     alt="Icon preview"
-                                                    className="w-full h-full object-cover rounded-lg"
+                                                    className="w-full h-full object-cover rounded-2xl"
                                                 />
                                             ) : (
                                                 <div className="text-5xl">
@@ -528,7 +528,7 @@ export function AdminBadges() {
                                                         <img
                                                             src={getBadgeIcon(form.iconS3Key, editingBadgeId || 'new')}
                                                             alt="Icon preview"
-                                                            className="w-full h-full object-cover rounded-lg"
+                                                            className="w-full h-full object-cover rounded-2xl"
                                                         />
                                                         : getBadgeIcon(form.iconS3Key, editingBadgeId || 'new')
                                                     }

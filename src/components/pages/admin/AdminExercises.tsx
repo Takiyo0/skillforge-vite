@@ -654,7 +654,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
             {deleteConfirm && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40">
                     <div
-                        className="glass-widget-shell rounded-[2rem] p-8 max-w-md">
+                        className="glass-widget-shell rounded-2xl p-8 max-w-md">
                         <div className="flex items-center space-x-4 mb-6">
                             <div
                                 className="w-12 h-12 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center">
@@ -668,7 +668,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setDeleteConfirm(null)}
-                                className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                 disabled={isSubmitting}
                             >
                                 Cancel
@@ -683,7 +683,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                         handleDeleteHint(deleteConfirm.id);
                                     }
                                 }}
-                                className="flex-1 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-colors disabled:opacity-50"
+                                className="flex-1 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-bold transition-colors disabled:opacity-50"
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? <Loader size={20} className="animate-spin mx-auto"/> : 'Delete'}
@@ -712,7 +712,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                 <div
                     className="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl flex items-start space-x-4">
                     <div
-                        className="w-10 h-10 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                        className="w-10 h-10 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center shrink-0 mt-0.5">
                         <AlertCircle size={24}/>
                     </div>
                     <div className="flex-1">
@@ -736,7 +736,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                 <>
                     {!unitId && (
                         <div
-                            className="glass-widget-shell rounded-[2rem] shadow-xl shadow-blue-950/10 p-6">
+                            className="glass-widget-shell rounded-2xl shadow-xl shadow-blue-950/10 p-6">
                             <label
                                 className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">
                                 Select Unit
@@ -765,7 +765,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                         <div className="space-y-4">
                             {exercises.length === 0 ? (
                                 <div
-                                    className="glass-widget-shell rounded-[2.5rem] shadow-xl shadow-blue-950/10 p-12 flex flex-col items-center justify-center">
+                                    className="glass-widget-shell rounded-2xl shadow-xl shadow-blue-950/10 p-12 flex flex-col items-center justify-center">
                                     <div
                                         className="w-16 h-16 bg-blue-50/70 dark:bg-blue-500/10 text-slate-400 dark:text-slate-600 rounded-full flex items-center justify-center mb-4">
                                         <Code2 size={32}/>
@@ -777,7 +777,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                     </p>
                                     <button
                                         onClick={handleOpenCreateExercise}
-                                        className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-6 py-3 rounded-xl font-bold transition-transform hover:scale-105 flex items-center space-x-2 shadow-lg shadow-pink-600/30"
+                                        className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white px-6 py-3 rounded-2xl font-bold transition-transform hover:scale-105 flex items-center space-x-2 shadow-lg shadow-pink-600/30"
                                     >
                                         <Plus size={20} strokeWidth={3}/>
                                         <span>Create Exercise</span>
@@ -788,7 +788,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                     {exercises.map((exercise) => (
                                         <div
                                             key={exercise.id}
-                                            className="glass-widget-shell rounded-[2rem] shadow-xl shadow-blue-950/10 overflow-hidden"
+                                            className="glass-widget-shell rounded-2xl shadow-xl shadow-blue-950/10 overflow-hidden"
                                         >
                                             <div className="p-6">
                                                 {/* Exercise Header */}
@@ -842,7 +842,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                                     name: exercise.title,
                                                                 })
                                                             }
-                                                            className="p-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-600 dark:text-slate-300 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 rounded-lg transition-colors"
+                                                            className="p-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-600 dark:text-slate-300 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 rounded-2xl transition-colors"
                                                             title="Delete exercise"
                                                         >
                                                             <Trash2 size={18}/>
@@ -854,7 +854,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                                         expandedExerciseId === exercise.id ? null : exercise.id
                                                                     )
                                                                 }
-                                                                className="p-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                                                className="p-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-2xl transition-colors"
                                                             >
                                                                 {expandedExerciseId === exercise.id ? (
                                                                     <ChevronUp size={18}/>
@@ -872,14 +872,14 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                         className="mt-6 pt-6 border-t border-blue-200/60 dark:border-blue-500/15 space-y-6">
                                                         {inlineView && (
                                                             <div
-                                                                className="glass-widget-surface rounded-[1.5rem] p-6 space-y-5">
+                                                                className="glass-widget-surface rounded-2xl p-6 space-y-5">
                                                                 <div className="flex items-center justify-between">
                                                                     <h4 className="text-lg font-bold text-slate-900 dark:text-white">
                                                                         Edit Exercise
                                                                     </h4>
                                                                     <button
                                                                         onClick={handleUpdateExercise}
-                                                                        className="px-5 py-2.5 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white rounded-lg font-bold transition-colors disabled:opacity-50 flex items-center space-x-2"
+                                                                        className="px-5 py-2.5 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white rounded-2xl font-bold transition-colors disabled:opacity-50 flex items-center space-x-2"
                                                                         disabled={isSubmitting}
                                                                     >
                                                                         {isSubmitting ? (
@@ -1048,7 +1048,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                                 </h4>
                                                                 <button
                                                                     onClick={() => handleOpenCreateTestCase(exercise)}
-                                                                    className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 px-4 py-2 rounded-lg font-bold text-sm transition-colors flex items-center space-x-2"
+                                                                    className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 px-4 py-2 rounded-2xl font-bold text-sm transition-colors flex items-center space-x-2"
                                                                 >
                                                                     <Plus size={16}/>
                                                                     <span>Add Test Case</span>
@@ -1064,7 +1064,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                                     {exercise.testCases.map((testCase, index) => (
                                                                         <div
                                                                             key={testCase.id}
-                                                                            className="glass-widget-surface p-4 rounded-lg"
+                                                                            className="glass-widget-surface p-4 rounded-2xl"
                                                                         >
                                                                             <div
                                                                                 className="flex items-start justify-between mb-3">
@@ -1135,7 +1135,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                                 </h4>
                                                                 <button
                                                                     onClick={() => handleOpenCreateHint(exercise)}
-                                                                    className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/50 px-4 py-2 rounded-lg font-bold text-sm transition-colors flex items-center space-x-2"
+                                                                    className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/50 px-4 py-2 rounded-2xl font-bold text-sm transition-colors flex items-center space-x-2"
                                                                 >
                                                                     <Plus size={16}/>
                                                                     <span>Add Hint</span>
@@ -1153,7 +1153,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                                         .map((hint, index) => (
                                                                             <div
                                                                                 key={hint.id}
-                                                                                className="glass-widget-surface p-4 rounded-lg"
+                                                                                className="glass-widget-surface p-4 rounded-2xl"
                                                                             >
                                                                                 <div
                                                                                     className="flex items-start justify-between mb-2">
@@ -1212,14 +1212,14 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
             {modalState === 'create' && (
                 <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-40 overflow-y-auto">
                     <div
-                        className="glass-widget-shell rounded-[2rem] p-8 max-w-2xl w-full mx-4 my-8">
+                        className="glass-widget-shell rounded-2xl p-8 max-w-2xl w-full mx-4 my-8">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-2xl font-black text-slate-900 dark:text-white">
                                 Create Exercise
                             </h3>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24} className="text-slate-600 dark:text-slate-400"/>
                             </button>
@@ -1387,14 +1387,14 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                             <div className="flex gap-3 pt-4">
                                 <button
                                     onClick={() => setModalState('closed')}
-                                    className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-lg font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
+                                    className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
                                     disabled={isSubmitting}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleCreateExercise}
-                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white rounded-lg font-bold transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white rounded-2xl font-bold transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting ? (
@@ -1416,7 +1416,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
             {modalState === 'test-case' && (
                 <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-40 overflow-y-auto">
                     <div
-                        className="glass-widget-shell rounded-[2rem] p-8 max-w-5xl w-full mx-4 my-8">
+                        className="glass-widget-shell rounded-2xl p-8 max-w-5xl w-full mx-4 my-8">
                         <div className="flex items-center justify-between mb-6">
                             <div>
                                 <h3 className="text-2xl font-black text-slate-900 dark:text-white">
@@ -1430,7 +1430,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                             </div>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24} className="text-slate-600 dark:text-slate-400"/>
                             </button>
@@ -1444,7 +1444,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                                 Input
                                             </label>
-                                            <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                            <div className="glass-widget-dark overflow-hidden rounded-2xl">
                                                 <Editor
                                                     height="220px"
                                                     language="plaintext"
@@ -1469,7 +1469,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                                 Expected Output
                                             </label>
-                                            <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                            <div className="glass-widget-dark overflow-hidden rounded-2xl">
                                                 <Editor
                                                     height="220px"
                                                     language="plaintext"
@@ -1508,7 +1508,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                             ) : (
                                 <>
                                     {formErrors.testCases && (
-                                        <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm font-semibold text-red-700 dark:text-red-300">
+                                        <div className="rounded-2xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm font-semibold text-red-700 dark:text-red-300">
                                             {formErrors.testCases}
                                         </div>
                                     )}
@@ -1550,7 +1550,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                         <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                                             Input
                                                         </label>
-                                                        <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                                        <div className="glass-widget-dark overflow-hidden rounded-2xl">
                                                             <Editor
                                                                 height="180px"
                                                                 language="plaintext"
@@ -1579,7 +1579,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                                         <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                                             Expected Output
                                                         </label>
-                                                        <div className="glass-widget-dark overflow-hidden rounded-xl">
+                                                        <div className="glass-widget-dark overflow-hidden rounded-2xl">
                                                             <Editor
                                                                 height="180px"
                                                                 language="plaintext"
@@ -1611,7 +1611,7 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                                     <button
                                         type="button"
                                         onClick={handleAddTestCaseDraft}
-                                        className="w-full py-3 border-2 border-dashed border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 rounded-xl font-bold hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center justify-center gap-2"
+                                        className="w-full py-3 border-2 border-dashed border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 rounded-2xl font-bold hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center justify-center gap-2"
                                     >
                                         <Plus size={18}/>
                                         Add Another Test Case
@@ -1623,14 +1623,14 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                             <div className="flex gap-3 pt-4">
                                 <button
                                     onClick={() => setModalState('closed')}
-                                    className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-lg font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
+                                    className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
                                     disabled={isSubmitting}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={selectedTestCaseId ? handleUpdateTestCase : handleAddTestCase}
-                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg font-bold transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-2xl font-bold transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting ? (
@@ -1656,14 +1656,14 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
             {modalState === 'hint' && (
                 <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-40 overflow-y-auto">
                     <div
-                        className="glass-widget-shell rounded-[2rem] p-8 max-w-2xl w-full mx-4 my-8">
+                        className="glass-widget-shell rounded-2xl p-8 max-w-2xl w-full mx-4 my-8">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-2xl font-black text-slate-900 dark:text-white">
                                 {selectedHintId ? 'Edit Hint' : 'Add Hint'}
                             </h3>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24} className="text-slate-600 dark:text-slate-400"/>
                             </button>
@@ -1715,14 +1715,14 @@ export function AdminExercises({unitId, unit: initialUnit}: AdminExercisesProps 
                             <div className="flex gap-3 pt-4">
                                 <button
                                     onClick={() => setModalState('closed')}
-                                    className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-lg font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
+                                    className="flex-1 px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 text-slate-900 dark:text-white rounded-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
                                     disabled={isSubmitting}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={selectedHintId ? handleUpdateHint : handleAddHint}
-                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-lg font-bold transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-2xl font-bold transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting ? (

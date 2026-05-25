@@ -233,14 +233,14 @@ export function UserForumsPage() {
 										setSelectedCourseId('');
 										setError(null);
 									}}
-									className="glass-button-secondary px-6 py-2 rounded-lg font-medium transition-colors"
+									className="glass-button-secondary px-6 py-2 rounded-2xl font-medium transition-colors"
 								>
 									Cancel
 								</button>
 								<button
 									type="submit"
 									disabled={submittingPost || !selectedCourseId || !newPostTitle.trim() || !newPostContent.trim()}
-									className="inline-flex items-center gap-2 px-6 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+									className="inline-flex items-center gap-2 px-6 py-2 rounded-2xl font-medium bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
 								>
 									<Send size={16} />
 									{submittingPost ? 'Creating...' : 'Create Post'}
@@ -287,7 +287,7 @@ export function UserForumsPage() {
 									<div className="flex-1 min-w-0">
 										{/* Course Context & Badges */}
 										<div className="flex items-center gap-2 mb-3">
-											<div className="flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-blue-500/10 px-3 py-1 rounded-lg">
+											<div className="flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-blue-500/10 px-3 py-1 rounded-2xl">
 												<BookOpen size={12} />
 												{post.course?.name || 'Unknown Course'}
 											</div>
@@ -368,7 +368,7 @@ export function UserForumsPage() {
 						<button
 							onClick={() => setPage(Math.max(1, page - 1))}
 							disabled={page === 1}
-							className="glass-button-secondary px-4 py-2 rounded-lg font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+							className="glass-button-secondary px-4 py-2 rounded-2xl font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 						>
 							Previous
 						</button>
@@ -378,7 +378,7 @@ export function UserForumsPage() {
 						<button
 							onClick={() => setPage(Math.min(totalPages, page + 1))}
 							disabled={page === totalPages}
-							className="glass-button-secondary px-4 py-2 rounded-lg font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+							className="glass-button-secondary px-4 py-2 rounded-2xl font-medium text-slate-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 						>
 							Next
 						</button>

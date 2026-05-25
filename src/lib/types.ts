@@ -91,6 +91,38 @@ export interface Streak {
 	lastActivityDate: string;
 }
 
+export type LeaderboardPeriod = 'weekly' | 'all_time';
+
+export interface LeaderboardEntry {
+	rank: number;
+	userId: string;
+	displayName: string;
+	avatarS3Key: string | null;
+	score: number;
+	xpPoints: number;
+	currentStreakDays: number;
+	longestStreakDays: number;
+	level: number;
+}
+
+export interface GlobalLeaderboardResponse {
+	period: LeaderboardPeriod;
+	generatedAt: string;
+	weekStartUtc?: string;
+	weekEndUtc?: string;
+	resetInSeconds?: number;
+	maxEntries: number;
+	limit: number;
+	lastId: string | null;
+	nextLastId: string | null;
+	hasMore: boolean;
+	total: number;
+	totalParticipants: number;
+	count: number;
+	leaderboard: LeaderboardEntry[];
+	myRank: LeaderboardEntry | null;
+}
+
 export interface Badge {
 	id: string;
 	name: string;

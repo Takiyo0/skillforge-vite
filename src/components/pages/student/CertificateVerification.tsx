@@ -81,7 +81,7 @@ export function CertificateVerification() {
 						<p className="text-red-200 mb-6">{error}</p>
 						<button
 							onClick={() => navigate('/')}
-							className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-bold transition-colors"
+							className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-2xl font-bold transition-colors"
 						>
 							Back to Home
 						</button>
@@ -113,7 +113,7 @@ export function CertificateVerification() {
 						<p className="text-red-200 mb-6">{verificationResult.message || 'This certificate could not be verified'}</p>
 						<button
 							onClick={() => navigate('/')}
-							className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-bold transition-colors"
+							className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-2xl font-bold transition-colors"
 						>
 							Back to Home
 						</button>
@@ -176,7 +176,7 @@ export function CertificateVerification() {
 							{cert.courseName}
 						</p>
 						<div className="flex items-center space-x-3">
-							<span className="inline-block px-3 py-1 text-xs font-bold uppercase rounded-lg bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300">
+							<span className="inline-block px-3 py-1 text-xs font-bold uppercase rounded-2xl bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300">
 								{cert.courseLevel}
 							</span>
 						</div>
@@ -212,7 +212,7 @@ export function CertificateVerification() {
 				</div>
 
 				{/* Certificate Code */}
-				<div className="glass-panel rounded-xl p-6 mb-8">
+				<div className="glass-panel rounded-2xl p-6 mb-8">
 					<p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider mb-3">
 						Certificate Code
 					</p>
@@ -225,13 +225,13 @@ export function CertificateVerification() {
 				<div className="flex flex-col sm:flex-row gap-4">
 					<button
 						onClick={() => navigate('/')}
-						className="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors"
+						className="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-black text-sm transition-colors"
 					>
 						Return Home
 					</button>
 					<button
 						onClick={() => navigate(`/student/certificates/${cert.id}`)}
-						className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors"
+						className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-black text-sm transition-colors"
 					>
 						View Full Certificate
 					</button>

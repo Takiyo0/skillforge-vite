@@ -102,7 +102,7 @@ export function ProfilePage() {
 	if (error) {
 		return (
 			<div className="flex-1 flex items-center justify-center">
-				<div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6 max-w-md">
+				<div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-6 max-w-md">
 					<p className="text-red-600 dark:text-red-400 font-bold mb-2">Error</p>
 					<p className="text-red-500 dark:text-red-300 text-sm mb-4">{error}</p>
 					<button
@@ -135,12 +135,12 @@ export function ProfilePage() {
 				<div className="relative mb-8">
 					{/* Banner */}
 					<div
-						className="h-40 rounded-t-2xl shadow-lg"
+						className="h-40 rounded-2xl shadow-lg"
 						style={{ backgroundColor: getSeededColor(profile.id) }}
 					></div>
 
 					{/* Profile Card */}
-					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-b-2xl shadow-xl shadow-blue-950/5 p-8 border border-white/20 dark:border-blue-400/20 border-t-4 border-blue-500/60">
+					<div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl shadow-xl shadow-blue-950/5 p-8 border border-white/20 dark:border-blue-400/20 border-t-4 border-blue-500/60">
 						<div className="flex flex-col lg:flex-row gap-8">
 							{/* Avatar and Basic Info */}
 							<div className="flex flex-col items-center md:items-start md:flex-row md:gap-6">
@@ -179,7 +179,7 @@ export function ProfilePage() {
 							{/* Stats Grid */}
 							<div className="flex-1 grid grid-cols-3 gap-4 h-min">
 								{/* Level */}
-								<div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4 border border-blue-200 dark:border-blue-700">
+								<div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-4 border border-blue-200 dark:border-blue-700">
 									<div className="flex flex-col items-center">
 										<p className="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400">
 											{profile.level}
@@ -191,7 +191,7 @@ export function ProfilePage() {
 								</div>
 
 								{/* Total XP */}
-								<div className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 rounded-xl p-4 border border-amber-200 dark:border-amber-700">
+								<div className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 rounded-2xl p-4 border border-amber-200 dark:border-amber-700">
 									<div className="flex flex-col items-center">
 										<p className="text-2xl md:text-3xl font-black text-amber-600 dark:text-amber-400">
 											{profile.totalXp.toLocaleString()}
@@ -203,7 +203,7 @@ export function ProfilePage() {
 								</div>
 
 								{/* Streak */}
-								<div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl p-4 border border-orange-200 dark:border-orange-700">
+								<div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-2xl p-4 border border-orange-200 dark:border-orange-700">
 									<div className="flex flex-col items-center">
 										<p className="text-2xl md:text-3xl font-black text-orange-600 dark:text-orange-400">
 											{profile.currentStreak}
@@ -230,7 +230,7 @@ export function ProfilePage() {
 						{heatmapData.map((day, idx) => (
 							<Tooltip key={idx} content={`${day.date}: ${day.count} events`}>
 								<div
-									className={`w-3 h-3 rounded-sm transition-all ${
+									className={`w-3 h-3 rounded-2xl transition-all ${
 										day.intensity === 0
 											? 'bg-blue-500/15'
 											: day.intensity === 1
@@ -267,7 +267,7 @@ export function ProfilePage() {
 							{profile.badges.map((badge) => (
 								<div
 									key={badge.badgeId}
-									className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-xl p-4 text-center hover:shadow-lg transition-shadow"
+									className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-4 text-center hover:shadow-lg transition-shadow"
 								>
 									<div className="text-4xl mb-3 flex justify-center">
 										{getBadgeIcon(badge.iconS3Key, badge.badgeId)}
@@ -304,7 +304,7 @@ export function ProfilePage() {
 							{currentlyLearningCourses.map((course) => (
 								<div
 									key={course.courseId}
-									className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-xl p-4 hover:shadow-lg hover:shadow-blue-500/10 transition-shadow cursor-pointer"
+									className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl p-4 hover:shadow-lg hover:shadow-blue-500/10 transition-shadow cursor-pointer"
 									onClick={() => navigate(`/student/courses/${course.courseId}`)}
 								>
 									<h3 className="font-bold text-slate-900 dark:text-white mb-2">
@@ -353,7 +353,7 @@ export function ProfilePage() {
 							{completedCourses.map((course) => (
 								<div
 									key={course.courseId}
-									className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-4 hover:shadow-lg transition-shadow cursor-pointer border border-green-200 dark:border-green-700"
+									className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-2xl p-4 hover:shadow-lg transition-shadow cursor-pointer border border-green-200 dark:border-green-700"
 									onClick={() => navigate(`/student/courses/${course.courseId}`)}
 								>
 									<h3 className="font-bold text-slate-900 dark:text-white mb-2">
@@ -393,7 +393,7 @@ export function ProfilePage() {
 							{profile.certificates.map((cert) => (
 								<div
 									key={cert.certificateId}
-									className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 rounded-xl p-4 hover:shadow-lg transition-shadow cursor-pointer border border-yellow-200 dark:border-yellow-700"
+									className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 rounded-2xl p-4 hover:shadow-lg transition-shadow cursor-pointer border border-yellow-200 dark:border-yellow-700"
 									onClick={() => navigate(`/student/certificates/${cert.certificateId}`)}
 								>
 									<p className="font-bold text-slate-900 dark:text-white mb-2">

@@ -518,7 +518,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
             {/* Error State */}
             {error && (
                 <div
-                    className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-[2rem] p-6 flex items-start space-x-4">
+                    className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-6 flex items-start space-x-4">
                     <div className="text-red-600 dark:text-red-400 shrink-0">
                         <AlertCircle size={24}/>
                     </div>
@@ -528,7 +528,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                     </div>
                     <button
                         onClick={() => courseId && fetchCourseAndUnits(courseId)}
-                        className="ml-4 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg font-bold transition-colors shrink-0"
+                        className="ml-4 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-2xl font-bold transition-colors shrink-0"
                     >
                         Retry
                     </button>
@@ -561,12 +561,12 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                 <div className="space-y-6">
                     {/* Course Info Card */}
                     <div
-                        className="glass-panel rounded-[2rem] p-6 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                        className="glass-panel rounded-2xl p-6 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div className="flex flex-col gap-6 md:flex-row md:items-center">
                             <img src={getCourseThumbUrl((selectedCourse as Course & {
                                 thumbnailS3Key?: string
                             })?.thumbnailS3Key)} alt="Course thumbnail"
-                                 className="w-36 h-24 object-cover rounded-lg border border-blue-200/60 dark:border-blue-500/15"/>
+                                 className="w-36 h-24 object-cover rounded-2xl border border-blue-200/60 dark:border-blue-500/15"/>
                             <div>
                                 <h3 className="text-xl font-black text-slate-900 dark:text-white">{selectedCourse!.title}</h3>
                                 <p className="text-slate-500 dark:text-slate-400 mt-1">{selectedCourse!.subtitle}</p>
@@ -580,13 +580,13 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                 </p>
                                 <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
                                     <span
-                                        className="inline-block mr-3 px-2 py-1 bg-blue-50/70 dark:bg-blue-500/10 rounded-lg">{selectedCourse!.level}</span>
+                                        className="inline-block mr-3 px-2 py-1 bg-blue-50/70 dark:bg-blue-500/10 rounded-2xl">{selectedCourse!.level}</span>
                                     <span
-                                        className="inline-block mr-3 px-2 py-1 bg-blue-50/70 dark:bg-blue-500/10 rounded-lg">{selectedCourse!.language}</span>
+                                        className="inline-block mr-3 px-2 py-1 bg-blue-50/70 dark:bg-blue-500/10 rounded-2xl">{selectedCourse!.language}</span>
                                     <span
-                                        className="inline-block mr-3 px-2 py-1 bg-blue-50/70 dark:bg-blue-500/10 rounded-lg">{(selectedCourse!.priceCents / 100).toFixed(2)} {selectedCourse!.currencyCode}</span>
+                                        className="inline-block mr-3 px-2 py-1 bg-blue-50/70 dark:bg-blue-500/10 rounded-2xl">{(selectedCourse!.priceCents / 100).toFixed(2)} {selectedCourse!.currencyCode}</span>
                                     <span
-                                        className={`inline-block px-2 py-1 text-xs font-black uppercase tracking-widest rounded-lg ${
+                                        className={`inline-block px-2 py-1 text-xs font-black uppercase tracking-widest rounded-2xl ${
                                             selectedCourse!.isPublished
                                                 ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300'
                                                 : 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300'
@@ -602,7 +602,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             {selectedCourse && selectedCourse.isPublished ? (
                                 <button
                                     onClick={() => handleUnpublishCourse(selectedCourse.id)}
-                                    className="p-2 bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400 rounded-lg transition-colors"
+                                    className="p-2 bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400 rounded-2xl transition-colors"
                                     title="Unpublish"
                                 >
                                     <X size={18}/>
@@ -610,7 +610,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             ) : (
                                 <button
                                     onClick={() => selectedCourse && handlePublishCourse(selectedCourse.id)}
-                                    className="p-2 bg-emerald-100 dark:bg-emerald-900/30 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-lg transition-colors"
+                                    className="p-2 bg-emerald-100 dark:bg-emerald-900/30 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-2xl transition-colors"
                                     title="Publish"
                                 >
                                     <Check size={18}/>
@@ -618,12 +618,12 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             )}
 
                             <button onClick={handleOpenEditCourse}
-                                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold">Edit
+                                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold">Edit
                                 Course
                             </button>
                             <button
                                 onClick={() => setCourseDeleteOpen(true)}
-                                className="p-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors"
+                                className="p-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl transition-colors"
                                 title="Delete course"
                             >
                                 <Trash2 size={18}/>
@@ -651,7 +651,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                     {/* Empty State */}
                     {units.length === 0 ? (
                         <div
-                            className="rounded-[2rem] glass-panel overflow-hidden p-12 text-center">
+                            className="rounded-2xl glass-panel overflow-hidden p-12 text-center">
                             <p className="text-slate-500 dark:text-slate-400 text-lg font-medium mb-6">
                                 No units yet. Create your first unit to get started.
                             </p>
@@ -664,7 +664,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                         </div>
                     ) : (
                         <div
-                            className="rounded-[2rem] glass-panel overflow-hidden">
+                            className="rounded-2xl glass-panel overflow-hidden">
                             <div className="overflow-x-auto sm:overflow-visible">
                             <table className="min-w-[800px] sm:min-w-0 w-full">
                                 <thead>
@@ -711,7 +711,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                         onClick={(e) => e.stopPropagation()}
                                                         onDragStart={() => handleDragStart(unit.id)}
                                                         onDragEnd={() => setDraggedUnitId(null)}
-                                                        className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-grab active:cursor-grabbing transition-all group-hover:text-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20"
+                                                        className="p-2 rounded-2xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-grab active:cursor-grabbing transition-all group-hover:text-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20"
                                                         title="Drag to reorder"
                                                     >
                                                         <GripVertical size={16}/>
@@ -759,7 +759,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                         </td>
                                         <td className="px-6 py-4">
 												<span
-                                                    className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-black uppercase tracking-widest rounded-lg">
+                                                    className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-black uppercase tracking-widest rounded-2xl">
 													{getUnitTypeLabel(unit.type)}
 												</span>
                                         </td>
@@ -772,7 +772,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                 {unit.isPublished ? (
                                                     <button
                                                         onClick={() => handlePublishToggle(unit)}
-                                                        className="p-2 bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded-lg transition-colors"
+                                                        className="p-2 bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded-2xl transition-colors"
                                                         title="Unpublish unit"
                                                     >
                                                         <X size={16}/>
@@ -780,7 +780,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                 ) : (
                                                     <button
                                                         onClick={() => handlePublishToggle(unit)}
-                                                        className="p-2 bg-emerald-100 dark:bg-emerald-900/30 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-lg transition-colors"
+                                                        className="p-2 bg-emerald-100 dark:bg-emerald-900/30 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-2xl transition-colors"
                                                         title="Publish unit"
                                                     >
                                                         <Check size={16}/>
@@ -789,7 +789,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
 
                                                 <button
                                                     onClick={() => handleOpenPrerequisites(unit)}
-                                                    className="p-2 bg-blue-50/70 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors"
+                                                    className="p-2 bg-blue-50/70 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-2xl transition-colors"
                                                     title="Manage prerequisites"
                                                 >
                                                     <Link2 size={16}/>
@@ -807,7 +807,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                     {/* Expanded Content Details */}
                     {expandedUnitId && (
                         <div
-                            className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6">
+                            className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6">
                             {units.find((u) => u.id === expandedUnitId) && (
                                 <div className="space-y-4">
                                     <h3 className="font-black text-slate-900 dark:text-white">Unit Details</h3>
@@ -852,14 +852,14 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
             {modalState === 'create' && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-2xl max-w-2xl w-full mx-4 p-8 space-y-6">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-2xl max-w-2xl w-full mx-4 p-8 space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-2xl font-black text-slate-900 dark:text-white">
                                 {modalState === 'create' ? 'Create Unit' : 'Edit Unit'}
                             </h2>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24} className="text-slate-600 dark:text-slate-400"/>
                             </button>
@@ -941,7 +941,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             className="flex justify-end space-x-3 pt-6 border-t border-blue-200/60 dark:border-blue-500/15">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-xl font-bold transition-colors"
+                                className="px-6 py-3 bg-blue-50/70 dark:bg-blue-500/10 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                                 disabled={isSubmitting}
                             >
                                 Cancel
@@ -949,7 +949,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             <button
                                 onClick={handleCreateUnit}
                                 disabled={isSubmitting}
-                                className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 disabled:from-slate-400 disabled:to-slate-400 text-white rounded-xl font-bold transition-colors"
+                                className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 disabled:from-slate-400 disabled:to-slate-400 text-white rounded-2xl font-bold transition-colors"
                             >
                                 {isSubmitting ? (
                                     <>
@@ -972,7 +972,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
             {modalState === 'prerequisites' && selectedUnit && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-2xl max-w-2xl w-full mx-4 p-8 space-y-6">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-2xl max-w-2xl w-full mx-4 p-8 space-y-6">
                         <div className="flex items-center justify-between">
                             <div>
                                 <h2 className="text-2xl font-black text-slate-900 dark:text-white">
@@ -984,7 +984,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             </div>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={24} className="text-slate-600 dark:text-slate-400"/>
                             </button>
@@ -1008,7 +1008,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                 .map((unit) => (
                                                     <div
                                                         key={unit.id}
-                                                        className="flex items-center justify-between p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl"
+                                                        className="flex items-center justify-between p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl"
                                                     >
                                                         <div>
                                                             <p className="font-bold text-emerald-900 dark:text-emerald-300">{unit.title}</p>
@@ -1018,7 +1018,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                         </div>
                                                         <button
                                                             onClick={() => handleRemovePrerequisite(unit.id)}
-                                                            className="p-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors"
+                                                            className="p-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl transition-colors"
                                                         >
                                                             <X size={18}/>
                                                         </button>
@@ -1040,7 +1040,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                 .map((unit) => (
                                                     <div
                                                         key={unit.id}
-                                                        className="flex items-center justify-between p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 border border-blue-200/60 dark:border-blue-500/15 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                                        className="flex items-center justify-between p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 border border-blue-200/60 dark:border-blue-500/15 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                                                     >
                                                         <div>
                                                             <p className="font-bold text-slate-900 dark:text-white">{unit.title}</p>
@@ -1050,7 +1050,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                                         </div>
                                                         <button
                                                             onClick={() => handleAddPrerequisite(unit.id)}
-                                                            className="p-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg transition-colors"
+                                                            className="p-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl transition-colors"
                                                         >
                                                             <Plus size={18}/>
                                                         </button>
@@ -1073,7 +1073,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                         <div className="flex justify-end pt-6 border-t border-blue-200/60 dark:border-blue-500/15">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white rounded-xl font-bold transition-colors"
+                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white rounded-2xl font-bold transition-colors"
                             >
                                 Done
                             </button>
@@ -1086,12 +1086,12 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
             {courseModalOpen && (
                 <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2.5rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="sticky top-0 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-blue-200/60 dark:border-blue-500/15 px-8 py-6 flex items-center justify-between">
                             <h2 className="text-2xl font-black text-slate-900 dark:text-white">Edit Course</h2>
                             <button onClick={() => setCourseModalOpen(false)}
-                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"><X size={20}/>
+                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl"><X size={20}/>
                             </button>
                         </div>
                         <div className="p-8 space-y-6">
@@ -1171,7 +1171,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                         <img
                                             src={courseThumbnailPreview}
                                             alt="Course banner preview"
-                                            className="w-full h-40 object-cover rounded-xl border border-blue-200/60 dark:border-blue-500/15"
+                                            className="w-full h-40 object-cover rounded-2xl border border-blue-200/60 dark:border-blue-500/15"
                                         />
                                     )}
                                     <input
@@ -1182,7 +1182,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                             setCourseThumbnailFile(file);
                                             setCourseThumbnailPreview(file ? URL.createObjectURL(file) : null);
                                         }}
-                                        className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-xl"
+                                        className="w-full px-4 py-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15 rounded-2xl"
                                     />
                                     <p className="text-xs text-slate-500 dark:text-slate-400">
                                         Uploaded image will be stored to S3 and saved into <code>thumbnail_s3_key</code>.
@@ -1275,10 +1275,10 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                             <div
                                 className="flex justify-end space-x-4 pt-6 border-t border-blue-200/60 dark:border-blue-500/15">
                                 <button onClick={() => setCourseModalOpen(false)} disabled={courseSubmitting}
-                                        className="glass-button-secondary px-6 py-3 rounded-xl">Cancel
+                                        className="glass-button-secondary px-6 py-3 rounded-2xl">Cancel
                                 </button>
                                 <button onClick={handleUpdateCourse} disabled={courseSubmitting}
-                                        className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl">{courseSubmitting ? 'Saving...' : 'Update'}</button>
+                                        className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl">{courseSubmitting ? 'Saving...' : 'Update'}</button>
                             </div>
                         </div>
                     </div>
@@ -1289,7 +1289,7 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
             {courseDeleteOpen && selectedCourse && (
                 <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2.5rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-md w-full">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl max-w-md w-full">
                         <div className="p-8">
                             <div
                                 className="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 mx-auto mb-6">
@@ -1308,14 +1308,14 @@ export function AdminUnits({courseId}: AdminUnitsProps = {}) {
                                 <button
                                     onClick={() => setCourseDeleteOpen(false)}
                                     disabled={courseSubmitting}
-                                    className="glass-button-secondary px-6 py-3 text-slate-900 dark:text-white rounded-xl font-bold transition-colors disabled:opacity-50"
+                                    className="glass-button-secondary px-6 py-3 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors disabled:opacity-50"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleDeleteCourse}
                                     disabled={courseSubmitting}
-                                    className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-colors disabled:opacity-50 flex items-center space-x-2"
+                                    className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white rounded-2xl font-bold transition-colors disabled:opacity-50 flex items-center space-x-2"
                                 >
                                     {courseSubmitting ? (
                                         <>

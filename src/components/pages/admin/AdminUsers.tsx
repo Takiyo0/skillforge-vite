@@ -316,7 +316,7 @@ export function AdminUsers() {
                                         <td className="px-6 py-4 text-center relative">
                                             <button
                                                 onClick={() => setOpenMenu(openMenu === user.id ? null : user.id)}
-                                                className="glass-chip p-2.5 min-w-[44px] min-h-[44px] rounded-xl transition-colors inline-flex items-center justify-center"
+                                                className="glass-chip p-2.5 min-w-[44px] min-h-[44px] rounded-2xl transition-colors inline-flex items-center justify-center"
                                             >
                                                 <MoreVertical size={18} className="text-slate-600 dark:text-slate-400"/>
                                             </button>
@@ -419,7 +419,7 @@ export function AdminUsers() {
                             </h2>
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                             >
                                 <X size={20}/>
                             </button>
@@ -457,7 +457,7 @@ export function AdminUsers() {
 
                             {/* Activate/Deactivate/Delete Confirmation */}
                             {modalType !== 'roles' && (
-                                <div className="p-4 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm rounded-lg">
+                                <div className="p-4 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm rounded-2xl">
                                     <p className="text-sm text-slate-700 dark:text-slate-300">
                                         {modalType === 'activate' && 'Are you sure you want to activate this user?'}
                                         {modalType === 'deactivate' && 'Are you sure you want to deactivate this user? They will not be able to access their account.'}

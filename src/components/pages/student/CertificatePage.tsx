@@ -100,11 +100,11 @@ export function CertificatePage() {
     if (error || !certificate) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6 max-w-md">
+                <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-6 max-w-md">
                     <p className="text-red-300 font-medium mb-4">{error || 'Certificate not found'}</p>
                     <button
                         onClick={() => window.history.back()}
-                        className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors"
+                        className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-2xl font-bold text-sm transition-colors"
                     >
                         Back
                     </button>
@@ -120,7 +120,7 @@ export function CertificatePage() {
             <div className="p-2 md:p-8 max-w-6xl mx-auto space-y-8">
                 {/* Certificate Card - Golden Theme */}
                 <div
-                    className="glass-widget-shell rounded-[3rem] p-12 relative overflow-hidden">
+                    className="glass-widget-shell rounded-2xl p-12 relative overflow-hidden">
                     {/* Decorative background */}
                     <div
                         className="absolute top-0 left-0 w-96 h-96 bg-blue-300/18 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
@@ -208,7 +208,7 @@ export function CertificatePage() {
                             className="glass-widget-surface rounded-2xl p-6 text-center">
                             <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider mb-4">Verification
                                 QR Code</p>
-                            <div className="glass-widget-inset p-4 rounded-xl inline-block">
+                            <div className="glass-widget-inset p-4 rounded-2xl inline-block">
                                 <QRCodeSVG
                                     value={window.location.origin + '/student/certificates/verification?payload=' + btoa(JSON.stringify({
                                         verificationCode: certificate.verificationCode,
@@ -262,7 +262,7 @@ export function CertificatePage() {
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">Level</p>
                                     <span
-                                        className="inline-block px-3 py-1 text-xs font-bold uppercase rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 mt-1">
+                                        className="inline-block px-3 py-1 text-xs font-bold uppercase rounded-2xl bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 mt-1">
 										{certificate.course.level}
 									</span>
                                 </div>
@@ -295,7 +295,7 @@ export function CertificatePage() {
                         <button
                             onClick={handleDownload}
                             disabled={downloading}
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 disabled:bg-slate-500 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
+                            className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 disabled:bg-slate-500 text-white px-6 py-3 rounded-2xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
                         >
                             <Download size={18}/>
                             <span>{downloading ? 'Downloading...' : 'Download PDF'}</span>
@@ -303,14 +303,14 @@ export function CertificatePage() {
                     )}
                     <button
                         onClick={handleShare}
-                        className="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
+                        className="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-2xl font-black text-sm transition-colors flex items-center justify-center space-x-2"
                     >
                         <Share2 size={18}/>
                         <span>Share Certificate</span>
                     </button>
                     <button
                         onClick={() => navigate(`/student/courses/${certificate.course.id}`)}
-                        className="flex-1 bg-slate-700/80 hover:bg-slate-600 text-white px-6 py-3 rounded-xl font-black text-sm transition-colors"
+                        className="flex-1 bg-slate-700/80 hover:bg-slate-600 text-white px-6 py-3 rounded-2xl font-black text-sm transition-colors"
                     >
                         View Course
                     </button>

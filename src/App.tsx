@@ -8,6 +8,7 @@ import {StudentDashboard} from '@skillforge/vite/components/pages/student/Studen
 import {LearningPathsPage} from '@skillforge/vite/components/pages/student/LearningPathsPage';
 import {CodePlayground} from '@skillforge/vite/components/pages/student/CodePlayground';
 import {Certificates} from '@skillforge/vite/components/pages/student/Certificates';
+import {Leaderboard} from '@skillforge/vite/components/pages/student/Leaderboard';
 import {CertificatePage} from '@skillforge/vite/components/pages/student/CertificatePage';
 import {CertificateVerification} from '@skillforge/vite/components/pages/student/CertificateVerification';
 import {BrowseCourses} from '@skillforge/vite/components/pages/student/BrowseCourses';
@@ -151,7 +152,7 @@ function AppContent({isDarkMode, handleLogout, setIsDarkMode, setUser}: {
 
             <div className="relative z-10 flex min-h-screen gap-2 sm:gap-3 md:gap-4 lg:gap-6 p-1 sm:p-2 md:p-4 lg:p-6">
                 {/* Sidebar - hidden on mobile, visible on tablet and desktop */}
-                <div className="hidden sm:block shrink-0 sticky top-2 sm:top-3 md:top-4 lg:top-6 h-[calc(100vh-1rem)] sm:h-[calc(100vh-1rem)] md:h-[calc(100vh-2rem)] lg:h-[calc(100vh-3rem)]">
+                <div className="hidden lg:block shrink-0 sticky top-2 sm:top-3 md:top-4 lg:top-6 h-[calc(100vh-1rem)] sm:h-[calc(100vh-1rem)] md:h-[calc(100vh-2rem)] lg:h-[calc(100vh-3rem)]">
                     <Sidebar
                         role={role}
                         isDarkMode={isDarkMode}
@@ -171,6 +172,7 @@ function AppContent({isDarkMode, handleLogout, setIsDarkMode, setUser}: {
                             <Route path="/student/dashboard" element={<StudentDashboard/>}/>
                             <Route path="/student/browse-courses" element={<BrowseCourses/>}/>
                             <Route path="/student/learning-paths" element={<LearningPathsPage/>}/>
+                            <Route path="/student/leaderboard" element={<Leaderboard/>}/>
                             <Route path="/student/profile/:userId" element={<ProfilePage/>}/>
                             <Route path="/student/settings"
                                    element={<SettingsPage onDarkModeChange={setIsDarkMode}

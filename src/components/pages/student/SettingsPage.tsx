@@ -216,7 +216,7 @@ export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPagePr
                 {/* Message Alert */}
                 {message && (
                     <div
-                        className={`p-4 rounded-xl border-2 ${
+                        className={`p-4 rounded-2xl border-2 ${
                             message.type === 'success'
                                 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300'
                                 : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
@@ -416,12 +416,12 @@ export function SettingsPage({onDarkModeChange, onProfileUpdate}: SettingsPagePr
 
                         <div className="space-y-4">
                             {/* Account Info */}
-                            <div className="glass-chip p-4 rounded-lg">
+                            <div className="glass-chip p-4 rounded-2xl">
                                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Account ID</p>
                                 <p className="font-mono font-bold text-slate-900 dark:text-white break-all">{user?.id}</p>
                             </div>
 
-                            <div className="glass-chip p-4 rounded-lg">
+                            <div className="glass-chip p-4 rounded-2xl">
                                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Member Since</p>
                                 <p className="font-bold text-slate-900 dark:text-white">
                                     {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {

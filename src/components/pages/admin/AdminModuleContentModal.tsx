@@ -173,8 +173,8 @@ export function AdminModuleContentModal({
             <div
                 className={
                     inline
-                        ? 'glass-widget-shell rounded-2xl sm:rounded-[2rem] shadow-2xl w-full overflow-hidden'
-                        : 'glass-widget-shell rounded-2xl sm:rounded-[2rem] shadow-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto'
+                        ? 'glass-widget-shell rounded-2xl sm:rounded-2xl shadow-2xl w-full overflow-hidden'
+                        : 'glass-widget-shell rounded-2xl sm:rounded-2xl shadow-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto'
                 }
             >
 
@@ -194,7 +194,7 @@ export function AdminModuleContentModal({
                                     <select
                                         value={contentKind}
                                         onChange={(e) => setContentKind(e.target.value as 'video' | 'article_markdown')}
-                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                     >
                                         <option value="article_markdown">Article (Markdown)</option>
                                         <option value="video">Video</option>
@@ -212,10 +212,10 @@ export function AdminModuleContentModal({
                                             value={videoUrl}
                                             onChange={(e) => setVideoUrl(e.target.value)}
                                             placeholder="https://..."
-                                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                         />
                                         {videoUrl.trim() && (
-                                            <div className="rounded-xl overflow-hidden bg-slate-900 border border-blue-200/60 dark:border-blue-500/15">
+                                            <div className="rounded-2xl overflow-hidden bg-slate-900 border border-blue-200/60 dark:border-blue-500/15">
                                                 <div className="w-full aspect-video">
                                                     {getYoutubeEmbedUrl(videoUrl.trim()) ? (
                                                         <iframe
@@ -239,7 +239,7 @@ export function AdminModuleContentModal({
                                             </div>
                                         )}
                                         <label
-                                            className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-blue-50/70 dark:bg-blue-500/10 cursor-pointer font-semibold">
+                                            className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-2xl bg-blue-50/70 dark:bg-blue-500/10 cursor-pointer font-semibold">
                                             <Upload size={16}/>
                                             <span>Upload Video to Platform</span>
                                             <input
@@ -262,7 +262,7 @@ export function AdminModuleContentModal({
                                             Article Markdown
                                         </label>
                                         <div
-                                            className="glass-widget-dark overflow-hidden rounded-xl">
+                                            className="glass-widget-dark overflow-hidden rounded-2xl">
                                             <Editor
                                                 height="60vh"
                                                 language="markdown"
@@ -292,7 +292,7 @@ export function AdminModuleContentModal({
                                             type="text"
                                             value={playbackSpeedsText}
                                             onChange={(e) => setPlaybackSpeedsText(e.target.value)}
-                                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                         />
                                     </div>
                                     <label
@@ -309,7 +309,7 @@ export function AdminModuleContentModal({
 
                             <div className="space-y-4">
                                 {contentKind === 'article_markdown' && (
-                                    <div className="glass-widget-surface rounded-xl p-3 sm:p-4">
+                                    <div className="glass-widget-surface rounded-2xl p-3 sm:p-4">
                                         <p className="font-bold mb-3 text-slate-900 dark:text-white text-sm sm:text-base">Markdown
                                             Preview</p>
                                         <MarkdownContent
@@ -319,7 +319,7 @@ export function AdminModuleContentModal({
                                     </div>
                                 )}
 
-                                <div className="glass-widget-surface rounded-xl p-3 sm:p-4">
+                                <div className="glass-widget-surface rounded-2xl p-3 sm:p-4">
                                     <div className="flex items-center gap-2 mb-3">
                                         <Paperclip size={16}/>
                                         <p className="font-bold text-slate-900 dark:text-white">Attachments</p>
@@ -330,10 +330,10 @@ export function AdminModuleContentModal({
                                             value={attachmentLabel}
                                             onChange={(e) => setAttachmentLabel(e.target.value)}
                                             placeholder="Attachment label (optional)"
-                                            className="flex-1 px-3 py-2 rounded-lg bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
+                                            className="flex-1 px-3 py-2 rounded-2xl bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm border border-blue-200/60 dark:border-blue-500/15"
                                         />
                                         <label
-                                            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white cursor-pointer font-semibold">
+                                            className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white cursor-pointer font-semibold">
                                             <Upload size={14}/>
                                             <span>Upload</span>
                                             <input
@@ -357,7 +357,7 @@ export function AdminModuleContentModal({
                                             return (
                                                 <div
                                                     key={resource.id}
-                                                    className="flex items-center justify-between px-3 py-2 rounded-lg glass-widget-inset"
+                                                    className="flex items-center justify-between px-3 py-2 rounded-2xl glass-widget-inset"
                                                 >
                                                     <a
                                                         href={href}
@@ -386,14 +386,14 @@ export function AdminModuleContentModal({
                             className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-3 border-t border-blue-200/60 dark:border-blue-500/15">
                             <button
                                 onClick={onClose}
-                                className="glass-button-secondary w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl font-bold"
+                                className="glass-button-secondary w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-2xl font-bold"
                             >
                                 Close
                             </button>
                             <button
                                 onClick={() => void handleSaveContent()}
                                 disabled={saving}
-                                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-bold inline-flex items-center justify-center gap-2"
+                                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-bold inline-flex items-center justify-center gap-2"
                             >
                                 {saving ? <Loader size={16} className="animate-spin"/> : <Save size={16}/>}
                                 <span>Save Content</span>

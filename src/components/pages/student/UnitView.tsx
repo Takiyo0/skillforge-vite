@@ -248,7 +248,7 @@ export function UnitView() {
     if (error || !unit) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30 rounded-xl p-6 max-w-md">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30 rounded-2xl p-6 max-w-md">
                     <p className="text-red-700 dark:text-red-300 font-medium">{error || 'Failed to load unit'}</p>
                     <button
                         onClick={handleBack}
@@ -281,7 +281,7 @@ export function UnitView() {
                     {/* Unit Type Badge */}
                     <div className="mb-3 sm:mb-4 md:mb-6">
 						<span
-                            className="inline-block px-2 sm:px-3 py-1 text-xs font-black uppercase tracking-widest rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
+                            className="inline-block px-2 sm:px-3 py-1 text-xs font-black uppercase tracking-widest rounded-2xl bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
 							{unit.type}
 						</span>
                     </div>
@@ -297,7 +297,7 @@ export function UnitView() {
                     {/* Progress Status and Meta */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-6 md:mb-8">
                         {/* Status */}
-                        <div className="glass-widget-surface rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex items-center space-x-3 shadow-lg shadow-blue-950/5">
+                        <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex items-center space-x-3 shadow-lg shadow-blue-950/5">
                             {isLocked ? (
                                 <>
                                     <Lock className="text-slate-500 dark:text-slate-400 shrink-0" size={24}/>
@@ -326,7 +326,7 @@ export function UnitView() {
                         </div>
 
                         {/* Duration */}
-                        <div className="glass-widget-surface rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex items-center space-x-3 shadow-lg shadow-blue-950/5">
+                        <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex items-center space-x-3 shadow-lg shadow-blue-950/5">
                             <Clock className="text-slate-500 dark:text-slate-400 shrink-0" size={24}/>
                             <div>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Duration</p>
@@ -336,7 +336,7 @@ export function UnitView() {
 
                         {/* Difficulty (for exercises) */}
                         {unit.exercise && (
-                            <div className="glass-widget-surface rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex items-center space-x-3 shadow-lg shadow-blue-950/5">
+                            <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex items-center space-x-3 shadow-lg shadow-blue-950/5">
                                 <Zap
                                     className={`shrink-0 ${
                                         unit.exercise.difficulty === 'advanced'
@@ -357,7 +357,7 @@ export function UnitView() {
 
                     {/* Lock status message */}
                     {isLocked && (
-                        <div className="mb-6 md:mb-8 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+                        <div className="mb-6 md:mb-8 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-500/30 rounded-2xl sm:rounded-2xl p-4 sm:p-6">
                             <p className="text-sm sm:text-base text-amber-700 dark:text-amber-200 font-medium">
                                 This unit is locked. Complete the prerequisite units to unlock it.
                             </p>
@@ -372,7 +372,7 @@ export function UnitView() {
                                 {unit.prerequisites.map((prereq) => (
                                     <div
                                         key={prereq.id}
-                                        className="glass-widget-surface rounded-xl p-4 shadow-lg shadow-blue-950/5 flex items-center space-x-3"
+                                        className="glass-widget-surface rounded-2xl p-4 shadow-lg shadow-blue-950/5 flex items-center space-x-3"
                                     >
                                         <CheckCircle2 size={20} className="text-emerald-500 shrink-0"/>
                                         <span
@@ -391,14 +391,14 @@ export function UnitView() {
                             {/* Article Markdown Content */}
                             {unit.moduleContent.articleMarkdown && (
                                 <div
-                                    className="glass-widget-surface rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-950/5 mb-4 sm:mb-6">
+                                    className="glass-widget-surface rounded-2xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-950/5 mb-4 sm:mb-6">
                                     {renderMarkdown(unit.moduleContent.articleMarkdown)}
                                 </div>
                             )}
 
                             {/* Video Content */}
                             {unit.moduleContent.videoUrl && (
-                                <div className="mb-4 sm:mb-6 bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl shadow-blue-950/5">
+                                <div className="mb-4 sm:mb-6 bg-slate-900 rounded-2xl sm:rounded-2xl overflow-hidden shadow-xl shadow-blue-950/5">
                                     <div className="w-full aspect-video">
                                         {getYoutubeEmbedUrl(unit.moduleContent.videoUrl) ? (
                                             <iframe
@@ -423,7 +423,7 @@ export function UnitView() {
                             )}
 
 							{unit.moduleResources && unit.moduleResources.length > 0 && (
-								<div className="glass-widget-surface rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl shadow-blue-950/5">
+								<div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl shadow-blue-950/5">
 									<div className="flex items-center gap-2 mb-3 sm:mb-4">
 										<Paperclip size={18} className="text-blue-600 dark:text-blue-400" />
 										<h3 className="text-base sm:text-lg md:text-xl font-black text-slate-900 dark:text-white">Attachments</h3>
@@ -437,7 +437,7 @@ export function UnitView() {
 													href={href}
 													target="_blank"
 													rel="noreferrer"
-													className="block px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl glass-button-secondary transition-colors text-sm sm:text-base"
+													className="block px-3 sm:px-4 py-2 sm:py-3 rounded-2xl sm:rounded-2xl glass-button-secondary transition-colors text-sm sm:text-base"
 												>
 													<p className="font-bold text-slate-900 dark:text-white">{resource.label}</p>
 													<p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">{resource.resourceType}</p>
@@ -456,7 +456,7 @@ export function UnitView() {
                             {/* Left: Problem description */}
                             <div className="lg:col-span-1">
                                 <div
-                                    className="glass-widget-surface rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl shadow-blue-950/5">
+                                    className="glass-widget-surface rounded-2xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl shadow-blue-950/5">
                                     <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white mb-3 sm:mb-4">Problem</h2>
                                     <div className="prose dark:prose-invert prose-sm max-w-none text-sm sm:text-base">
                                         {renderMarkdown(unit.exercise.promptMarkdown)}
@@ -473,7 +473,7 @@ export function UnitView() {
                                                     !tc.isHidden && (
                                                         <div
                                                             key={tc.id}
-                                                            className="glass-widget-surface rounded-lg p-2 sm:p-3 text-xs font-mono shadow-lg shadow-blue-950/5 overflow-x-auto"
+                                                            className="glass-widget-surface rounded-2xl p-2 sm:p-3 text-xs font-mono shadow-lg shadow-blue-950/5 overflow-x-auto"
                                                         >
                                                             <p className="text-slate-500 dark:text-slate-400 mb-1">
                                                                 Test {idx + 1}
@@ -501,7 +501,7 @@ export function UnitView() {
                                                 {feedback.hints.map((hint) => (
                                                     <div
                                                         key={hint.position}
-                                                        className={`rounded-lg p-2 sm:p-3 text-xs sm:text-sm ${
+                                                        className={`rounded-2xl p-2 sm:p-3 text-xs sm:text-sm ${
                                                             hint.unlocked
                                                                 ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-200'
                                                                 : 'glass-widget-surface text-slate-500 dark:text-slate-400'
@@ -524,7 +524,7 @@ export function UnitView() {
                             {/* Right: Code Editor */}
                             <div className="lg:col-span-2 flex flex-col">
                                 {/* Editor */}
-                                <div className="glass-widget-surface text-slate-900 dark:text-white rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 shadow-xl shadow-blue-950/5 flex-1 flex flex-col">
+                                <div className="glass-widget-surface text-slate-900 dark:text-white rounded-2xl sm:rounded-2xl p-3 sm:p-4 md:p-6 shadow-xl shadow-blue-950/5 flex-1 flex flex-col">
                                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-3 sm:mb-4">
                                         <div>
                                             <p className="text-xs text-slate-400 uppercase font-bold">Language</p>
@@ -535,7 +535,7 @@ export function UnitView() {
                                         <button
                                             onClick={handleSubmitCode}
                                             disabled={submitting || isLocked || isCompleted}
-                                            className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-lg font-bold text-xs sm:text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center sm:justify-start space-x-2 min-h-[44px]"
+                                            className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-2xl font-bold text-xs sm:text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center sm:justify-start space-x-2 min-h-[44px]"
                                         >
                                             <Play size={16} fill="white"/>
                                             <span>{submitting ? 'Submitting...' : 'Submit Code'}</span>
@@ -569,7 +569,7 @@ export function UnitView() {
                                 {/* Submission Results */}
                                 {submission && (
                                     <div
-                                        className="mt-4 sm:mt-6 glass-widget-surface rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl shadow-blue-950/5 overflow-x-auto">
+                                        className="mt-4 sm:mt-6 glass-widget-surface rounded-2xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl shadow-blue-950/5 overflow-x-auto">
                                         <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                                             {submission.status === 'queued' && (
                                                 <div className="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></div>
@@ -589,7 +589,7 @@ export function UnitView() {
                                         </div>
 
                                         {submission.compileOutput && (
-                                            <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 overflow-x-auto">
+                                            <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 overflow-x-auto">
                                                 <p className="text-xs font-bold text-red-300 uppercase mb-2">
                                                     Compile Error
                                                 </p>
@@ -600,7 +600,7 @@ export function UnitView() {
                                         )}
 
                                         {submission.stderr && (
-                                            <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 overflow-x-auto">
+                                            <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 overflow-x-auto">
                                                 <p className="text-xs font-bold text-red-300 uppercase mb-2">Error</p>
                                                 <p className="text-xs sm:text-sm text-red-700 dark:text-red-200 font-mono whitespace-pre-wrap break-words">
                                                     {submission.stderr}
@@ -609,7 +609,7 @@ export function UnitView() {
                                         )}
 
                                         {submission.stdout && (
-                                            <div className="glass-widget-surface rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 shadow-lg shadow-blue-950/5 overflow-x-auto">
+                                            <div className="glass-widget-surface rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-lg shadow-blue-950/5 overflow-x-auto">
                                                 <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                                                     Output
                                                 </p>
@@ -628,7 +628,7 @@ export function UnitView() {
                                                     {feedback.testResults.map((result, idx) => (
                                                         <div
                                                             key={idx}
-                                                            className={`rounded-lg p-2 sm:p-3 border-l-4 text-xs sm:text-sm ${
+                                                            className={`rounded-2xl p-2 sm:p-3 border-l-4 text-xs sm:text-sm ${
                                                                 result.passed
                                                                     ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-500'
                                                                     : 'bg-red-50 dark:bg-red-900/20 border-red-400 dark:border-red-500'
@@ -660,7 +660,7 @@ export function UnitView() {
 
                                         {submission.aiSummary && (
                                             <div
-                                                className="mt-3 sm:mt-4 bg-blue-900/20 border border-blue-500/30 rounded-lg p-3 sm:p-4">
+                                                className="mt-3 sm:mt-4 bg-blue-900/20 border border-blue-500/30 rounded-2xl p-3 sm:p-4">
                                                 <p className="text-xs font-bold text-blue-300 uppercase mb-2">
                                                     AI Feedback
                                                 </p>
@@ -685,7 +685,7 @@ export function UnitView() {
                                             {submissions.map((prev, idx) => (
                                                 <div
                                                     key={prev.id}
-                                                    className={`rounded-lg p-3 sm:p-4 border-l-4 text-xs sm:text-sm ${
+                                                    className={`rounded-2xl p-3 sm:p-4 border-l-4 text-xs sm:text-sm ${
                                                         prev.status === 'passed'
                                                             ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-500'
                                                             : prev.status === 'failed'
@@ -745,7 +745,7 @@ export function UnitView() {
                     {(unit.type === 'assessment' && unit.quiz) && (
                         <div className="mb-6 md:mb-8">
                             <div
-                                className="glass-widget-surface rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-950/5">
+                                className="glass-widget-surface rounded-2xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-950/5">
                                 <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-2 sm:mb-3">
                                     {unit.quiz.title}
                                 </h2>
@@ -753,15 +753,15 @@ export function UnitView() {
 
                                 {/* Preparation Info */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-4 md:mb-8">
-                                    <div className="glass-widget-surface rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
+                                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Questions</p>
                                         <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{unit.quiz.questions.length}</p>
                                     </div>
-                                    <div className="glass-widget-surface rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
+                                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Time Limit</p>
                                         <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{Math.floor(unit.quiz.timeLimitSeconds / 60)} min</p>
                                     </div>
-                                    <div className="glass-widget-surface rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
+                                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Passing Score</p>
                                         <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{unit.quiz.passingScore}%</p>
                                     </div>
@@ -771,7 +771,7 @@ export function UnitView() {
                                 <button
                                     onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}/assessment`)}
                                     disabled={isCompleted}
-                                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] min-h-[44px] sm:min-h-auto"
+                                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-2xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] min-h-[44px] sm:min-h-auto"
                                 >
                                     {isCompleted ? '✓ Completed' : 'Start Assessment'}
                                 </button>
@@ -785,7 +785,7 @@ export function UnitView() {
                                         {unit.quiz.submissions.map((submission) => (
                                             <div
                                                 key={submission.id}
-                                                className={`border rounded-lg sm:rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 ${
+                                                className={`border rounded-2xl sm:rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 ${
                                                     submission.isPassed
                                                         ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700'
                                                         : 'bg-orange-50 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700'
@@ -810,7 +810,7 @@ export function UnitView() {
                                                                 `/student/courses/${courseId}/units/${unitId}/assessment?reviewAttemptId=${submission.id}`,
                                                             )
                                                         }
-                                                        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                                                        className="text-xs font-bold px-3 py-1.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white transition-colors"
                                                     >
                                                         Review Attempt
                                                     </button>
@@ -827,22 +827,22 @@ export function UnitView() {
                     {unit.type === 'final_exam' && unit.finalExam && (
                         <div className="mb-6 md:mb-8">
                             <div
-                                className="glass-widget-surface rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-950/5">
+                                className="glass-widget-surface rounded-2xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-950/5">
                                 <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-2 sm:mb-3">
                                     {unit.finalExam.title}
                                 </h2>
 
                                 {/* Preparation Info */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-4 md:mb-8">
-                                    <div className="glass-widget-surface rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
+                                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Max Attempts</p>
                                         <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{unit.finalExam.maxAttempts}</p>
                                     </div>
-                                    <div className="glass-widget-surface rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
+                                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Time Limit</p>
                                         <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{Math.floor(unit.finalExam.timeLimitSeconds / 60)} min</p>
                                     </div>
-                                    <div className="glass-widget-surface rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
+                                    <div className="glass-widget-surface rounded-2xl sm:rounded-2xl p-3 sm:p-4 shadow-lg shadow-blue-950/5">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Passing Score</p>
                                         <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{unit.finalExam.passingScore}%</p>
                                     </div>
@@ -850,7 +850,7 @@ export function UnitView() {
 
                                 {/* In-Progress Attempt Info */}
                                 {unit.finalExamAttemptProgress && (
-                                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-300 dark:border-blue-700 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-4 md:mb-6">
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-300 dark:border-blue-700 rounded-2xl sm:rounded-2xl p-3 sm:p-4 mb-4 md:mb-6">
                                         <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 font-semibold">
                                             Attempt #{unit.finalExamAttemptProgress.attemptNumber} in progress
                                         </p>
@@ -864,7 +864,7 @@ export function UnitView() {
                                 <button
                                     onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}/assessment`)}
                                     disabled={isCompleted}
-                                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-lg sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] min-h-[44px] sm:min-h-auto"
+                                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-2xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] min-h-[44px] sm:min-h-auto"
                                 >
                                     {isCompleted ? '✓ Completed' : unit.finalExamAttemptProgress ? 'Continue Final Exam' : 'Start Final Exam'}
                                 </button>
@@ -881,7 +881,7 @@ export function UnitView() {
                                                 .map((submission) => (
                                                     <div
                                                         key={submission.id}
-                                                        className={`border rounded-lg sm:rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 ${
+                                                        className={`border rounded-2xl sm:rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 ${
                                                             submission.isPassed
                                                                 ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700'
                                                                 : 'bg-orange-50 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700'
@@ -909,7 +909,7 @@ export function UnitView() {
                                                                             `/student/courses/${courseId}/units/${unitId}/assessment?reviewAttemptId=${submission.id}`,
                                                                         )
                                                                     }
-                                                                    className="text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                                                                    className="text-xs font-bold px-3 py-1.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white transition-colors"
                                                                 >
                                                                     Review Attempt
                                                                 </button>
@@ -926,7 +926,7 @@ export function UnitView() {
 
                     {/* OTHER TYPES MESSAGE */}
                     {unit.type !== 'module' && unit.type !== 'exercise' && unit.type !== 'assessment' && unit.type !== 'final_exam' && (
-                        <div className="mb-6 md:mb-8 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-lg sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center shadow-xl shadow-blue-950/5">
+                        <div className="mb-6 md:mb-8 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center shadow-xl shadow-blue-950/5">
                             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium">
                                 This unit type is not yet supported.
                             </p>
@@ -938,7 +938,7 @@ export function UnitView() {
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 md:mt-12">
                             <button
                                 onClick={handleBack}
-                                className="flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-4 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 rounded-lg sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] min-h-[44px] sm:min-h-auto"
+                                className="flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-4 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 rounded-2xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] min-h-[44px] sm:min-h-auto"
                             >
                                 Back to Course
                             </button>
@@ -946,14 +946,14 @@ export function UnitView() {
                                 <button
                                     onClick={handleCompleteUnit}
                                     disabled={completing}
-                                    className="flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-lg sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] sm:min-h-auto"
+                                    className="flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-2xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] sm:min-h-auto"
                                 >
                                     {completing ? 'Completing...' : 'Mark as Complete'}
                                 </button>
                             )}
                             {isCompleted && (
                                 <div
-                                    className="flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-4 bg-emerald-600 text-white rounded-lg sm:rounded-2xl font-black text-sm sm:text-base md:text-lg flex items-center justify-center space-x-2 min-h-[44px] sm:min-h-auto">
+                                    className="flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-4 bg-emerald-600 text-white rounded-2xl sm:rounded-2xl font-black text-sm sm:text-base md:text-lg flex items-center justify-center space-x-2 min-h-[44px] sm:min-h-auto">
                                     <CheckCircle2 size={20}/>
                                     <span>Completed</span>
                                 </div>
@@ -967,7 +967,7 @@ export function UnitView() {
             {selectedSubmissionModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-3 sm:p-4">
                     <div
-                        className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+                        className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-blue-400/20 rounded-2xl sm:rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto">
                         <div
                             className="sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-white/20 dark:border-white/10 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-start sm:items-center gap-4">
                             <div className="flex-1">
@@ -1075,7 +1075,7 @@ export function UnitView() {
                                             <button
                                                 onClick={handleAskAiExplanation}
                                                 disabled={askingAiExplanation || !!selectedSubmission.aiCodeExplanation}
-                                                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs sm:text-sm rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white font-semibold transition-colors"
+                                                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs sm:text-sm rounded-2xl bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white font-semibold transition-colors"
                                             >
                                                 <Bot size={14} />
                                                 {selectedSubmission.aiCodeExplanation
@@ -1091,7 +1091,7 @@ export function UnitView() {
                                         )}
 
                                         {selectedSubmission.aiCodeExplanation ? (
-                                            <div className="glass-widget-surface p-3 sm:p-4 rounded-lg shadow-lg shadow-blue-950/5 text-sm text-slate-700 dark:text-slate-300">
+                                            <div className="glass-widget-surface p-3 sm:p-4 rounded-2xl shadow-lg shadow-blue-950/5 text-sm text-slate-700 dark:text-slate-300">
                                                 <MarkdownContent content={selectedSubmission.aiCodeExplanation} />
                                             </div>
                                         ) : (
@@ -1107,7 +1107,7 @@ export function UnitView() {
                                                 Output
                                             </h3>
                                             <pre
-                                                className="glass-widget-surface p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-slate-700 dark:text-slate-300 overflow-auto max-h-40 shadow-lg shadow-blue-950/5 break-words">
+                                                className="glass-widget-surface p-3 sm:p-4 rounded-2xl text-xs sm:text-sm text-slate-700 dark:text-slate-300 overflow-auto max-h-40 shadow-lg shadow-blue-950/5 break-words">
 												{selectedSubmission.stdout}
 											</pre>
                                         </div>

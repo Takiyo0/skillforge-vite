@@ -430,7 +430,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
             {toasts.map((toast) => (
                 <div
                     key={toast.id}
-                    className={`fixed top-4 right-4 px-6 py-4 rounded-lg text-white font-bold flex items-center gap-3 z-50 ${
+                    className={`fixed top-4 right-4 px-6 py-4 rounded-2xl text-white font-bold flex items-center gap-3 z-50 ${
                         toast.type === 'success'
                             ? 'bg-emerald-500'
                             : toast.type === 'error'
@@ -454,7 +454,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
             {/* Error State */}
             {error && !loading && (
                 <div
-                    className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-[2rem] p-6">
+                    className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6">
                     <div className="flex items-start gap-4">
                         <AlertCircle size={24} className="text-red-600 dark:text-red-400 flex-shrink-0 mt-1"/>
                         <div>
@@ -476,7 +476,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                     {/* Unit Selection */}
                     {!unitId && (
                         <div
-                            className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6">
+                            className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 shadow-xl shadow-blue-950/10 p-6">
                             <label
                                 className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">
                                 Select Final Exam Unit
@@ -509,7 +509,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             {finalExam ? (
                                 <>
                                     <div
-                                        className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-[2rem] border border-blue-200 dark:border-blue-800 p-6 space-y-5">
+                                        className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-2xl border border-blue-200 dark:border-blue-800 p-6 space-y-5">
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <h3 className="text-xl font-black text-slate-900 dark:text-white">{finalExam.title}</h3>
@@ -543,12 +543,12 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
 
                                     {questions.length === 0 ? (
                                         <div
-                                            className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
+                                            className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
                                             <p className="text-slate-600 dark:text-slate-400 font-medium">No questions
                                                 yet</p>
                                             <button
                                                 onClick={handleOpenCreateQuestion}
-                                                className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105 mx-auto"
+                                                className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105 mx-auto"
                                             >
                                                 <Plus size={20}/>
                                                 <span>Create Question</span>
@@ -559,7 +559,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                             {questions.map((question, idx) => (
                                                 <div
                                                     key={question.id}
-                                                    className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[1.5rem] border border-blue-200/60 dark:border-blue-500/15 p-4"
+                                                    className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 p-4"
                                                 >
                                                     <div className="flex items-start justify-between gap-4">
                                                         <div className="flex-1">
@@ -587,7 +587,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                                         <div className="flex items-center gap-2 ml-4">
                                                             <button
                                                                 onClick={() => handleOpenEditQuestion(question)}
-                                                                className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg transition-colors"
+                                                                className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl transition-colors"
                                                                 title="Edit"
                                                             >
                                                                 <Edit2 size={18}/>
@@ -597,7 +597,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                                                     id: question.id,
                                                                     prompt: question.prompt
                                                                 })}
-                                                                className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors"
+                                                                className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl transition-colors"
                                                                 title="Delete"
                                                             >
                                                                 <Trash2 size={18}/>
@@ -624,7 +624,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                                                 {question.options.map((option) => (
                                                                     <div
                                                                         key={option.id}
-                                                                        className="flex items-start gap-3 p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-lg border border-blue-200/60 dark:border-blue-500/15"
+                                                                        className="flex items-start gap-3 p-3 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-2xl border border-blue-200/60 dark:border-blue-500/15"
                                                                     >
                                                                         <div className="flex items-center mt-1">
                                                                             {option.isCorrect ? (
@@ -688,7 +688,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
 
                                             <button
                                                 onClick={handleOpenCreateQuestion}
-                                                className="w-full mt-4 py-3 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 rounded-lg font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
+                                                className="w-full mt-4 py-3 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 rounded-2xl font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
                                             >
                                                 <Plus size={20}/>
                                                 Add Question
@@ -698,14 +698,14 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                 </>
                             ) : (
                                 <div
-                                    className="rounded-[2rem] glass-shell p-8 text-center">
+                                    className="rounded-2xl glass-shell p-8 text-center">
                                     <p className="text-lg font-bold text-slate-900 dark:text-white mb-2">No questions
                                         yet</p>
                                     <p className="text-slate-500 dark:text-slate-400 mb-6">Start by creating your first
                                         question.</p>
                                     <button
                                         onClick={handleOpenCreateQuestion}
-                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-transform hover:scale-105"
+                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-2xl font-bold transition-transform hover:scale-105"
                                     >
                                         <Plus size={20}/>
                                         <span>Create Question</span>
@@ -720,7 +720,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             {/* Final Exam Info */}
                             {finalExam && (
                                 <div
-                                    className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-[2rem] border border-blue-200 dark:border-blue-800 p-6">
+                                    className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-2xl border border-blue-200 dark:border-blue-800 p-6">
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div>
                                             <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
@@ -760,7 +760,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
 
                             {!finalExam && (
                                 <div
-                                    className="rounded-[2rem] glass-shell p-8 text-center text-center">
+                                    className="rounded-2xl glass-shell p-8 text-center text-center">
                                     <p className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                                         No questions yet
                                     </p>
@@ -769,7 +769,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                     </p>
                                     <button
                                         onClick={handleOpenCreateQuestion}
-                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-transform hover:scale-105"
+                                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-2xl font-bold transition-transform hover:scale-105"
                                     >
                                         <Plus size={20}/>
                                         <span>Create Question</span>
@@ -780,13 +780,13 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             {/* Questions List */}
                             {finalExam && questions.length === 0 ? (
                                 <div
-                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
+                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center">
                                     <p className="text-slate-600 dark:text-slate-400 font-medium">
                                         No questions yet
                                     </p>
                                     <button
                                         onClick={handleOpenCreateQuestion}
-                                        className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105 mx-auto"
+                                        className="mt-4 flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2 rounded-2xl font-bold transition-transform hover:scale-105 mx-auto"
                                     >
                                         <Plus size={20}/>
                                         <span>Create Question</span>
@@ -797,7 +797,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                     {questions.map((question, idx) => (
                                         <div
                                             key={question.id}
-                                            className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-lg border border-blue-200/60 dark:border-blue-500/15 hover:shadow-md transition-shadow overflow-hidden"
+                                            className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 hover:shadow-md transition-shadow overflow-hidden"
                                         >
                                             {/* Question Header */}
                                             <div className="p-4">
@@ -827,7 +827,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                                     <div className="flex items-center gap-2 ml-4">
                                                         <button
                                                             onClick={() => handleOpenEditQuestion(question)}
-                                                            className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg transition-colors"
+                                                            className="p-2 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl transition-colors"
                                                             title="Edit"
                                                         >
                                                             <Edit2 size={18}/>
@@ -839,7 +839,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                                                     prompt: question.prompt,
                                                                 })
                                                             }
-                                                            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors"
+                                                            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl transition-colors"
                                                             title="Delete"
                                                         >
                                                             <Trash2 size={18}/>
@@ -848,7 +848,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                                             onClick={() =>
                                                                 setExpandedQuestion(expandedQuestion === question.id ? null : question.id)
                                                             }
-                                                            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-lg transition-colors"
+                                                            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-2xl transition-colors"
                                                             title={expandedQuestion === question.id ? 'Collapse' : 'Expand'}
                                                         >
                                                             {expandedQuestion === question.id ? (
@@ -949,7 +949,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
 
                                     <button
                                         onClick={handleOpenCreateQuestion}
-                                        className="w-full mt-4 py-3 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 rounded-lg font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
+                                        className="w-full mt-4 py-3 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 rounded-2xl font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
                                     >
                                         <Plus size={20}/>
                                         Add Question
@@ -965,7 +965,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
             {(modalState === 'create-question' || modalState === 'edit-question') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="sticky top-0 flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
                             <h3 className="text-xl font-black text-slate-900 dark:text-white">
@@ -973,7 +973,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             </h3>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl"
                             >
                                 <X size={24}/>
                             </button>
@@ -1034,7 +1034,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                                             {questionFormData.options.map((option, idx) => (
                                                 <div
                                                     key={option.tempId}
-                                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-blue-200/60 dark:border-blue-500/15 space-y-3"
+                                                    className="bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-2xl border border-blue-200/60 dark:border-blue-500/15 space-y-3"
                                                 >
                                                     <div className="flex items-center gap-2 mb-2">
 														<span
@@ -1092,14 +1092,14 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             className="flex gap-3 p-6 border-t border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSaveQuestion}
                                 disabled={isSubmitting}
-                                className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white rounded-lg font-bold transition-colors"
+                                className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white rounded-2xl font-bold transition-colors"
                             >
                                 {isSubmitting ? 'Saving...' : selectedQuestion ? 'Update' : 'Create'}
                             </button>
@@ -1112,7 +1112,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
             {(modalState === 'create-option' || modalState === 'edit-option') && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div
                             className="sticky top-0 flex items-center justify-between p-6 border-b border-blue-200/60 dark:border-blue-500/15 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
                             <h3 className="text-xl font-black text-slate-900 dark:text-white">
@@ -1120,7 +1120,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             </h3>
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl"
                             >
                                 <X size={24}/>
                             </button>
@@ -1157,14 +1157,14 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             className="flex gap-3 p-6 border-t border-blue-200/60 dark:border-blue-500/15 bg-white/60 dark:bg-slate-950/50 backdrop-blur-sm/50">
                             <button
                                 onClick={() => setModalState('closed')}
-                                className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSaveOption}
                                 disabled={isSubmitting}
-                                className="flex-1 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-400 text-white rounded-lg font-bold transition-colors"
+                                className="flex-1 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-400 text-white rounded-2xl font-bold transition-colors"
                             >
                                 {isSubmitting ? 'Saving...' : selectedOption ? 'Update' : 'Create'}
                             </button>
@@ -1177,7 +1177,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
             {deleteConfirm && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 max-w-md w-full">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 max-w-md w-full">
                         <div className="p-6">
                             <h3 className="text-lg font-black text-slate-900 dark:text-white mb-2">
                                 Delete Question?
@@ -1188,14 +1188,14 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => setDeleteConfirm(null)}
-                                    className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                    className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleDeleteQuestion}
                                     disabled={isSubmitting}
-                                    className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-500 disabled:bg-slate-400 text-white rounded-lg font-bold transition-colors"
+                                    className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-500 disabled:bg-slate-400 text-white rounded-2xl font-bold transition-colors"
                                 >
                                     {isSubmitting ? 'Deleting...' : 'Delete'}
                                 </button>
@@ -1209,7 +1209,7 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
             {optionDeleteConfirm && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div
-                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-[2rem] border border-blue-200/60 dark:border-blue-500/15 max-w-md w-full">
+                        className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl rounded-2xl border border-blue-200/60 dark:border-blue-500/15 max-w-md w-full">
                         <div className="p-6">
                             <h3 className="text-lg font-black text-slate-900 dark:text-white mb-2">
                                 Delete Option?
@@ -1220,14 +1220,14 @@ export function AdminFinalExams({unitId, unit: initialUnit}: AdminFinalExamsProp
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => setOptionDeleteConfirm(null)}
-                                    className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-lg font-bold transition-colors"
+                                    className="glass-button-secondary flex-1 px-4 py-3 text-slate-900 dark:text-white rounded-2xl font-bold transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleDeleteOption}
                                     disabled={isSubmitting}
-                                    className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-500 disabled:bg-slate-400 text-white rounded-lg font-bold transition-colors"
+                                    className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-500 disabled:bg-slate-400 text-white rounded-2xl font-bold transition-colors"
                                 >
                                     {isSubmitting ? 'Deleting...' : 'Delete'}
                                 </button>

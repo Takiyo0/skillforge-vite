@@ -37,7 +37,7 @@ export function ForumThreadPage() {
     if (!courseId || !forumId) {
         return (
             <div className="flex-1 flex items-center justify-center">
-                <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
+                <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-6">
                     <p className="text-red-300 font-medium">Invalid forum thread</p>
                 </div>
             </div>
@@ -51,7 +51,7 @@ export function ForumThreadPage() {
                 <div className="flex items-center space-x-4">
                     <button
                         onClick={() => navigate(`/student/courses/${courseId}/forums`)}
-                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
                     >
                         <ArrowLeft size={20} className="text-slate-600 dark:text-slate-400"/>
                     </button>
