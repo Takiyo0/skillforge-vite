@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
-import { apiClient } from '@skillforge/vite/lib/api';
+import {useEffect, useState} from 'react';
+import {useNavigate, useParams, useSearchParams} from 'react-router-dom';
+import {ChevronLeft, ChevronRight, Clock} from 'lucide-react';
+import {apiClient} from '@skillforge/vite/lib/api';
 import type {
-    Unit,
-    QuizSubmissionResponse,
+    AttemptReviewResponse,
+    FinalExamAttemptLockedResponse,
     FinalExamSubmissionResponse,
     QuizAnswerDto,
     QuizQuestion,
-    AttemptReviewResponse,
+    QuizSubmissionResponse,
+    Unit,
 } from '@skillforge/vite/lib/types';
-import { MarkdownContent } from '@skillforge/vite/components/ui/MarkdownContent';
+import {MarkdownContent} from '@skillforge/vite/components/ui/MarkdownContent';
 
 export function AssessmentPage() {
     const { courseId, unitId } = useParams<{ courseId: string; unitId: string }>();
@@ -29,6 +30,7 @@ export function AssessmentPage() {
     const [quizResult, setQuizResult] = useState<QuizSubmissionResponse | FinalExamSubmissionResponse | null>(null);
     const [examQuestions, setExamQuestions] = useState<QuizQuestion[]>([]);
     const [attemptReview, setAttemptReview] = useState<AttemptReviewResponse | null>(null);
+    const [finalExamLock, setFinalExamLock] = useState<FinalExamAttemptLockedResponse | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,6 +42,8 @@ export function AssessmentPage() {
 
             try {
                 setLoading(true);
+                setAttemptReview(null);
+                setFinalExamLock(null);
                 const unitData = await apiClient.getUnitDetail(unitId);
                 setUnit(unitData);
 
@@ -68,8 +72,14 @@ export function AssessmentPage() {
                 // For final exams in attempt mode, start/resume to get questions
                 if (unitData.type === 'final_exam' && unitData.finalExam) {
                     const attemptResponse = await apiClient.startFinalExamAttempt(unitId, unitData.finalExam.unitId);
+                    if ('locked' in attemptResponse && attemptResponse.locked) {
+                        setFinalExamLock(attemptResponse);
+                        return;
+                    }
                     // Store questions separately from the unit
-                    setExamQuestions(attemptResponse.questions);
+                    if ('questions' in attemptResponse) {
+                        setExamQuestions(attemptResponse.questions);
+                    }
                 }
             } catch (err) {
                 const apiError = err as Error;
@@ -189,6 +199,73 @@ export function AssessmentPage() {
 
     if (!unit?.quiz && !unit?.finalExam) {
         return <div className="flex-1 flex items-center justify-center text-slate-400">Assessment not found</div>;
+    }
+
+    if (finalExamLock) {
+        const lastAttempt = finalExamLock.lastAttempt;
+
+        return (
+            <div className="flex-1 overflow-y-auto">
+                <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10">
+                    <div className="glass-widget-surface rounded-2xl p-5 sm:p-6 md:p-8">
+                        <p className="text-xs font-black uppercase tracking-[0.28em] text-orange-600 dark:text-orange-300">
+                            Final Exam Locked
+                        </p>
+                        <h1 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                            Maximum attempts reached
+                        </h1>
+                        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
+                            You have used {finalExamLock.attemptsUsed} of {finalExamLock.maxAttempts} allowed
+                            attempt{finalExamLock.maxAttempts === 1 ? '' : 's'}.
+                        </p>
+
+                        <div
+                            className="mt-6 rounded-2xl border border-orange-300/40 bg-orange-50/80 p-4 dark:border-orange-500/30 dark:bg-orange-900/20 sm:p-5">
+                            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                        Last Attempt
+                                    </p>
+                                    <p className="mt-1 text-lg font-black text-slate-900 dark:text-white">
+                                        Attempt #{lastAttempt.attemptNumber}
+                                    </p>
+                                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                                        Submitted {new Date(lastAttempt.submittedAt).toLocaleString()}
+                                    </p>
+                                </div>
+                                <div className="sm:text-right">
+                                    <p className={`text-3xl font-black ${lastAttempt.isPassed ? 'text-emerald-700 dark:text-emerald-300' : 'text-orange-700 dark:text-orange-300'}`}>
+                                        {lastAttempt.scorePercent}%
+                                    </p>
+                                    <p className={`text-xs font-black uppercase tracking-widest ${lastAttempt.isPassed ? 'text-emerald-700 dark:text-emerald-300' : 'text-orange-700 dark:text-orange-300'}`}>
+                                        {lastAttempt.isPassed ? 'Passed' : 'Not Passed'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                            <button
+                                onClick={() => {
+                                    const next = new URLSearchParams(searchParams);
+                                    next.set('reviewAttemptId', lastAttempt.id);
+                                    setSearchParams(next);
+                                }}
+                                className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 py-3 rounded-2xl font-black"
+                            >
+                                Review Last Attempt
+                            </button>
+                            <button
+                                onClick={() => navigate(`/student/courses/${courseId}/units/${unitId}`)}
+                                className="flex-1 bg-white/10 hover:bg-white/20 text-slate-900 dark:text-white border border-slate-300 dark:border-white/20 px-4 py-3 rounded-2xl font-black"
+                            >
+                                Back to Unit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (attemptReview) {

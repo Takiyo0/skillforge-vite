@@ -591,7 +591,7 @@ export interface AttemptReviewResponse {
 	questions?: AttemptReviewQuestion[];
 }
 
-export interface FinalExamAttemptStartResponse {
+export interface FinalExamAttemptStartedResponse {
 	attemptId: string;
 	attemptNumber: number;
 	startedAt: string;
@@ -599,6 +599,23 @@ export interface FinalExamAttemptStartResponse {
 	exam: FinalExam;
 	questions: QuizQuestion[];
 }
+
+export interface FinalExamAttemptLockedResponse {
+	locked: true;
+	reason: 'MAX_ATTEMPTS_REACHED' | string;
+	maxAttempts: number;
+	attemptsUsed: number;
+	lastAttempt: {
+		id: string;
+		attemptNumber: number;
+		scorePercent: number | string;
+		isPassed: boolean;
+		startedAt: string;
+		submittedAt: string;
+	};
+}
+
+export type FinalExamAttemptStartResponse = FinalExamAttemptStartedResponse | FinalExamAttemptLockedResponse;
 
 export interface FinalExamSubmissionResponse {
 	attemptId: string;
